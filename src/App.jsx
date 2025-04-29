@@ -6,6 +6,7 @@ import StudentProfile from "./pages/StudentProfile/StudentProfile";
 import { useState } from "react";
 import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
 import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
+import InternshipDetails from "./pages/InternshipDetails/InternshipDetails";
 
 function App() {
   const [userType, setUserType] = useState("");
@@ -49,6 +50,7 @@ function App() {
 
   const [allInternships, setAllInternships] = useState([
     {
+      id: 1,
       title: "Software Engineer Intern",
       companyName: "welloDev",
       location: "Remote",
@@ -63,6 +65,7 @@ function App() {
       status: "open",
     },
     {
+      id: 2,
       title: "Data Analyst Intern",
       companyName: "instabug",
       location: "On-site",
@@ -105,6 +108,10 @@ function App() {
                 setAllInternships={setAllInternships}
               />
             }
+          />
+          <Route
+            path="/internship/:id"
+            element={<InternshipDetails allInternships={allInternships} />}
           />
           <Route path="/studentProfile" element={<StudentProfile />} />
           <Route
