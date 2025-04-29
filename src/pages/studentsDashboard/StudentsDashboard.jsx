@@ -1,14 +1,47 @@
 import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
+import { use, useEffect, useState } from "react";
 
 function StudentsDashboard({ allInternships, setAllInternships }) {
+  const [filteredInternships, setFilteredInternships] =
+    useState(allInternships);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterTerm, setFilterTerm] = useState("");
+
+  useEffect(() => {
+    const filtered = allInternships.filter((internship) => {
+      return (
+        internship.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        internship.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+    setFilteredInternships(filtered);
+  }, [filterTerm, searchTerm, allInternships]);
+
   return (
     <div>
       <StudentsNavBar />
       <h1>Students Dashboard</h1>
-      {allInternships.map((internship) => {
-        return <InternshipList internship={internship} key={internship.id} />;
+      <input
+        type="text"
+        placeholder="Search by title"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Filter by company name"
+        value={filterTerm}
+        onChange={(e) => setFilterTerm(e.target.value)}
+      />
+      {filteredInternships.map((internship) => {
+        return (
+          <InternshipList
+            internship={internship}
+            key={internship.companyName + internship.title}
+          />
+        );
       })}
       <Link to="/">Home</Link>
       <br />
