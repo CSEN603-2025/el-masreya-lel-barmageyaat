@@ -4,6 +4,7 @@ import StudentsDashboard from "./pages/studentsDashboard/StudentsDashboard";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import StudentProfile from "./pages/StudentProfile/StudentProfile";
 import { useState } from "react";
+import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
 
 function App() {
   const [userType, setUserType] = useState("");
@@ -18,6 +19,7 @@ function App() {
             element={<LoginPage setUserType={setUserType} />}
           />
           <Route path="/studentProfile" element={<StudentProfile />} />
+          <Route path="/CompanyRegister" element={<CompanyRegister />} />
           <Route path="/studentsDashboard" element={<StudentsDashboard />} />
         </Routes>
       </Router>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 
 function LoginPage({ setUserType }) {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ function LoginPage({ setUserType }) {
 
   return (
     <div>
+      <StudentsNavBar />
       <h1>Login Page</h1>
       <form onSubmit={(e) => handleLogin(e)}>
         <div>
@@ -80,6 +82,8 @@ function LoginPage({ setUserType }) {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {message && <p style={{ color: "green" }}>{message}</p>}
       <Link to="/">Home</Link>
+      <br />
+      <Link to="/companyRegister">Company Register</Link>
     </div>
   );
 }
