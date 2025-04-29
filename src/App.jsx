@@ -28,6 +28,17 @@ function App() {
     { username: "wello", password: "1234" },
   ]);
 
+  const [companyRequests, setCompanyRequests] = useState([
+    {
+      companyName: "welloDev",
+      industry: "IT",
+      companySize: "small",
+      logo: null,
+      email: "company@wello.com",
+      status: "pending",
+    },
+  ]);
+
   return (
     <div>
       <Router>
@@ -50,7 +61,10 @@ function App() {
           />
           <Route path="/studentsDashboard" element={<StudentsDashboard />} />
           <Route path="/studentProfile" element={<StudentProfile />} />
-          <Route path="/ViewCompanyRequest" element={<ViewCompanyRequest />} />
+          <Route
+            path="/ViewCompanyRequest"
+            element={<ViewCompanyRequest companyRequests={companyRequests} />}
+          />
         </Routes>
       </Router>
     </div>

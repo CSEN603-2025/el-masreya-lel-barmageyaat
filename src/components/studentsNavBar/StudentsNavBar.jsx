@@ -11,6 +11,7 @@ function StudentsNavBar() {
             <Link to="/studentProfile">Profile</Link>
             <Link to="/login">Logout</Link>
             <Link to="/CompanyRegister">Company Register</Link>
+            <Link to="/ViewCompanyRequest">View Company Request</Link>
           </li>
         </ul>
       </nav>

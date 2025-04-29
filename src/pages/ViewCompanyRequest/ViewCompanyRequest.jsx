@@ -1,8 +1,17 @@
-function ViewCompanyRequest() {
+import { useEffect } from "react";
+import CompanyRequestList from "../../components/CompanyRequestList/CompanyRequestList";
+function ViewCompanyRequest({ companyRequests }) {
   return (
     <div>
       <h1>View Company Request</h1>
-      <p>Details of the company request will be displayed here.</p>
+      {companyRequests.map((request) => (
+        <CompanyRequestList
+          key={request.companyName}
+          requests={request}
+          onAccept={() => console.log("Accepted")}
+          onReject={() => console.log("Rejected")}
+        />
+      ))}
     </div>
   );
 }
