@@ -47,6 +47,36 @@ function App() {
     },
   ]);
 
+  const [allInternships, setAllInternships] = useState([
+    {
+      title: "Software Engineer Intern",
+      companyName: "welloDev",
+      location: "Remote",
+      description:
+        "We are looking for a Software Engineer Intern to join our team.",
+      requirements: [
+        "Strong knowledge of JavaScript",
+        "Experience with React",
+        "Good communication skills",
+      ],
+      duration: "3 months",
+      status: "open",
+    },
+    {
+      title: "Data Analyst Intern",
+      companyName: "instabug",
+      location: "On-site",
+      description: "We are looking for a Data Analyst Intern to join our team.",
+      requirements: [
+        "Strong knowledge of SQL",
+        "Experience with Python",
+        "Good analytical skills",
+      ],
+      duration: "6 months",
+      status: "open",
+    },
+  ]);
+
   return (
     <div>
       <Router>
@@ -67,7 +97,15 @@ function App() {
             path="/CompanyRegister"
             element={<CompanyRegister setCompanyUsers={setCompanyUsers} />}
           />
-          <Route path="/studentsDashboard" element={<StudentsDashboard />} />
+          <Route
+            path="/studentsDashboard"
+            element={
+              <StudentsDashboard
+                allInternships={allInternships}
+                setAllInternships={setAllInternships}
+              />
+            }
+          />
           <Route path="/studentProfile" element={<StudentProfile />} />
           <Route
             path="/ViewCompanyRequest"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CompanyRequestList from "../../components/CompanyRequestList/CompanyRequestList";
+import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 function ViewCompanyRequest({ companyRequests, setCompanyRequests }) {
   const [search, setSearch] = useState("");
   const [filteredRequests, setFilteredRequests] = useState(companyRequests);
@@ -26,6 +27,7 @@ function ViewCompanyRequest({ companyRequests, setCompanyRequests }) {
 
   return (
     <div>
+      <StudentsNavBar />
       <h1>View Company Request</h1>
       <input
         placeholder="Search companies..."
