@@ -2,17 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 
-function LoginPage({ setUserType }) {
+function LoginPage({ setUserType, studentUser, scadUser, companyUser }) {
   const navigate = useNavigate();
-
-  const studentUser = "wello";
-  const studentPassword = "1234";
-
-  const scadUser = "scad";
-  const scadPassword = "1234";
-
-  const companyUser = "company";
-  const companyPassword = "1234";
 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
@@ -26,19 +17,35 @@ function LoginPage({ setUserType }) {
     setLoading(true);
     setError(null);
     setSuccess(false);
+    console.log(user, password);
+    console.log(studentUser);
 
-    if (user === studentUser && password === studentPassword) {
+    // -----------------------------------------searches for the user in the array of objects ------------------------------------------
+
+    const foundStudentUser = studentUser.find(
+      (student) => student.username === user && student.password === password
+    );
+    const foundScadUser = scadUser.find(
+      (scad) => scad.username === user && scad.password === password
+    );
+    const foundCompanyUser = companyUser.find(
+      (company) => company.username === user && company.password === password
+    );
+
+    // -------------------------------------------------------- if found do this  -------------------------------------------------------
+
+    if (foundStudentUser) {
       setSuccess(true);
       setMessage("Login successful! Redirecting to Student Dashboard...");
       navigate("/studentsDashboard");
       setUserType("student");
-    } else if (user === scadUser && password === scadPassword) {
+    } else if (foundScadUser) {
       setSuccess(true);
       setMessage("Login successful! Redirecting to SCAD Dashboard...");
       navigate("/studentsDashboard");
 
       setUserType("scad");
-    } else if (user === companyUser && password === companyPassword) {
+    } else if (foundCompanyUser) {
       setSuccess(true);
       setMessage("Login successful! Redirecting to Company Dashboard...");
       navigate("/studentsDashboard");
@@ -56,7 +63,7 @@ function LoginPage({ setUserType }) {
       <h1>Login Page</h1>
       <form onSubmit={(e) => handleLogin(e)}>
         <div>
-          <label htmlFor="user">User:</label>
+          <label>User:</label>
           <input
             type="text"
             id="user"
@@ -77,6 +84,7 @@ function LoginPage({ setUserType }) {
           {loading ? "Loading..." : "Login"}
         </button>
       </form>
+
       {/* here is outputted both because they cant happen at the same time 
       note to self: add styling for this part in the css file */}
       {error && <p style={{ color: "red" }}>{error}</p>}

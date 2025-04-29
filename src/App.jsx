@@ -5,9 +5,28 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import StudentProfile from "./pages/StudentProfile/StudentProfile";
 import { useState } from "react";
 import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
+import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
 
 function App() {
   const [userType, setUserType] = useState("");
+  const [scadUsers, setScadUsers] = useState([
+    { username: "scad", password: "1234" },
+  ]);
+
+  const [companyUsers, setCompanyUsers] = useState([
+    {
+      username: "company",
+      password: "1234",
+      industry: "IT",
+      Size: "small",
+      logo: null,
+      email: "welloDev@amazing.com",
+    },
+  ]);
+
+  const [studentUsers, setStudentUsers] = useState([
+    { username: "wello", password: "1234" },
+  ]);
 
   return (
     <div>
@@ -16,11 +35,22 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route
             path="/login"
-            element={<LoginPage setUserType={setUserType} />}
+            element={
+              <LoginPage
+                setUserType={setUserType}
+                studentUser={studentUsers}
+                scadUser={scadUsers}
+                companyUser={companyUsers}
+              />
+            }
           />
-          <Route path="/studentProfile" element={<StudentProfile />} />
-          <Route path="/CompanyRegister" element={<CompanyRegister />} />
+          <Route
+            path="/CompanyRegister"
+            element={<CompanyRegister setCompanyUsers={setCompanyUsers} />}
+          />
           <Route path="/studentsDashboard" element={<StudentsDashboard />} />
+          <Route path="/studentProfile" element={<StudentProfile />} />
+          <Route path="/ViewCompanyRequest" element={<ViewCompanyRequest />} />
         </Routes>
       </Router>
     </div>

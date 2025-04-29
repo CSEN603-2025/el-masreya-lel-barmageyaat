@@ -2,14 +2,24 @@ import { Link, useNavigate } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import { useState } from "react";
 
-function CompanyRegister() {
+function CompanyRegister({ setCompanyUsers }) {
   const navigate = useNavigate();
   const [logo, setLogo] = useState(null);
 
   function handleRegister(e) {
     e.preventDefault();
+    setCompanyUsers((prevUsers) => [
+      ...prevUsers,
+      {
+        companyName: e.target.companyName.value,
+        industry: e.target.industry.value,
+        companySize: e.target.companySize.value,
+        logo: logo,
+        email: e.target.Email.value,
+      },
+    ]);
     navigate("/login");
-    console.log("Company registered!");
+    alert("Company registered!");
   }
 
   const handleLogoChange = (e) => {
