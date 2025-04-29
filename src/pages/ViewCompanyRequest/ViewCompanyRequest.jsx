@@ -3,13 +3,20 @@ import CompanyRequestList from "../../components/CompanyRequestList/CompanyReque
 function ViewCompanyRequest({ companyRequests, setCompanyRequests }) {
   const [search, setSearch] = useState("");
   const [filteredRequests, setFilteredRequests] = useState(companyRequests);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    const filtered = companyRequests.filter((request) =>
-      (request.companyName || "").toLowerCase().includes(search.toLowerCase())
+    const filtered = companyRequests.filter(
+      (request) =>
+        (request.companyName || "")
+          .toLowerCase()
+          .includes(search.toLowerCase()) &&
+        (request.industry || "")
+          .toLowerCase()
+          .includes(filter?.toLowerCase() || "")
     );
     setFilteredRequests(filtered);
-  }, [search, companyRequests]);
+  }, [search, companyRequests, filter]);
   function onAccept() {
     console.log("Accepted");
   }
@@ -24,6 +31,11 @@ function ViewCompanyRequest({ companyRequests, setCompanyRequests }) {
         placeholder="Search companies..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+      />
+      <input
+        placeholder="Filter by status..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
       />
       {filteredRequests.map((request) => (
         <CompanyRequestList
