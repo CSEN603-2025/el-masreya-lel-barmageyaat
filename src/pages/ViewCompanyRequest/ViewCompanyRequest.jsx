@@ -1,15 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CompanyRequestList from "../../components/CompanyRequestList/CompanyRequestList";
-function ViewCompanyRequest({ companyRequests }) {
+function ViewCompanyRequest({ companyRequests, setCompanyRequests }) {
+  const [search, setSearch] = useState("");
+  const [filteredRequests, setFilteredRequests] = useState(companyRequests);
+
+  useEffect(() => {
+    const filtered = companyRequests.filter((request) =>
+      (request.companyName || "").toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredRequests(filtered);
+  }, [search, companyRequests]);
+  function onAccept() {
+    console.log("Accepted");
+  }
+  function onReject() {
+    console.log("Rejected");
+  }
+
   return (
     <div>
       <h1>View Company Request</h1>
-      {companyRequests.map((request) => (
+      <input
+        placeholder="Search companies..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      {filteredRequests.map((request) => (
         <CompanyRequestList
           key={request.companyName}
           requests={request}
-          onAccept={() => console.log("Accepted")}
-          onReject={() => console.log("Rejected")}
+          onAccept={() => onAccept()}
+          onReject={() => onReject()}
         />
       ))}
     </div>

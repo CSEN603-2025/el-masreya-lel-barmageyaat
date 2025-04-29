@@ -37,6 +37,14 @@ function App() {
       email: "company@wello.com",
       status: "pending",
     },
+    {
+      companyName: "instabug",
+      industry: "software",
+      companySize: "corprate",
+      logo: null,
+      email: "instabug@wello.com",
+      status: "pending",
+    },
   ]);
 
   return (
@@ -63,7 +71,12 @@ function App() {
           <Route path="/studentProfile" element={<StudentProfile />} />
           <Route
             path="/ViewCompanyRequest"
-            element={<ViewCompanyRequest companyRequests={companyRequests} />}
+            element={
+              <ViewCompanyRequest
+                companyRequests={companyRequests}
+                setCompanyRequests={setCompanyRequests}
+              />
+            }
           />
         </Routes>
       </Router>
