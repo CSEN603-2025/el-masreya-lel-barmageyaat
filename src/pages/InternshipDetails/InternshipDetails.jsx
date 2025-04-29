@@ -20,6 +20,8 @@ function InternshipDetails({ allInternships }) {
           <li key={index}>{req}</li>
         ))}
       </ul>
+      <p>Compensation: {internship.paid ? "paid" : "unpaid"}</p>
+      {internship.paid && <p>Salary: {internship.salary}</p>}
       <p>Duration: {internship.duration}</p>
       <p>Status: {internship.status}</p>
       <button>Apply Now</button>
