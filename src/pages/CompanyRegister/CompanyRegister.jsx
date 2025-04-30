@@ -53,7 +53,7 @@ function CompanyRegister({ setCompanyUsers }) {
         </div>
 
         <div>
-          <label htmlFor="companyLogo">Company Logo</label>
+          <label>Company Logo</label>
           <input
             type="file"
             id="companyLogo"

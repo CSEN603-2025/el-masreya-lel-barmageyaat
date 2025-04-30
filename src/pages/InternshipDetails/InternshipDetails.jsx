@@ -1,11 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 
 function InternshipDetails({ allInternships }) {
+  const navigate = useNavigate();
   const id = useParams();
   const internship = allInternships.find(
     (internship) => internship.id === parseInt(id.id)
   );
+
+  function handleApply() {
+    navigate(`/internshipApplicationPage/${internship.id}`);
+  }
 
   return (
     <div className="internship-details">
@@ -24,7 +29,7 @@ function InternshipDetails({ allInternships }) {
       {internship.paid && <p>Salary: {internship.salary}</p>}
       <p>Duration: {internship.duration}</p>
       <p>Status: {internship.status}</p>
-      <button>Apply Now</button>
+      <button onClick={handleApply}>Apply Now</button>
     </div>
   );
 }

@@ -9,14 +9,12 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
 
   function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(false);
     console.log(user, password);
     console.log(studentUser);
 
@@ -35,17 +33,14 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
     // -------------------------------------------------------- if found do this  -------------------------------------------------------
 
     if (foundStudentUser) {
-      setSuccess(true);
       setMessage("Login successful! Redirecting to Student Dashboard...");
       navigate("/studentsDashboard");
       setCurrUser(foundStudentUser);
     } else if (foundScadUser) {
-      setSuccess(true);
       setMessage("Login successful! Redirecting to SCAD Dashboard...");
       navigate("/studentsDashboard");
       setCurrUser(foundScadUser);
     } else if (foundCompanyUser) {
-      setSuccess(true);
       setMessage("Login successful! Redirecting to Company Dashboard...");
       navigate("/studentsDashboard");
       setCurrUser(foundCompanyUser);

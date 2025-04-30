@@ -7,11 +7,12 @@ import { useState } from "react";
 import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
 import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
 import InternshipDetails from "./pages/InternshipDetails/InternshipDetails";
+import InternshipApplicationPage from "./pages/InternshipApplicationPage/InternshipApplicationPage";
 
 function App() {
   // this stores the current user logged in
   // it can be a student, scad user or company user
-  const [currUser, setCurrUser] = useState("");
+  const [currUser, setCurrUser] = useState(undefined);
   const [scadUsers, setScadUsers] = useState([
     { username: "scad", password: "1234" },
   ]);
@@ -108,6 +109,7 @@ function App() {
       salary: 1000,
       duration: "3 months",
       status: "open",
+      applications: [],
     },
     {
       id: 2,
@@ -123,6 +125,7 @@ function App() {
       paid: false,
       duration: "6 months",
       status: "open",
+      applications: [],
     },
   ]);
 
@@ -160,7 +163,18 @@ function App() {
             element={<InternshipDetails allInternships={allInternships} />}
           />
           <Route
-            path="/studentProfile"
+            path="/InternshipApplicationPage/:internshipId"
+            element={
+              <InternshipApplicationPage
+                allInternships={allInternships}
+                setAllInternships={setAllInternships}
+                currUser={currUser}
+              />
+            }
+          />
+
+          <Route
+            path="/StudentProfile"
             element={
               <StudentProfile currUser={currUser} studentUsers={studentUsers} />
             }
