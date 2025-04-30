@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 
-function LoginPage({ setUserType, studentUser, scadUser, companyUser }) {
+function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState("");
@@ -38,18 +38,17 @@ function LoginPage({ setUserType, studentUser, scadUser, companyUser }) {
       setSuccess(true);
       setMessage("Login successful! Redirecting to Student Dashboard...");
       navigate("/studentsDashboard");
-      setUserType("student");
+      setCurrUser(foundStudentUser);
     } else if (foundScadUser) {
       setSuccess(true);
       setMessage("Login successful! Redirecting to SCAD Dashboard...");
       navigate("/studentsDashboard");
-
-      setUserType("scad");
+      setCurrUser(foundScadUser);
     } else if (foundCompanyUser) {
       setSuccess(true);
       setMessage("Login successful! Redirecting to Company Dashboard...");
       navigate("/studentsDashboard");
-      setUserType("company");
+      setCurrUser(foundCompanyUser);
     } else {
       setError("Invalid username or password.");
     }

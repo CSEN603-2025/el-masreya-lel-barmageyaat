@@ -9,7 +9,9 @@ import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
 import InternshipDetails from "./pages/InternshipDetails/InternshipDetails";
 
 function App() {
-  const [userType, setUserType] = useState("");
+  // this stores the current user logged in
+  // it can be a student, scad user or company user
+  const [currUser, setCurrUser] = useState("");
   const [scadUsers, setScadUsers] = useState([
     { username: "scad", password: "1234" },
   ]);
@@ -26,7 +28,48 @@ function App() {
   ]);
 
   const [studentUsers, setStudentUsers] = useState([
-    { username: "wello", password: "1234" },
+    {
+      username: "wello",
+      password: "1234",
+      interests: [
+        "software engineering",
+        "backend developer",
+        "front end developer",
+      ],
+      skills: [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "HTML",
+        "CSS",
+        "Python",
+        "Django",
+      ],
+      experiences: [
+        {
+          title: "Frontend Intern",
+          company: "Instabug",
+          responsibilities: "Built UI components using React and improved UX.",
+          duration: "3 months",
+        },
+        {
+          title: "Part-time Web Developer",
+          company: "Freelance",
+          responsibilities: "Developed personal websites for clients.",
+          duration: "6 months",
+        },
+      ],
+      education: [
+        {
+          degree: "Bachelor of Science in Computer Science",
+          institution: "SCAD University",
+          graduationYear: 2024,
+        },
+      ],
+      graduationYear: 2027,
+      resume: null,
+      profilePicture: null,
+    },
   ]);
 
   const [companyRequests, setCompanyRequests] = useState([
@@ -92,7 +135,7 @@ function App() {
             path="/login"
             element={
               <LoginPage
-                setUserType={setUserType}
+                setCurrUser={setCurrUser}
                 studentUser={studentUsers}
                 scadUser={scadUsers}
                 companyUser={companyUsers}
@@ -116,7 +159,12 @@ function App() {
             path="/internship/:id"
             element={<InternshipDetails allInternships={allInternships} />}
           />
-          <Route path="/studentProfile" element={<StudentProfile />} />
+          <Route
+            path="/studentProfile"
+            element={
+              <StudentProfile currUser={currUser} studentUsers={studentUsers} />
+            }
+          />
           <Route
             path="/ViewCompanyRequest"
             element={
