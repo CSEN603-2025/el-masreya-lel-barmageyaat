@@ -30,6 +30,15 @@ function InternshipDetails({ allInternships }) {
       <p>Duration: {internship.duration}</p>
       <p>Status: {internship.status}</p>
       <button onClick={handleApply}>Apply Now</button>
+      <button type="button" onClick={() => window.history.back()}>
+        Back
+      </button>
+      <h2>Applications:</h2>
+      {internship.applications.length > 0 ? (
+        internship.applications.length
+      ) : (
+        <p>No applications yet.</p>
+      )}
     </div>
   );
 }
