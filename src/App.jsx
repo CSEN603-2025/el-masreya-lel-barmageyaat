@@ -8,6 +8,7 @@ import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
 import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
 import InternshipDetails from "./pages/InternshipDetails/InternshipDetails";
 import InternshipApplicationPage from "./pages/InternshipApplicationPage/InternshipApplicationPage";
+import CompanyViewPostings from "./pages/CompanyViewPostings/CompanyViewPostings";
 
 function App() {
   // this stores the current user logged in
@@ -19,12 +20,59 @@ function App() {
 
   const [companyUsers, setCompanyUsers] = useState([
     {
-      username: "company",
+      username: "welloDev",
       password: "1234",
       industry: "IT",
       Size: "small",
       logo: null,
       email: "welloDev@amazing.com",
+      internships: [
+        {
+          id: 1,
+          title: "Software Engineer Intern",
+          companyName: "welloDev",
+          location: "Remote",
+          description:
+            "We are looking for a Software Engineer Intern to join our team.",
+          requirements: [
+            "Strong knowledge of JavaScript",
+            "Experience with React",
+            "Good communication skills",
+          ],
+          paid: true,
+          salary: 1000,
+          duration: "3 months",
+          status: "open",
+          applications: [],
+        },
+      ],
+    },
+    {
+      username: "instabug",
+      password: "1234",
+      industry: "software",
+      Size: "corprate",
+      logo: null,
+      email: "instabug@wello.com",
+      internships: [
+        {
+          id: 2,
+          title: "Data Analyst Intern",
+          companyName: "instabug",
+          location: "On-site",
+          description:
+            "We are looking for a Data Analyst Intern to join our team.",
+          requirements: [
+            "Strong knowledge of SQL",
+            "Experience with Python",
+            "Good analytical skills",
+          ],
+          paid: false,
+          duration: "6 months",
+          status: "open",
+          applications: [],
+        },
+      ],
     },
   ]);
 
@@ -153,19 +201,28 @@ function App() {
             path="/studentsDashboard"
             element={
               <StudentsDashboard
+                companyUsers={companyUsers}
                 allInternships={allInternships}
                 setAllInternships={setAllInternships}
               />
             }
           />
           <Route
-            path="/internship/:id"
-            element={<InternshipDetails allInternships={allInternships} />}
+            path="/internshipDetails/:id/:companyName"
+            element={
+              <InternshipDetails
+                allInternships={allInternships}
+                companyUsers={companyUsers}
+              />
+            }
           />
+
           <Route
-            path="/InternshipApplicationPage/:internshipId"
+            path="/InternshipApplicationPage/:internshipId/:companyName"
             element={
               <InternshipApplicationPage
+                companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers}
                 allInternships={allInternships}
                 setAllInternships={setAllInternships}
                 currUser={currUser}
@@ -187,6 +244,10 @@ function App() {
                 setCompanyRequests={setCompanyRequests}
               />
             }
+          />
+          <Route
+            path="/CompanyViewPostings/:companyName"
+            element={<CompanyViewPostings />}
           />
         </Routes>
       </Router>

@@ -1,15 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 
-function InternshipDetails({ allInternships }) {
+function InternshipDetails({ allInternships, companyUsers }) {
   const navigate = useNavigate();
-  const id = useParams();
-  const internship = allInternships.find(
-    (internship) => internship.id === parseInt(id.id)
-  );
+  const { id, companyName } = useParams();
+  console.log("Internship ID:", id);
+  console.log("Company Name:", companyName);
+
+  const company = companyUsers.find((c) => c.username === companyName);
+  if (!company) return <p>Company not found.</p>;
+
+  const internship = company.internships.find((i) => i.id === parseInt(id));
+  if (!internship) return <p>Internship not found.</p>;
 
   function handleApply() {
-    navigate(`/internshipApplicationPage/${internship.id}`);
+    navigate(`/internshipApplicationPage/${internship.id}/${companyName}`);
   }
 
   return (

@@ -42,7 +42,7 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
       setCurrUser(foundScadUser);
     } else if (foundCompanyUser) {
       setMessage("Login successful! Redirecting to Company Dashboard...");
-      navigate("/studentsDashboard");
+      navigate(`/companyViewPostings/${foundCompanyUser.username}`);
       setCurrUser(foundCompanyUser);
     } else {
       setError("Invalid username or password.");

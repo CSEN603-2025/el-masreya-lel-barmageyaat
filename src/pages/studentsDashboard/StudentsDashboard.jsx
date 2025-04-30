@@ -3,11 +3,17 @@ import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
 import { use, useEffect, useState } from "react";
 
-function StudentsDashboard({ allInternships, setAllInternships }) {
+function StudentsDashboard({
+  companyUsers,
+  allInternships,
+  setAllInternships,
+}) {
   const [filteredInternships, setFilteredInternships] =
     useState(allInternships);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
+
+  // this filters based on the all Internship array NOT THE COMPANY USERS INTERNSHIP ATTRIBUTE ARRAY
 
   useEffect(() => {
     const filtered = allInternships.filter((internship) => {
@@ -35,13 +41,16 @@ function StudentsDashboard({ allInternships, setAllInternships }) {
         value={filterTerm}
         onChange={(e) => setFilterTerm(e.target.value)}
       />
-      {filteredInternships.map((internship) => {
-        return (
-          <InternshipList
-            internship={internship}
-            key={internship.companyName + internship.title}
-          />
-        );
+      // this filters based on the company users internship attribute array
+      {companyUsers.map((company) => {
+        return company.internships.map((internship) => {
+          return (
+            <InternshipList
+              internship={internship}
+              key={internship.companyName + internship.title}
+            />
+          );
+        });
       })}
       <Link to="/">Home</Link>
       <br />
