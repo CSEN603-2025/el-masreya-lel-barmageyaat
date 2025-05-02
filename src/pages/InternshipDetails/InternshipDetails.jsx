@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
+import Applicant from "../../components/Applicant/Applicant";
 
 function InternshipDetails({ allInternships, companyUsers }) {
   const navigate = useNavigate();
@@ -40,7 +41,14 @@ function InternshipDetails({ allInternships, companyUsers }) {
       </button>
       <h2>Applications:</h2>
       {internship.applications.length > 0 ? (
-        internship.applications.length
+        internship.applications.length ? (
+          internship.applications.map((applicant, index) => (
+            <div key={index}>
+              <h3>Applicant {index + 1}</h3>
+              <Applicant applicant={applicant} />
+            </div>
+          ))
+        ) : null
       ) : (
         <p>No applications yet.</p>
       )}

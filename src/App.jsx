@@ -9,6 +9,7 @@ import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
 import InternshipDetails from "./pages/InternshipDetails/InternshipDetails";
 import InternshipApplicationPage from "./pages/InternshipApplicationPage/InternshipApplicationPage";
 import CompanyViewPostings from "./pages/CompanyViewPostings/CompanyViewPostings";
+import ApplicantDetails from "./pages/ApplicantDetails/ApplicantDetails";
 
 function App() {
   // this stores the current user logged in
@@ -20,7 +21,7 @@ function App() {
 
   const [companyUsers, setCompanyUsers] = useState([
     {
-      username: "welloDev",
+      username: "welloDevAgency",
       password: "1234",
       industry: "IT",
       Size: "small",
@@ -80,6 +81,7 @@ function App() {
     {
       username: "wello",
       password: "1234",
+      email: " wello@amazing.dev",
       interests: [
         "software engineering",
         "backend developer",
@@ -96,12 +98,14 @@ function App() {
       ],
       experiences: [
         {
+          //add id
           title: "Frontend Intern",
           company: "Instabug",
           responsibilities: "Built UI components using React and improved UX.",
           duration: "3 months",
         },
         {
+          //add id
           title: "Part-time Web Developer",
           company: "Freelance",
           responsibilities: "Developed personal websites for clients.",
@@ -223,8 +227,6 @@ function App() {
               <InternshipApplicationPage
                 companyUsers={companyUsers}
                 setCompanyUsers={setCompanyUsers}
-                allInternships={allInternships}
-                setAllInternships={setAllInternships}
                 currUser={currUser}
               />
             }
@@ -246,9 +248,14 @@ function App() {
             }
           />
           <Route
-            path="/CompanyViewPostings/:companyName"
-            element={<CompanyViewPostings />}
+            path="/CompanyViewPostings"
+            element={<CompanyViewPostings currUser={currUser} />}
           />
+          <Route
+            path="/ApplicantDetails/:username"
+            element={<ApplicantDetails companyUsers={companyUsers} />}
+          />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </Router>
     </div>

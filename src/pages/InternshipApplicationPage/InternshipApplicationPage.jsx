@@ -9,8 +9,6 @@ import { useParams } from "react-router-dom";
 function InternshipApplicationPage({
   companyUsers,
   setCompanyUsers,
-  allInternships,
-  setAllInternships,
   currUser,
 }) {
   const { internshipId, companyName } = useParams();
@@ -47,6 +45,7 @@ function InternshipApplicationPage({
                 user: currUser,
                 coverLetter: formData.get("coverLetter"),
                 documents: formData.get("documents"),
+                status: "Pending",
               });
             }
 

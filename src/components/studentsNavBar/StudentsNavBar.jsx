@@ -7,11 +7,12 @@ function StudentsNavBar() {
         <ul>
           <li>
             <Link to="/">Home</Link>
-            <Link to="/studentsDashboard">Dashboard</Link>
-            <Link to="/studentProfile">Profile</Link>
-            <Link to="/login">Logout</Link>
-            <Link to="/CompanyRegister">Company Register</Link>
-            <Link to="/ViewCompanyRequest">View Company Request</Link>
+            <Link to="/studentsDashboard">Dashboard </Link>
+            <Link to="/studentProfile">Profile </Link>
+            <Link to="/login">Logout </Link>
+            <Link to="/CompanyRegister">Company Register </Link>
+            <Link to="/ViewCompanyRequest">View Company Request </Link>
+            <Link to="/CompanyViewPostings">Company View Postings </Link>
           </li>
         </ul>
       </nav>
