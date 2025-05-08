@@ -11,6 +11,8 @@ import InternshipApplicationPage from "./pages/InternshipApplicationPage/Interns
 import CompanyViewPostings from "./pages/CompanyViewPostings/CompanyViewPostings";
 import ApplicantDetails from "./pages/ApplicantDetails/ApplicantDetails";
 import InitialCompanyUserData from "./data/InitialCompanyUsersData";
+import InitialStudentData from "./data/InitialStudentData";
+import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 
 function App() {
   // this stores the current user logged in
@@ -23,6 +25,7 @@ function App() {
   // this checks if there is data in local storage and sets the company users to that data
   // if there is no data in local storage, it sets the company users to the initial data JSON file
 
+  //COMPANY STATE
   const [companyUsers, setCompanyUsers] = useState(() => {
     const saved = localStorage.getItem("companyUsers");
     return saved ? JSON.parse(saved) : InitialCompanyUserData;
@@ -32,73 +35,25 @@ function App() {
     localStorage.setItem("companyUsers", JSON.stringify(companyUsers));
   }, [companyUsers]);
 
-  const [studentUsers, setStudentUsers] = useState([
-    {
-      username: "wello",
-      password: "1234",
-      email: " wello@amazing.dev",
-      interests: [
-        "software engineering",
-        "backend developer",
-        "front end developer",
-      ],
-      skills: [
-        "JavaScript",
-        "React",
-        "Node.js",
-        "HTML",
-        "CSS",
-        "Python",
-        "Django",
-      ],
-      appliedInternships: [],
-      experiences: [
-        {
-          //add id
-          title: "Frontend Intern",
-          company: "Instabug",
-          responsibilities: "Built UI components using React and improved UX.",
-          duration: "3 months",
-        },
-        {
-          //add id
-          title: "Part-time Web Developer",
-          company: "Freelance",
-          responsibilities: "Developed personal websites for clients.",
-          duration: "6 months",
-        },
-      ],
-      education: [
-        {
-          degree: "Bachelor of Science in Computer Science",
-          institution: "SCAD University",
-          graduationYear: 2024,
-        },
-      ],
-      graduationYear: 2027,
-      resume: null,
-      profilePicture: null,
-    },
-  ]);
+  //STUDENT STATE
+  const [studentUsers, setStudentUsers] = useState(() => {
+    const saved = localStorage.getItem("studentUsers");
+    return saved ? JSON.parse(saved) : InitialStudentData;
+  });
 
-  const [companyRequests, setCompanyRequests] = useState([
-    {
-      companyName: "welloDev",
-      industry: "IT",
-      companySize: "small",
-      logo: null,
-      email: "company@wello.com",
-      status: "pending",
-    },
-    {
-      companyName: "instabug",
-      industry: "software",
-      companySize: "corprate",
-      logo: null,
-      email: "instabug@wello.com",
-      status: "pending",
-    },
-  ]);
+  useEffect(() => {
+    localStorage.setItem("studentUsers", JSON.stringify(studentUsers));
+  }, [studentUsers]);
+
+  //COMPANY REQUESTS STATE
+  const [companyRequests, setCompanyRequests] = useState(() => {
+    const saved = localStorage.getItem("companyRequests");
+    return saved ? JSON.parse(saved) : InitialCompanyRequestsData;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("companyRequests", JSON.stringify(companyRequests));
+  }, [companyRequests]);
 
   const [allInternships, setAllInternships] = useState([
     {

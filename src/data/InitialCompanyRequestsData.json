@@ -1,0 +1,18 @@
+[
+  {
+    "companyName": "welloDev",
+    "industry": "IT",
+    "companySize": "small",
+    "logo": null,
+    "email": "company@wello.com",
+    "status": "pending"
+  },
+  {
+    "companyName": "instabug",
+    "industry": "software",
+    "companySize": "corprate",
+    "logo": null,
+    "email": "instabug@wello.com",
+    "status": "pending"
+  }
+]

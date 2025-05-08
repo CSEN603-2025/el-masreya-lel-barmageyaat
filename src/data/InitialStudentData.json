@@ -1,0 +1,48 @@
+[
+  {
+    "username": "wello",
+    "password": "1234",
+    "email": "wello@amazing.dev",
+    "interests": [
+      "software engineering",
+      "backend developer",
+      "front end developer"
+    ],
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "HTML",
+      "CSS",
+      "Python",
+      "Django"
+    ],
+    "appliedInternships": [],
+    "experiences": [
+      {
+        "id": 1,
+        "title": "Frontend Intern",
+        "company": "Instabug",
+        "responsibilities": "Built UI components using React and improved UX.",
+        "duration": "3 months"
+      },
+      {
+        "id": 2,
+        "title": "Part-time Web Developer",
+        "company": "Freelance",
+        "responsibilities": "Developed personal websites for clients.",
+        "duration": "6 months"
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor of Science in Computer Science",
+        "institution": "SCAD University",
+        "graduationYear": 2024
+      }
+    ],
+    "graduationYear": 2027,
+    "resume": null,
+    "profilePicture": null
+  }
+]
