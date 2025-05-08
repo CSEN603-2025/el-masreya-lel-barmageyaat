@@ -1,0 +1,145 @@
+/* App.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  background-image: linear-gradient(
+    to right,
+    #001f3f,   /* very dark navy blue */
+    #003366,   /* dark blue */
+    #0059b3,   /* medium blue */
+    #007acc,   /* bright blue */
+    #3399ff    /* sky blue */
+  );  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.main-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-size: cover;
+  background-position: center;
+  height: 90vh;
+  padding: 2rem;
+}
+
+.login-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  max-width: 380px;
+  width: 100%;
+  height: auto;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-box {
+  flex: 1;
+  position: relative;
+  background-image: url('./Assets/loginpic.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 0 16px 16px 0;
+  height: 480px;
+  box-shadow: inset 20px 0 20px -20px rgba(0, 0, 0, 0.15);
+  filter: brightness(0.9) saturate(1.05) contrast(1.05) blur(0.3px);
+  transition: all 0.3s ease-in-out;
+}
+
+.image-box::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.6),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.login-box h2 {
+  margin-bottom: 1rem;
+  font-size: 28px;
+  color: #003366;
+}
+.login-box p {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 1.5rem;
+}
+
+
+.login-box input {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+.login-box input:focus {
+  border-color: #007acc;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 122, 204, 0.4);
+}
+
+.login-box button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  background: linear-gradient(to right, #0059b3, #3399ff);
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+  background: linear-gradient(to right, #004c99, #1a8cff);
+}
+
+
+.login-box .register {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.login-box .register a {
+  color: #007acc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-box .register a:hover {
+  text-decoration: underline;
+}
