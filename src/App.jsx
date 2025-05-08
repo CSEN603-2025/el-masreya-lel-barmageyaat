@@ -55,43 +55,6 @@ function App() {
     localStorage.setItem("companyRequests", JSON.stringify(companyRequests));
   }, [companyRequests]);
 
-  const [allInternships, setAllInternships] = useState([
-    {
-      id: 1,
-      title: "Software Engineer Intern",
-      companyName: "welloDev",
-      location: "Remote",
-      description:
-        "We are looking for a Software Engineer Intern to join our team.",
-      requirements: [
-        "Strong knowledge of JavaScript",
-        "Experience with React",
-        "Good communication skills",
-      ],
-      paid: true,
-      salary: 1000,
-      duration: "3 months",
-      status: "open",
-      applications: [],
-    },
-    {
-      id: 2,
-      title: "Data Analyst Intern",
-      companyName: "instabug",
-      location: "On-site",
-      description: "We are looking for a Data Analyst Intern to join our team.",
-      requirements: [
-        "Strong knowledge of SQL",
-        "Experience with Python",
-        "Good analytical skills",
-      ],
-      paid: false,
-      duration: "6 months",
-      status: "open",
-      applications: [],
-    },
-  ]);
-
   return (
     <div>
       <Router>
@@ -114,13 +77,7 @@ function App() {
           />
           <Route
             path="/studentsDashboard"
-            element={
-              <StudentsDashboard
-                companyUsers={companyUsers}
-                allInternships={allInternships}
-                setAllInternships={setAllInternships}
-              />
-            }
+            element={<StudentsDashboard companyUsers={companyUsers} />}
           />
           <Route
             path="/internshipDetails/:id/:companyName"
