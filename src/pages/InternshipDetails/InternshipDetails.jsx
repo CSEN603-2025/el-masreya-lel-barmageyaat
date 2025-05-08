@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import Applicant from "../../components/Applicant/Applicant";
 
-function InternshipDetails({ allInternships, companyUsers }) {
+function InternshipDetails({ companyUsers }) {
   const navigate = useNavigate();
   const { id, companyName } = useParams();
   console.log("Internship ID:", id);

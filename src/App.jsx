@@ -3,13 +3,14 @@ import HomePage from "./pages/homepage/HomePage";
 import StudentsDashboard from "./pages/studentsDashboard/StudentsDashboard";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import StudentProfile from "./pages/StudentProfile/StudentProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
 import ViewCompanyRequest from "./pages/ViewCompanyRequest/ViewCompanyRequest";
 import InternshipDetails from "./pages/InternshipDetails/InternshipDetails";
 import InternshipApplicationPage from "./pages/InternshipApplicationPage/InternshipApplicationPage";
 import CompanyViewPostings from "./pages/CompanyViewPostings/CompanyViewPostings";
 import ApplicantDetails from "./pages/ApplicantDetails/ApplicantDetails";
+import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 
 function App() {
   // this stores the current user logged in
@@ -19,63 +20,17 @@ function App() {
     { username: "scad", password: "1234" },
   ]);
 
-  const [companyUsers, setCompanyUsers] = useState([
-    {
-      username: "welloDevAgency",
-      password: "1234",
-      industry: "IT",
-      Size: "small",
-      logo: null,
-      email: "welloDev@amazing.com",
-      internships: [
-        {
-          id: 1,
-          title: "Software Engineer Intern",
-          companyName: "welloDev",
-          location: "Remote",
-          description:
-            "We are looking for a Software Engineer Intern to join our team.",
-          requirements: [
-            "Strong knowledge of JavaScript",
-            "Experience with React",
-            "Good communication skills",
-          ],
-          paid: true,
-          salary: 1000,
-          duration: "3 months",
-          status: "open",
-          applications: [],
-        },
-      ],
-    },
-    {
-      username: "instabug",
-      password: "1234",
-      industry: "software",
-      Size: "corprate",
-      logo: null,
-      email: "instabug@wello.com",
-      internships: [
-        {
-          id: 2,
-          title: "Data Analyst Intern",
-          companyName: "instabug",
-          location: "On-site",
-          description:
-            "We are looking for a Data Analyst Intern to join our team.",
-          requirements: [
-            "Strong knowledge of SQL",
-            "Experience with Python",
-            "Good analytical skills",
-          ],
-          paid: false,
-          duration: "6 months",
-          status: "open",
-          applications: [],
-        },
-      ],
-    },
-  ]);
+  // this checks if there is data in local storage and sets the company users to that data
+  // if there is no data in local storage, it sets the company users to the initial data JSON file
+
+  const [companyUsers, setCompanyUsers] = useState(() => {
+    const saved = localStorage.getItem("companyUsers");
+    return saved ? JSON.parse(saved) : InitialCompanyUserData;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("companyUsers", JSON.stringify(companyUsers));
+  }, [companyUsers]);
 
   const [studentUsers, setStudentUsers] = useState([
     {
@@ -96,6 +51,7 @@ function App() {
         "Python",
         "Django",
       ],
+      appliedInternships: [],
       experiences: [
         {
           //add id
@@ -213,12 +169,7 @@ function App() {
           />
           <Route
             path="/internshipDetails/:id/:companyName"
-            element={
-              <InternshipDetails
-                allInternships={allInternships}
-                companyUsers={companyUsers}
-              />
-            }
+            element={<InternshipDetails companyUsers={companyUsers} />}
           />
 
           <Route
@@ -253,7 +204,14 @@ function App() {
           />
           <Route
             path="/ApplicantDetails/:username"
-            element={<ApplicantDetails companyUsers={companyUsers} />}
+            element={
+              <ApplicantDetails
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+                setCompanyUsers={setCompanyUsers}
+              />
+            }
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

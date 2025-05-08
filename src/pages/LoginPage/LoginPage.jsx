@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
+import styles from "./LoginPage.module.css";
 
 function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
   const navigate = useNavigate();
@@ -52,40 +53,59 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
   }
 
   return (
-    <div>
+    <div className={styles.loginContainer}>
       <StudentsNavBar />
-      <h1>Login Page</h1>
-      <form onSubmit={(e) => handleLogin(e)}>
-        <div>
-          <label>User:</label>
-          <input
-            type="text"
-            id="user"
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Login"}
-        </button>
-      </form>
+      <div className={styles.loginForm}>
+        <h1 className={styles.title}>Login</h1>
+        <form onSubmit={handleLogin}>
+          <div className={styles.formGroup}>
+            <label htmlFor="user" className={styles.label}>
+              Username
+            </label>
+            <input
+              type="text"
+              id="user"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              className={styles.input}
+              placeholder="Enter your username"
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="password" className={styles.label}>
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              placeholder="Enter your password"
+            />
+          </div>
+          <button type="submit" disabled={loading} className={styles.button}>
+            {loading ? "Loading..." : "Login"}
+          </button>
+        </form>
 
-      {/* here is outputted both because they cant happen at the same time 
-      note to self: add styling for this part in the css file */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      <Link to="/">Home</Link>
-      <br />
-      <Link to="/companyRegister">Company Register</Link>
+        {/* here is outputted both because they cant happen at the same time 
+        note to self: add styling for this part in the css file */}
+        {error && <p className={styles.error}>{error}</p>}
+        {message && <p className={styles.success}>{message}</p>}
+
+        <div className={styles.links}>
+          <Link to="/" className={styles.homeLink}>
+            Back to Home
+          </Link>
+          <p className={styles.registerText}>
+            Don't have a company account?{" "}
+            <Link to="/companyRegister" className={styles.registerLink}>
+              Register here
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

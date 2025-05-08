@@ -1,0 +1,61 @@
+[
+  {
+    "companyID": 1,
+    "username": "welloDevAgency",
+    "name": "welloDevAgency",
+    "password": "1234",
+    "industry": "IT",
+    "Size": "small",
+    "logo": null,
+    "email": "welloDev@amazing.com",
+    "internships": [
+      {
+        "id": 1,
+        "title": "Software Engineer Intern",
+        "companyName": "welloDev",
+        "location": "Remote",
+        "description": "We are looking for a Software Engineer Intern to join our team.",
+        "requirements": [
+          "Strong knowledge of JavaScript",
+          "Experience with React",
+          "Good communication skills"
+        ],
+        "paid": true,
+        "salary": 1000,
+        "duration": "3 months",
+        "status": "open",
+        "applications": []
+      }
+    ]
+  },
+  {
+    "companyID": 2,
+    "username": "instabug",
+    "name": "instabug",
+    "password": "1234",
+    "industry": "software",
+    "Size": "corprate",
+    "logo": null,
+    "email": "instabug@wello.com",
+    "internships": [
+      {
+        "id": 2,
+        "title": "Data Analyst Intern",
+        "companyName": "instabug",
+        "location": "On-site",
+        "description": "We are looking for a Data Analyst Intern to join our team.",
+        "requirements": [
+          "Strong knowledge of SQL",
+          "Experience with Python",
+          "Good analytical skills"
+        ],
+        "startDate": "2023-10-01",
+        "endDate": "2024-04-01",
+        "paid": false,
+        "duration": "6 months",
+        "status": "open",
+        "applications": []
+      }
+    ]
+  }
+]
