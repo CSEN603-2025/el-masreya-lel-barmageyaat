@@ -1,0 +1,41 @@
+.applicant-container {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.applicant-info p {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.cover-letter {
+  background-color: #f3f5f9;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.applicant-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.applicant-buttons button {
+  background-color: #2a3d66;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.applicant-buttons button:hover {
+  background-color: #1e2b4f;
+}

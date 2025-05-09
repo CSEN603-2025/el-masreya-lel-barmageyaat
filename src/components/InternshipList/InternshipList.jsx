@@ -1,29 +1,17 @@
 import { Link } from "react-router-dom";
+import "./InternshipList.css"; // Make sure this line is added
 
 function InternshipList({ internship }) {
   return (
     <Link
       to={`/internshipDetails/${internship.internshipID}/${internship.companyName}`}
-      style={{ textDecoration: "none" }}
+      className="internship-card-link"
     >
-      <div
-        className="internship-card"
-        style={{ border: "1px solid #ccc", padding: "10px", margin: "10px" }}
-      >
-        <h2>{internship.title}</h2>
-        <p>Company: {internship.companyName}</p>
-        <p>Location: {internship.location}</p>
-        <p>Description: {internship.description}</p>
-        <p>Requirements:</p>
-        <ul>
-          {internship.requirements.map((req, index) => (
-            <li key={index}>{req}</li>
-          ))}
-        </ul>
-        <p>Compensation: {internship.paid ? "paid" : "unpaid"}</p>
-        {internship.paid && <p>Salary: {internship.salary}</p>}
-        <p>Duration: {internship.duration}</p>
-        <p>Status: {internship.status}</p>
+      <div className="internship-card">
+        <h2 className="internship-title">{internship.title}</h2>
+        <p className="internship-company">Company: {internship.companyName}</p>
+        <p className="internship-location">Location: {internship.location}</p>
+        <p className="internship-status">Status: {internship.status}</p>
       </div>
     </Link>
   );

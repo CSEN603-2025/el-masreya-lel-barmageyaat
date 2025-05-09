@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
 import { useEffect, useMemo, useState } from "react";
+import "./StudentsDashboard.css";
 
 function StudentsDashboard({ companyUsers }) {
   const allInternships = useMemo(() => {
     return companyUsers.flatMap((company) => company.internships);
   }, [companyUsers]);
+
   const [filteredInternships, setFilteredInternships] =
     useState(allInternships);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
-
-  //  this filters based on the all Internship array NOT THE COMPANY USERS INTERNSHIP ATTRIBUTE ARRAY
 
   useEffect(() => {
     const filtered = allInternships.filter((internship) => {
@@ -25,32 +25,41 @@ function StudentsDashboard({ companyUsers }) {
   }, [filterTerm, searchTerm, allInternships]);
 
   return (
-    <div>
+    <div className="students-dashboard">
       <StudentsNavBar />
       <h1>Students Dashboard</h1>
-      <input
-        type="text"
-        placeholder="Search by title"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Filter by company name"
-        value={filterTerm}
-        onChange={(e) => setFilterTerm(e.target.value)}
-      />
-      {/* this filters based on the company users internship attribute array */}
-      {filteredInternships.map((internship) => (
-        <InternshipList
-          internship={internship}
-          key={internship.companyName + internship.title}
-        />
-      ))}
 
-      <Link to="/">Home</Link>
-      <br />
-      <Link to="/studentProfile">Student Profile</Link>
+      <div className="filter-search-container">
+        <input
+          type="text"
+          placeholder="Search by title"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <input
+          type="text"
+          placeholder="Filter by company name"
+          value={filterTerm}
+          onChange={(e) => setFilterTerm(e.target.value)}
+          className="filter-input"
+        />
+      </div>
+
+      <div className="internship-list">
+        {filteredInternships.map((internship) => (
+          <InternshipList
+            internship={internship}
+            key={internship.companyName + internship.title}
+          />
+        ))}
+      </div>
+
+      <div className="navigation-links">
+        <Link to="/">Home</Link>
+        <br />
+        <Link to="/studentProfile">Student Profile</Link>
+      </div>
     </div>
   );
 }

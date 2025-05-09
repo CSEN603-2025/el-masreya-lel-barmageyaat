@@ -1,0 +1,130 @@
+/* General Styles */
+.students-dashboard {
+  padding: 30px;
+  background-color: #f0f4f8; /* Light grayish-blue background */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+h1 {
+  color: #2a3d66; /* Dark blue */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Search and Filter Container */
+.filter-search-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-input,
+.filter-input {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 250px;
+  max-width: 100%;
+}
+
+.search-input:focus,
+.filter-input:focus {
+  outline: none;
+  border-color: #4caf50; /* Green focus effect */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Internship List */
+.internship-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+}
+
+/* Internship Card Styles */
+.internship-card-link {
+  text-decoration: none; /* Remove default link underline */
+}
+
+.internship-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 900px;
+  margin: 15px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.internship-card:hover {
+  transform: translateY(-5px); /* Hover effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.internship-card div {
+  flex: 1;
+  margin-right: 15px;
+}
+
+.internship-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2a3d66;
+}
+
+.internship-company {
+  font-size: 16px;
+  color: #555;
+}
+
+.internship-location {
+  font-size: 14px;
+  color: #777;
+}
+
+.internship-status {
+  font-size: 14px;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #4caf50; /* Green for active status */
+}
+
+.internship-status.applied {
+  background-color: #ff9800; /* Orange for applied */
+}
+
+.internship-status.rejected {
+  background-color: #f44336; /* Red for rejected */
+}
+
+.internship-status.pending {
+  background-color: #ffeb3b; /* Yellow for pending */
+}
+
+/* Navigation Links */
+.navigation-links {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.navigation-links a {
+  font-size: 16px;
+  color: #2a3d66;
+  text-decoration: none;
+  margin: 5px;
+}
+
+.navigation-links a:hover {
+  color: #4caf50;
+}

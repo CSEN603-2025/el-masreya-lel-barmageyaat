@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import Applicant from "../../components/Applicant/Applicant";
+import "./InternshipDetails.css";
 
 function InternshipDetails({ companyUsers }) {
   const navigate = useNavigate();
@@ -21,39 +22,64 @@ function InternshipDetails({ companyUsers }) {
   }
 
   return (
-    <div className="internship-details">
+    <div>
       <StudentsNavBar />
-      <h1>{internship.title}</h1>
-      <p>Company: {internship.companyName}</p>
-      <p>Location: {internship.location}</p>
-      <p>Description: {internship.description}</p>
-      <p>Requirements:</p>
-      <ul>
-        {internship.requirements.map((req, index) => (
-          <li key={index}>{req}</li>
-        ))}
-      </ul>
-      <p>Compensation: {internship.paid ? "paid" : "unpaid"}</p>
-      {internship.paid && <p>Salary: {internship.salary}</p>}
-      <p>Duration: {internship.duration}</p>
-      <p>Status: {internship.status}</p>
-      <button onClick={handleApply}>Apply Now</button>
-      <button type="button" onClick={() => window.history.back()}>
-        Back
-      </button>
-      <h2>Applications:</h2>
-      {internship.applications.length > 0 ? (
-        internship.applications.length ? (
-          internship.applications.map((applicant, index) => (
-            <div key={index}>
-              <h3>Applicant {index + 1}</h3>
-              <Applicant applicant={applicant} />
-            </div>
-          ))
-        ) : null
-      ) : (
-        <p>No applications yet.</p>
-      )}
+      <div className="internship-details-container">
+        <div className="internship-header">
+          <h1>{internship.title}</h1>
+          <p className="company-name">{internship.companyName}</p>
+        </div>
+
+        <div className="internship-info">
+          <p>
+            <strong>Location:</strong> {internship.location}
+          </p>
+          <p>
+            <strong>Description:</strong> {internship.description}
+          </p>
+          <div>
+            <strong>Requirements:</strong>
+            <ul>
+              {internship.requirements.map((req, index) => (
+                <li key={index}>{req}</li>
+              ))}
+            </ul>
+          </div>
+          <p>
+            <strong>Compensation:</strong> {internship.paid ? "Paid" : "Unpaid"}
+          </p>
+          {internship.paid && (
+            <p>
+              <strong>Salary:</strong> {internship.salary}
+            </p>
+          )}
+          <p>
+            <strong>Duration:</strong> {internship.duration}
+          </p>
+          <p>
+            <strong>Status:</strong> {internship.status}
+          </p>
+        </div>
+
+        <div className="internship-buttons">
+          <button onClick={handleApply}>Apply Now</button>
+          <button onClick={() => window.history.back()}>Back</button>
+        </div>
+
+        <div className="applications-section">
+          <h2>Applications</h2>
+          {internship.applications.length > 0 ? (
+            internship.applications.map((applicant, index) => (
+              <div key={index} className="applicant-card">
+                <h3>Applicant {index + 1}</h3>
+                <Applicant applicant={applicant} />
+              </div>
+            ))
+          ) : (
+            <p>No applications yet.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

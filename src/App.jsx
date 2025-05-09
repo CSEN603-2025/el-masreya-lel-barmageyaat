@@ -132,9 +132,7 @@ function App() {
             element={
               <ApplicantDetails
                 companyUsers={companyUsers}
-                studentUsers={studentUsers}
                 setStudentUsers={setStudentUsers}
-                setCompanyUsers={setCompanyUsers}
               />
             }
           />

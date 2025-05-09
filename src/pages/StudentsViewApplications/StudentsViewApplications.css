@@ -1,0 +1,77 @@
+.studentsViewApplications {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.internshipCard {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.internshipTitle {
+  color: #333;
+  font-weight: bold;
+}
+
+.internshipDescription {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.accepted {
+  color: green;
+}
+
+.rejected {
+  color: red;
+}
+
+.pending {
+  color: orange;
+}
+
+.finalized {
+  color: blue;
+}
+
+.viewDetailsButton,
+.editApplicationButton,
+.goBackButton {
+  margin-right: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.viewDetailsButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.editApplicationButton {
+  background-color: #ffc107;
+  color: black;
+}
+
+.goBackButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.errorMessage {
+  color: red;
+  text-align: center;
+}

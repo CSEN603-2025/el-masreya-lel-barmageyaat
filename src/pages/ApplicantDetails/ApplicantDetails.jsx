@@ -1,16 +1,8 @@
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-function ApplicantDetails({
-  companyUsers,
-  studentUsers,
-  setCompanyUsers,
-  setStudentUsers,
-}) {
+function ApplicantDetails({ companyUsers, setCompanyUsers }) {
   const { username } = useParams();
   const navigate = useNavigate();
-
-  const [applicant, setApplicant] = useState(null);
 
   // Fetch the company applicant data
   const companyApplicant = companyUsers.flatMap((company) =>
@@ -20,12 +12,6 @@ function ApplicantDetails({
       )
     )
   )[0]; // the [0] is to get the first match
-
-  useEffect(() => {
-    if (companyApplicant) {
-      setApplicant(companyApplicant);
-    }
-  }, [companyApplicant]);
 
   return (
     <div>
