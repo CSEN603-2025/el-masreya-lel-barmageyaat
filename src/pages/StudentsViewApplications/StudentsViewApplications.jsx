@@ -18,9 +18,6 @@ function StudentsViewApplications({ companyUsers, studentUsers, currUserId }) {
   return (
     <div>
       <h1>View Applications</h1>
-      {console.log("currUserId: " + Number(currUserId))}
-      {console.log("current user: ", currentUser)}
-      {console.log("applied internships: ", currentUser.appliedInternships)}
 
       {currentUser.appliedInternships.map((internship) => {
         const company = companyUsers.find((company) =>
@@ -48,13 +45,27 @@ function StudentsViewApplications({ companyUsers, studentUsers, currUserId }) {
           );
           return null;
         }
+        const applicationStatus = internshipDetails.applications.find(
+          (application) => application.username === currentUser.username
+        )?.status;
 
         return (
           <div key={internship.internshipID}>
             <h2>{internshipDetails.title}</h2>
             <p>{internshipDetails.description}</p>
-            {console.log("internshipDetails: ", internshipDetails)}
-            {console.log("company: ", company)}
+            <b>Application status: </b>
+            {applicationStatus === "accepted" && (
+              <h4 style={{ color: "green" }}>Accepted</h4>
+            )}
+            {applicationStatus === "rejected" && (
+              <h4 style={{ color: "red" }}>Rejected</h4>
+            )}
+            {applicationStatus === "pending" && (
+              <h4 style={{ color: "orange" }}>Pending</h4>
+            )}
+            {applicationStatus === "finalized" && (
+              <h4 style={{ color: "blue" }}>finalized</h4>
+            )}
             <button
               onClick={() =>
                 navigate(
