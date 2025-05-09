@@ -8,58 +8,61 @@ import { useParams } from "react-router-dom";
 function InternshipApplicationPage({
   companyUsers,
   setCompanyUsers,
-  currUser,
+  currUserId,
+  studentUsers,
+  setStudentUsers,
 }) {
   const { internshipId, companyName } = useParams(); // Updated variable names
+  const currUser = studentUsers.find((user) => user.studentId === currUserId);
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    console.log("we are in the handleSubmit function");
+
+    // Handling file upload, ensuring it's attached correctly
+    const documentFile = formData.get("documents"); // This will be the file
+    const coverLetter = formData.get("coverLetter"); // This will be the cover letter text
+
     const updatedCompanies = companyUsers.map((company) => {
-      console.log("Company username:", company.username);
-      console.log("Current company username: ", companyName);
       if (company.username === companyName) {
-        // Updated variable name
-        console.log("Company found:", company.username);
         const updatedInternships = company.internships.map((internship) => {
           if (internship.internshipID === parseInt(internshipId)) {
-            console.log("internship found:", internship.internshipID);
-            // Updated variable name
-            const updatedApplications = internship.applications.map(
+            let updatedApplications = internship.applications.map(
               (application) => {
                 if (application.username === currUser.username) {
-                  console.log("Application found for user:", currUser.username);
-                  // Update existing application
                   return {
                     ...application,
-                    coverLetter: formData.get("coverLetter"),
-                    documents: formData.get("documents"),
+                    coverLetter,
+                    documents: documentFile, // Store the file object
                   };
                 }
                 return application;
               }
             );
 
-            // if user hasn't applied before, add new application
+            // If user hasn't applied before, add new application
             const userAlreadyApplied = internship.applications.some(
               (application) => application.username === currUser.username
             );
 
             if (!userAlreadyApplied) {
-              updatedApplications.push({
-                username: currUser.username,
-                firstName: currUser.firstName,
-                lastName: currUser.lastName,
-                email: currUser.email,
-                experiences: currUser.experiences,
-                skills: currUser.skills,
-                education: currUser.education,
-                profilePicture: currUser.profilePicture,
-                coverLetter: formData.get("coverLetter"),
-                documents: formData.get("documents"),
-                status: "Pending",
-              });
+              updatedApplications = [
+                ...updatedApplications,
+                {
+                  applicationId: internship.applications.length + 1,
+                  username: currUser.username,
+                  firstName: currUser.firstName,
+                  lastName: currUser.lastName,
+                  email: currUser.email,
+                  experiences: currUser.experiences,
+                  skills: currUser.skills,
+                  education: currUser.education,
+                  profilePicture: currUser.profilePicture,
+                  coverLetter,
+                  documents: documentFile, // Store the file object
+                  status: "Pending",
+                },
+              ];
             }
 
             return {
@@ -75,13 +78,39 @@ function InternshipApplicationPage({
           internships: updatedInternships,
         };
       }
-
       return company;
     });
 
     setCompanyUsers(updatedCompanies);
+
+    // Update student users with applied internships
+    const updatedStudents = studentUsers.map((student) => {
+      if (student.studentId === currUserId) {
+        const alreadyReferenced = (student.appliedInternships || []).some(
+          (app) =>
+            app.internshipId === parseInt(internshipId) &&
+            app.companyUsername === companyName
+        );
+
+        if (!alreadyReferenced) {
+          const updatedApplications = [
+            ...(student.appliedInternships || []),
+            {
+              internshipId: parseInt(internshipId),
+              companyUsername: companyName,
+            },
+          ];
+          return {
+            ...student,
+            appliedInternships: updatedApplications,
+          };
+        }
+      }
+      return student;
+    });
+
+    setStudentUsers(updatedStudents);
     alert("Application submitted");
-    console.log("Application submitted");
   }
 
   return (

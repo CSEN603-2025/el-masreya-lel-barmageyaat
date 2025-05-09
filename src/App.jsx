@@ -90,7 +90,9 @@ function App() {
               <InternshipApplicationPage
                 companyUsers={companyUsers}
                 setCompanyUsers={setCompanyUsers}
-                currUser={currUser}
+                currUserId={currUser?.studentId}
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
               />
             }
           />
