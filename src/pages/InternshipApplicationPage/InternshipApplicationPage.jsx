@@ -61,6 +61,7 @@ function InternshipApplicationPage({
                   coverLetter,
                   documents: documentFile, // Store the file object
                   status: "Pending",
+                  internshipStatus: "didntStartYet",
                 },
               ];
             }
