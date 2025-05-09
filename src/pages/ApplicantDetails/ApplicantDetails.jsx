@@ -26,9 +26,21 @@ function ApplicantDetails({
     <div>
       {companyApplicant ? (
         <div>
-          name: {companyApplicant.firstName} {companyApplicant.lastName}
+          {console.log(companyApplicant)}
+          <b>name:</b> {companyApplicant.firstName} {companyApplicant.lastName}
           <br />
-          cover letter: {companyApplicant.coverLetter}
+          <b>cover letter:</b> {companyApplicant.coverLetter}
+          <br />
+          <b>email:</b> {companyApplicant.email}
+          <br />
+          <b>skills:</b>
+          <ul>
+            {companyApplicant.skills.map((skill) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
+          <br />
+          experiences: <h4>this is a placeholder for the experiences</h4>
         </div>
       ) : (
         <h1>No applicants found with that name (this is a code issue)</h1>

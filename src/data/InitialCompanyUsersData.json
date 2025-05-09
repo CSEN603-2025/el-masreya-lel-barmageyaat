@@ -1,6 +1,6 @@
 [
   {
-    "companyID": 1,
+    "companyId": 1,
     "username": "welloDevAgency",
     "name": "welloDevAgency",
     "password": "1234",
@@ -10,7 +10,7 @@
     "email": "welloDev@amazing.com",
     "internships": [
       {
-        "id": 1,
+        "internshipID": 1,
         "title": "Software Engineer Intern",
         "companyName": "welloDev",
         "location": "Remote",
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "companyID": 2,
+    "companyId": 2,
     "username": "instabug",
     "name": "instabug",
     "password": "1234",
@@ -39,7 +39,7 @@
     "email": "instabug@wello.com",
     "internships": [
       {
-        "id": 2,
+        "internshipID": 2,
         "title": "Data Analyst Intern",
         "companyName": "instabug",
         "location": "On-site",

@@ -5,25 +5,31 @@ import { useParams } from "react-router-dom";
 //////this is the page where the intern uploads his cover leeter and documents///////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-
 function InternshipApplicationPage({
   companyUsers,
   setCompanyUsers,
   currUser,
 }) {
-  const { internshipId, companyName } = useParams();
+  const { internshipId, companyName } = useParams(); // Updated variable names
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-
+    console.log("we are in the handleSubmit function");
     const updatedCompanies = companyUsers.map((company) => {
+      console.log("Company username:", company.username);
+      console.log("Current company username: ", companyName);
       if (company.username === companyName) {
+        // Updated variable name
+        console.log("Company found:", company.username);
         const updatedInternships = company.internships.map((internship) => {
-          if (internship.id === parseInt(internshipId)) {
+          if (internship.internshipID === parseInt(internshipId)) {
+            console.log("internship found:", internship.internshipID);
+            // Updated variable name
             const updatedApplications = internship.applications.map(
               (application) => {
-                if (application.user.name === currUser.name) {
+                if (application.username === currUser.username) {
+                  console.log("Application found for user:", currUser.username);
                   // Update existing application
                   return {
                     ...application,
@@ -37,7 +43,7 @@ function InternshipApplicationPage({
 
             // if user hasn't applied before, add new application
             const userAlreadyApplied = internship.applications.some(
-              (application) => application.user.name === currUser.name
+              (application) => application.username === currUser.username
             );
 
             if (!userAlreadyApplied) {

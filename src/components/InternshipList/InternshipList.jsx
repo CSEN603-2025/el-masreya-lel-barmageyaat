@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function InternshipList({ internship }) {
   return (
     <Link
-      to={`/internshipDetails/${internship.id}/${internship.companyName}`}
+      to={`/internshipDetails/${internship.internshipID}/${internship.companyName}`}
       style={{ textDecoration: "none" }}
     >
       <div

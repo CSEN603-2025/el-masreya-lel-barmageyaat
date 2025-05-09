@@ -5,17 +5,19 @@ import Applicant from "../../components/Applicant/Applicant";
 function InternshipDetails({ companyUsers }) {
   const navigate = useNavigate();
   const { id, companyName } = useParams();
-  console.log("Internship ID:", id);
-  console.log("Company Name:", companyName);
 
   const company = companyUsers.find((c) => c.username === companyName);
   if (!company) return <p>Company not found.</p>;
 
-  const internship = company.internships.find((i) => i.id === parseInt(id));
+  const internship = company.internships.find(
+    (i) => i.internshipID === parseInt(id)
+  );
   if (!internship) return <p>Internship not found.</p>;
 
   function handleApply() {
-    navigate(`/internshipApplicationPage/${internship.id}/${companyName}`);
+    navigate(
+      `/internshipApplicationPage/${internship.internshipID}/${companyName}`
+    );
   }
 
   return (
