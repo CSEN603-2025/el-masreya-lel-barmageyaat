@@ -13,6 +13,7 @@ function StudentsNavBar() {
             <Link to="/CompanyRegister">Company Register </Link>
             <Link to="/ViewCompanyRequest">View Company Request </Link>
             <Link to="/CompanyViewPostings">Company View Postings </Link>
+            <Link to="/StudentsViewApplications">Internship Application </Link>
           </li>
         </ul>
       </nav>

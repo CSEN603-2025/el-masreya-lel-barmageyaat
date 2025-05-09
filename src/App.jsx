@@ -13,6 +13,7 @@ import ApplicantDetails from "./pages/ApplicantDetails/ApplicantDetails";
 import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
+import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
 
 function App() {
   // this stores the current user logged in
@@ -101,6 +102,16 @@ function App() {
             path="/StudentProfile"
             element={
               <StudentProfile currUser={currUser} studentUsers={studentUsers} />
+            }
+          />
+          <Route
+            path="/StudentsViewApplications"
+            element={
+              <StudentsViewApplications
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
+                currUserId={currUser?.studentId}
+              />
             }
           />
           <Route
