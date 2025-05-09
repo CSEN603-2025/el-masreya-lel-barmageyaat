@@ -1,6 +1,8 @@
 [
   {
     "username": "wello",
+    "firstName": "Wello",
+    "lastName": "moussa",
     "password": "1234",
     "email": "wello@amazing.dev",
     "interests": [

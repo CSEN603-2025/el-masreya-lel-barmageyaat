@@ -4,12 +4,13 @@ function Applicant({ applicant }) {
   const navigate = useNavigate();
   return (
     <div>
-      {console.log("Applicant:", applicant.user.username)}
-      <p>Name: {applicant.user.username}</p>
-      <p>Resume: {applicant.user.email}</p>
+      {console.log("Applicant:", applicant.username)}
+      <p>First Name: {applicant.firstName}</p>
+      <p>Lirst Name: {applicant.lastName}</p>
+      <p>Resume: {applicant.email}</p>
       <p>Cover Letter: {applicant.coverLetter}</p>
       <button
-        onClick={() => navigate(`/ApplicantDetails/${applicant.user.username}`)}
+        onClick={() => navigate(`/ApplicantDetails/${applicant.username}`)}
       >
         View Details
       </button>

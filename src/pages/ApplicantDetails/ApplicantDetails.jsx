@@ -15,7 +15,7 @@ function ApplicantDetails({
   const companyApplicant = companyUsers.flatMap((company) =>
     company.internships.flatMap((internship) =>
       internship.applications.filter(
-        (application) => application.user.username === username
+        (application) => application.username === username
       )
     )
   )[0]; // the [0] is to get the first match
@@ -26,7 +26,7 @@ function ApplicantDetails({
     <div>
       {companyApplicant ? (
         <div>
-          name: {companyApplicant.user.username}
+          name: {companyApplicant.firstName} {companyApplicant.lastName}
           <br />
           cover letter: {companyApplicant.coverLetter}
         </div>

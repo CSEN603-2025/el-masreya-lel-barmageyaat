@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
-import { use, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function StudentsDashboard({ companyUsers }) {
   const allInternships = useMemo(() => {

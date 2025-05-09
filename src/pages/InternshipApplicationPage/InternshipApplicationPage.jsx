@@ -42,7 +42,14 @@ function InternshipApplicationPage({
 
             if (!userAlreadyApplied) {
               updatedApplications.push({
-                user: currUser,
+                username: currUser.username,
+                firstName: currUser.firstName,
+                lastName: currUser.lastName,
+                email: currUser.email,
+                experiences: currUser.experiences,
+                skills: currUser.skills,
+                education: currUser.education,
+                profilePicture: currUser.profilePicture,
                 coverLetter: formData.get("coverLetter"),
                 documents: formData.get("documents"),
                 status: "Pending",
