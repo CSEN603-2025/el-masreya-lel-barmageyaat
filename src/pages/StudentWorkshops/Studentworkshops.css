@@ -1,0 +1,153 @@
+.student-workshops-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.student-workshops-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2.2rem;
+}
+
+.student-workshop-list {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.student-workshop-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-workshop-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.student-card-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.student-workshop-card h3 {
+    color: #4f46e5;
+    margin: 0 0 10px 0;
+    font-size: 1.4rem;
+}
+
+.student-workshop-card p {
+    color: #555;
+    line-height: 1.5;
+    margin: 8px 0;
+}
+
+.student-date-range {
+    color: #e74c3c;
+    font-weight: 600;
+    margin: 15px 0;
+}
+
+.student-speakers-list,
+.student-agenda-list {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.student-speakers-list h4,
+.student-agenda-list h4 {
+    color: #2c3e50;
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.student-speakers-list ul,
+.student-agenda-list ul {
+    padding-left: 20px;
+    margin: 10px 0 0 0;
+}
+
+.student-speakers-list li,
+.student-agenda-list li {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.student-speakers-list strong {
+    color: #4f46e5;
+}
+
+.student-video-container {
+    margin: 25px 0 10px 0;
+}
+
+.student-video-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.student-video-btn:hover {
+    background: #2980b9;
+}
+
+.student-video-embed {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    margin-top: 15px;
+    border-radius: 8px;
+}
+
+.student-video-embed iframe,
+.student-video-embed video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.no-workshops {
+    text-align: center;
+    padding: 40px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    grid-column: 1 / -1;
+}
+
+.no-workshops p {
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .student-workshop-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .student-workshops-container h1 {
+        font-size: 1.8rem;
+    }
+}

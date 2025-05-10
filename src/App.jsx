@@ -14,6 +14,8 @@ import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
+import Workshops from "./pages/Workshops/Workshops";
+import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
 
 function App() {
   // this stores the current user logged in
@@ -136,6 +138,8 @@ function App() {
               />
             }
           />
+          <Route path="/Workshops" element={<Workshops />} />
+          <Route path="/StudentWorkshops" element={<StudentWorkshops />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </Router>
