@@ -24,6 +24,8 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 25px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .student-workshop-card:hover {
@@ -106,7 +108,7 @@
 }
 
 .student-video-btn:hover {
-    background: #2980b9;
+    background: #4338ca;
 }
 
 .student-video-embed {
@@ -126,6 +128,122 @@
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* Notes Section Styles */
+.student-notes-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.notes-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.notes-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+.notes-textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.notes-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-note-btn {
+    background: #10b981;
+    color: white;
+    flex: 1;
+}
+
+.save-note-btn:hover {
+    background: #0d9f6e;
+    transform: translateY(-1px);
+}
+
+.cancel-note-btn {
+    background: #64748b;
+    color: white;
+    flex: 1;
+}
+
+.cancel-note-btn:hover {
+    background: #475569;
+    transform: translateY(-1px);
+}
+
+.notes-viewer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.saved-notes {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #4f46e5;
+}
+
+.saved-notes h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #334155;
+    font-size: 1rem;
+}
+
+.saved-notes p {
+    white-space: pre-wrap;
+    margin-bottom: 0;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.take-notes-btn {
+    background: #4f46e5;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.take-notes-btn:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
 }
 
 .no-workshops {
@@ -150,4 +268,155 @@
     .student-workshops-container h1 {
         font-size: 1.8rem;
     }
+
+    .notes-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .student-workshop-card {
+        padding: 15px;
+    }
+
+    .student-speakers-list,
+    .student-agenda-list {
+        padding: 10px;
+    }
+}
+/* Feedback Section Styles */
+.student-feedback-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feedback-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+.feedback-textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.feedback-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.submit-feedback-btn {
+    background: #4f46e5;
+    color: white;
+    flex: 1;
+}
+
+.submit-feedback-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
+
+.cancel-feedback-btn {
+    background: #4f46e5;
+    color: white;
+    flex: 1;
+}
+
+.cancel-feedback-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
+
+.feedback-viewer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.saved-feedback {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #4f46e5;
+}
+
+.saved-feedback h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #4f46e5;
+    font-size: 1rem;
+}
+
+.saved-feedback-text {
+    white-space: pre-wrap;
+    margin-bottom: 0;
+    color: #4f46e5;
+    line-height: 1.6;
+}
+
+.give-feedback-btn {
+    background: #4f46e5;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.give-feedback-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
+
+/* Star Rating Styles */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.star {
+    font-size: 24px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star.filled {
+    color: #f59e0b;
+}
+
+.display-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-value {
+    color: #4f46e5;
+    font-size: 0.9rem;
 }
