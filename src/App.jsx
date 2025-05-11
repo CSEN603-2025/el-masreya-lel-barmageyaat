@@ -16,6 +16,8 @@ import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
 import MyInterns from "./pages/MyInterns/MyInterns";
 import StudentInternships from "./pages/StudentInternships/StudentInternships";
+import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
+import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCompanyRequestDetails";
 
 function App() {
   // this stores the current user logged in
@@ -116,6 +118,10 @@ function App() {
             }
           />
           <Route
+            path="/StudentReportSubmission/:studentId/:internshipId/:companyUsername"
+            element={<StudentReportSubmission />}
+          />
+          <Route
             path="/StudentsViewApplications"
             element={
               <StudentsViewApplications
@@ -129,6 +135,15 @@ function App() {
             path="/ViewCompanyRequest"
             element={
               <ViewCompanyRequest
+                companyRequests={companyRequests}
+                setCompanyRequests={setCompanyRequests}
+              />
+            }
+          />
+          <Route
+            path="/ViewCompanyRequestDetails/:companyName"
+            element={
+              <ViewCompanyRequestDetails
                 companyRequests={companyRequests}
                 setCompanyRequests={setCompanyRequests}
               />

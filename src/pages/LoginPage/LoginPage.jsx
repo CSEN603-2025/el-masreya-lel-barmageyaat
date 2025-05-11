@@ -37,7 +37,7 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
       setCurrUser(foundStudentUser);
     } else if (foundScadUser) {
       setMessage("Login successful! Redirecting to SCAD Dashboard...");
-      navigate("/studentsDashboard");
+      navigate("/ViewCompanyRequest");
       setCurrUser(foundScadUser);
     } else if (foundCompanyUser) {
       setMessage("Login successful! Redirecting to Company Dashboard...");

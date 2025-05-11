@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function StudentInternships({ companyUsers, studentUsers }) {
   const { studentId } = useParams();
@@ -88,8 +88,7 @@ function StudentInternships({ companyUsers, studentUsers }) {
               (application) =>
                 Number(application.studentId) === Number(studentId)
             );
-
-            return (
+            return theApplication.internshipStatus !== "InternshipComplete" ? (
               <div key={index}>
                 <h2>{company?.name}</h2>
                 <h3>{theCompanyInternship.title}</h3>
@@ -100,6 +99,20 @@ function StudentInternships({ companyUsers, studentUsers }) {
                 <b>the duration is: </b>
                 <p>{theCompanyInternship.duration}</p>
               </div>
+            ) : (
+              <Link
+                to={`/StudentReportSubmission/${studentId}/${internship.internshipId}/${internship.companyUsername}`}
+                key={index}
+              >
+                <h2>{company?.name}</h2>
+                <h3>{theCompanyInternship.title}</h3>
+                <b>the internship status is: </b>
+                <p>{theApplication.internshipStatus}</p>
+                <b>the start date is: </b>
+                <p>{theCompanyInternship.startDate}</p>
+                <b>the duration is: </b>
+                <p>{theCompanyInternship.duration}</p>
+              </Link>
             );
           })
       ) : (

@@ -16,6 +16,7 @@ function CompanyRegister({ setCompanyUsers }) {
         companySize: e.target.companySize.value,
         logo: logo,
         email: e.target.Email.value,
+        status: "pending",
       },
     ]);
     navigate("/login");
