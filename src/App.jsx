@@ -18,6 +18,7 @@ import MyInterns from "./pages/MyInterns/MyInterns";
 import StudentInternships from "./pages/StudentInternships/StudentInternships";
 import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
 import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCompanyRequestDetails";
+import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
 
 function App() {
   // this stores the current user logged in
@@ -121,6 +122,15 @@ function App() {
             path="/StudentReportSubmission/:studentId/:internshipId/:companyUsername"
             element={
               <StudentReportSubmission
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+              />
+            }
+          />
+          <Route
+            path="/StudentEvaluationSubmission/:studentId/:internshipId/:companyUsername"
+            element={
+              <StudentEvaluationSubmission
                 studentUsers={studentUsers}
                 setStudentUsers={setStudentUsers}
               />

@@ -88,9 +88,17 @@ function StudentInternships({ companyUsers, studentUsers }) {
               (application) =>
                 Number(application.studentId) === Number(studentId)
             );
+
+            ////////////////////////////HERE I SWITCHED REPORT AND EVAL ITS OKAY ITS JUST A MISTAKE ///////////////
+
             function onGoToEvaluation() {
               navigate(
                 `/StudentReportSubmission/${studentId}/${internship.internshipId}/${internship.companyUsername}`
+              );
+            }
+            function onGoToReport() {
+              navigate(
+                `/StudentEvaluationSubmission/${studentId}/${internship.internshipId}/${internship.companyUsername}`
               );
             }
             return theApplication.internshipStatus !== "InternshipComplete" ? (
@@ -121,6 +129,7 @@ function StudentInternships({ companyUsers, studentUsers }) {
                 <button onClick={onGoToEvaluation}>
                   Go to Evaluation Submission
                 </button>
+                <button onClick={onGoToReport}>Go to Report Submission</button>
               </div>
             );
           })

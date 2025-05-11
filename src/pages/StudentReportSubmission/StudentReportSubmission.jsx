@@ -71,7 +71,7 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
 
   return (
     <div>
-      <h1>Student Report Submission</h1>
+      <h1>Student Evaluation Submission for {companyUsername}</h1>
 
       {appliedInternship ? (
         <form onSubmit={handleReportSubmit}>
