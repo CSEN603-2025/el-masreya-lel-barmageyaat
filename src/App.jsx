@@ -15,6 +15,7 @@ import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
 import MyInterns from "./pages/MyInterns/MyInterns";
+import StudentInternships from "./pages/StudentInternships/StudentInternships";
 
 function App() {
   // this stores the current user logged in
@@ -103,6 +104,15 @@ function App() {
             path="/StudentProfile"
             element={
               <StudentProfile currUser={currUser} studentUsers={studentUsers} />
+            }
+          />
+          <Route
+            path="/StudentInternships/:studentId"
+            element={
+              <StudentInternships
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
+              />
             }
           />
           <Route

@@ -50,6 +50,7 @@ function InternshipApplicationPage({
                 ...updatedApplications,
                 {
                   applicationId: internship.applications.length + 1,
+                  studentId: currUser.studentId,
                   username: currUser.username,
                   firstName: currUser.firstName,
                   lastName: currUser.lastName,
