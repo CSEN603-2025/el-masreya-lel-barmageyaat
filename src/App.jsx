@@ -119,7 +119,12 @@ function App() {
           />
           <Route
             path="/StudentReportSubmission/:studentId/:internshipId/:companyUsername"
-            element={<StudentReportSubmission />}
+            element={
+              <StudentReportSubmission
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+              />
+            }
           />
           <Route
             path="/StudentsViewApplications"

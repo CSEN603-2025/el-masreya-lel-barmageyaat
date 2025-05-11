@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function StudentInternships({ companyUsers, studentUsers }) {
   const { studentId } = useParams();
   const [filterStatus, setFilterStatus] = useState(""); // Keeps track of the selected filter (status)
   const [searchText, setSearchText] = useState(""); // Tracks search input
-
+  const navigate = useNavigate();
   const student = studentUsers.find(
     (student) => String(student.studentId) === String(studentId)
   );
@@ -88,6 +88,11 @@ function StudentInternships({ companyUsers, studentUsers }) {
               (application) =>
                 Number(application.studentId) === Number(studentId)
             );
+            function onGoToEvaluation() {
+              navigate(
+                `/StudentReportSubmission/${studentId}/${internship.internshipId}/${internship.companyUsername}`
+              );
+            }
             return theApplication.internshipStatus !== "InternshipComplete" ? (
               <div key={index}>
                 <h2>{company?.name}</h2>
@@ -100,19 +105,23 @@ function StudentInternships({ companyUsers, studentUsers }) {
                 <p>{theCompanyInternship.duration}</p>
               </div>
             ) : (
-              <Link
-                to={`/StudentReportSubmission/${studentId}/${internship.internshipId}/${internship.companyUsername}`}
-                key={index}
-              >
-                <h2>{company?.name}</h2>
-                <h3>{theCompanyInternship.title}</h3>
-                <b>the internship status is: </b>
-                <p>{theApplication.internshipStatus}</p>
-                <b>the start date is: </b>
-                <p>{theCompanyInternship.startDate}</p>
-                <b>the duration is: </b>
-                <p>{theCompanyInternship.duration}</p>
-              </Link>
+              <div key={index}>
+                <Link
+                  to={`/StudentReportSubmission/${studentId}/${internship.internshipId}/${internship.companyUsername}`}
+                >
+                  <h2>{company?.name}</h2>
+                  <h3>{theCompanyInternship.title}</h3>
+                  <b>the internship status is: </b>
+                  <p>{theApplication.internshipStatus}</p>
+                  <b>the start date is: </b>
+                  <p>{theCompanyInternship.startDate}</p>
+                  <b>the duration is: </b>
+                  <p>{theCompanyInternship.duration}</p>
+                </Link>
+                <button onClick={onGoToEvaluation}>
+                  Go to Evaluation Submission
+                </button>
+              </div>
             );
           })
       ) : (
