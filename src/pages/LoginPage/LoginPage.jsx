@@ -16,8 +16,6 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    console.log(user, password);
-    console.log(studentUser);
 
     // -----------------------------------------searches for the user in the array of objects ------------------------------------------
 

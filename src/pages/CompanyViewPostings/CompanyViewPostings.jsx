@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import InternshipList from "../../components/InternshipList/InternshipList";
 
 function CompanyViewPostings({ currUser }) {
@@ -14,6 +15,7 @@ function CompanyViewPostings({ currUser }) {
       <button type="button" onClick={() => window.history.back()}>
         Back
       </button>
+      <Link to="/myInterns"> myInterns</Link>
     </div>
   );
 }

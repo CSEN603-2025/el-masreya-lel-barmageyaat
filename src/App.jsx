@@ -14,6 +14,7 @@ import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
+import MyInterns from "./pages/MyInterns/MyInterns";
 
 function App() {
   // this stores the current user logged in
@@ -132,8 +133,14 @@ function App() {
             element={
               <ApplicantDetails
                 companyUsers={companyUsers}
-                setStudentUsers={setStudentUsers}
+                setCompanyUsers={setCompanyUsers}
               />
+            }
+          />
+          <Route
+            path="/MyInterns"
+            element={
+              <MyInterns companyUsers={companyUsers} currUser={currUser} />
             }
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />

@@ -11,6 +11,8 @@ function HomePage() {
       <Link to="/CompanyRegister">Company Register</Link>
       <br />
       <Link to="/studentsDashboard">Go to Students Dashboard</Link>
+      <br />
+      <Link to="/MyInterns">My Interns</Link>
     </div>
   );
 }
