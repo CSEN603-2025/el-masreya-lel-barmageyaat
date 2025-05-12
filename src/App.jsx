@@ -14,6 +14,10 @@ import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
+
+import Workshops from "./pages/Workshops/Workshops";
+import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
+
 import MyInterns from "./pages/MyInterns/MyInterns";
 import StudentInternships from "./pages/StudentInternships/StudentInternships";
 import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
@@ -23,6 +27,7 @@ import AllStudents from "./pages/AllStudents/AllStudents";
 import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
 import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
 import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
+
 
 function App() {
   // this stores the current user logged in
@@ -201,6 +206,8 @@ function App() {
               />
             }
           />
+          <Route path="/Workshops" element={<Workshops />} />
+          <Route path="/StudentWorkshops" element={<StudentWorkshops />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
           <Route
             path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
