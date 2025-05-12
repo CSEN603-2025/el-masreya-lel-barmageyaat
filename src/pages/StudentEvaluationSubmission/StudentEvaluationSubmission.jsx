@@ -21,11 +21,6 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
 
   // State to handle the report submission
   const [report, setReport] = useState("");
-  const [rating, setRating] = useState(1);
-  const [duration, setDuration] = useState("");
-  const [file, setFile] = useState(null);
-  const [recommend, setRecommend] = useState(""); // Yes or No recommendation
-
   // Handle form submission
   const handleReportSubmit = (e) => {
     e.preventDefault();
@@ -38,10 +33,6 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
           introduction: report.introduction,
           body: report.body,
           conclusion: report.conclusion,
-          rating,
-          duration,
-          recommend,
-          file: file ? file.name : null,
           date: new Date().toISOString(),
         },
       };
