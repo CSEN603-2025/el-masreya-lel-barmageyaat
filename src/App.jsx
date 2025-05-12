@@ -14,8 +14,20 @@ import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
+
 import Workshops from "./pages/Workshops/Workshops";
 import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
+
+import MyInterns from "./pages/MyInterns/MyInterns";
+import StudentInternships from "./pages/StudentInternships/StudentInternships";
+import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
+import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCompanyRequestDetails";
+import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
+import AllStudents from "./pages/AllStudents/AllStudents";
+import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
+import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
+import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
+
 
 function App() {
   // this stores the current user logged in
@@ -107,6 +119,33 @@ function App() {
             }
           />
           <Route
+            path="/StudentInternships/:studentId"
+            element={
+              <StudentInternships
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
+              />
+            }
+          />
+          <Route
+            path="/StudentReportSubmission/:studentId/:internshipId/:companyUsername"
+            element={
+              <StudentReportSubmission
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+              />
+            }
+          />
+          <Route
+            path="/StudentEvaluationSubmission/:studentId/:internshipId/:companyUsername"
+            element={
+              <StudentEvaluationSubmission
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+              />
+            }
+          />
+          <Route
             path="/StudentsViewApplications"
             element={
               <StudentsViewApplications
@@ -126,6 +165,15 @@ function App() {
             }
           />
           <Route
+            path="/ViewCompanyRequestDetails/:companyName"
+            element={
+              <ViewCompanyRequestDetails
+                companyRequests={companyRequests}
+                setCompanyRequests={setCompanyRequests}
+              />
+            }
+          />
+          <Route
             path="/CompanyViewPostings"
             element={<CompanyViewPostings currUser={currUser} />}
           />
@@ -134,13 +182,37 @@ function App() {
             element={
               <ApplicantDetails
                 companyUsers={companyUsers}
-                setStudentUsers={setStudentUsers}
+                setCompanyUsers={setCompanyUsers}
+              />
+            }
+          />
+          <Route
+            path="/MyInterns"
+            element={
+              <MyInterns companyUsers={companyUsers} currUser={currUser} />
+            }
+          />
+          <Route path="/ScadDashboard" element={<ScadDashboard />} />
+          <Route
+            path="/AllStudents"
+            element={<AllStudents studentUsers={studentUsers} />}
+          />
+          <Route
+            path="/ScadViewOfStudentProfile/:studentID"
+            element={
+              <ScadViewOfStudentProfile
+                studentUsers={studentUsers}
+                companyUsers={companyUsers}
               />
             }
           />
           <Route path="/Workshops" element={<Workshops />} />
           <Route path="/StudentWorkshops" element={<StudentWorkshops />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
+          <Route
+            path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
+            element={<ViewInternshipItem studentUsers={studentUsers} />}
+          />
         </Routes>
       </Router>
     </div>

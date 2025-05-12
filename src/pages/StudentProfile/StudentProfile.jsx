@@ -39,6 +39,9 @@ function StudentProfile({ currUser, studentUsers }) {
       ___________________________________
       <br />
       <br />
+      <Link to={`/StudentInternships/${currUser.studentId}`}>
+        Go my internships
+      </Link>
       <Link to="/studentsDashboard">Go to Students Dashboard</Link>
     </div>
   );

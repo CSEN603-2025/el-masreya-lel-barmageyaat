@@ -16,8 +16,6 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    console.log(user, password);
-    console.log(studentUser);
 
     // -----------------------------------------searches for the user in the array of objects ------------------------------------------
 
@@ -39,7 +37,7 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
       setCurrUser(foundStudentUser);
     } else if (foundScadUser) {
       setMessage("Login successful! Redirecting to SCAD Dashboard...");
-      navigate("/studentsDashboard");
+      navigate("/ScadDashboard");
       setCurrUser(foundScadUser);
     } else if (foundCompanyUser) {
       setMessage("Login successful! Redirecting to Company Dashboard...");
