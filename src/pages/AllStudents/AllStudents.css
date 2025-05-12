@@ -1,0 +1,65 @@
+.students-container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.filter-bar {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.student-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.student-card {
+  text-decoration: none;
+  padding: 16px 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.student-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex: 2;
+}
+
+.student-email {
+  color: #666;
+  flex: 2;
+}
+
+.internship-status {
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  flex: 1;
+}
+
+.internship-status.applied {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.internship-status.not-applied {
+  background-color: #f8d7da;
+  color: #721c24;
+}

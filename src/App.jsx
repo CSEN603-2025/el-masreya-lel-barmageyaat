@@ -19,6 +19,10 @@ import StudentInternships from "./pages/StudentInternships/StudentInternships";
 import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
 import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCompanyRequestDetails";
 import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
+import AllStudents from "./pages/AllStudents/AllStudents";
+import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
+import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
+import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
 
 function App() {
   // this stores the current user logged in
@@ -183,7 +187,25 @@ function App() {
               <MyInterns companyUsers={companyUsers} currUser={currUser} />
             }
           />
+          <Route path="/ScadDashboard" element={<ScadDashboard />} />
+          <Route
+            path="/AllStudents"
+            element={<AllStudents studentUsers={studentUsers} />}
+          />
+          <Route
+            path="/ScadViewOfStudentProfile/:studentID"
+            element={
+              <ScadViewOfStudentProfile
+                studentUsers={studentUsers}
+                companyUsers={companyUsers}
+              />
+            }
+          />
           <Route path="*" element={<h1>404 Not Found</h1>} />
+          <Route
+            path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
+            element={<ViewInternshipItem studentUsers={studentUsers} />}
+          />
         </Routes>
       </Router>
     </div>

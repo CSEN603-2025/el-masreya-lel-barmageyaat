@@ -4,46 +4,62 @@ import { useState } from "react";
 function StudentReportSubmission({ studentUsers, setStudentUsers }) {
   const { studentId, internshipId, companyUsername } = useParams();
   const navigate = useNavigate();
+  const majorCourseMap = {
+    "Computer Engineering": [
+      "Data Structures",
+      "Operating Systems",
+      "Computer Networks",
+      "Database Systems",
+    ],
+    "Business Administration": [
+      "Marketing",
+      "Organizational Behavior",
+      "Corporate Finance",
+    ],
+    "Mechanical Engineering": [
+      "Thermodynamics",
+      "Fluid Mechanics",
+      "Control Systems",
+    ],
+    // Add more as needed
+  };
 
-  // Use studentId to find the student
   const student = studentUsers.find(
     (student) => student.studentId === parseInt(studentId)
   );
 
-  // Use internshipId and companyUsername to find the corresponding applied internship
   const appliedInternship = student?.appliedInternships.find(
     (internship) =>
       internship.internshipId === parseInt(internshipId) &&
       internship.companyUsername === companyUsername
   );
 
-  console.log(appliedInternship);
-  // State to handle the report submission
   const [report, setReport] = useState("");
   const [rating, setRating] = useState(1);
   const [duration, setDuration] = useState("");
   const [file, setFile] = useState(null);
-  const [recommend, setRecommend] = useState(""); // Yes or No recommendation
+  const [recommend, setRecommend] = useState("");
+  const [selectedMajor, setSelectedMajor] = useState("");
+  const [selectedCourses, setSelectedCourses] = useState([]);
 
-  // Handle form submission
   const handleReportSubmit = (e) => {
     e.preventDefault();
 
     if (appliedInternship) {
-      // Add the review object to the applied internship
       const updatedAppliedInternship = {
         ...appliedInternship,
         review: {
           content: report,
-          date: new Date().toISOString(), // You can store the submission date if needed
-          rating, // Adding the rating field
-          recommend, // Whether the internship is recommended or not
-          duration, // Duration of the internship
-          file: file ? file.name : null, // If there's a file, store its name (optional)
+          date: new Date().toISOString(),
+          rating,
+          recommend,
+          duration,
+          file: file ? file.name : null,
+          major: selectedMajor,
+          courses: selectedCourses,
         },
       };
 
-      // Update the student's appliedInternships array with the updated internship
       setStudentUsers((prevStudents) =>
         prevStudents.map((stu) =>
           stu.studentId === student.studentId
@@ -53,7 +69,7 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
                   internship.internshipId === appliedInternship.internshipId &&
                   internship.companyUsername ===
                     appliedInternship.companyUsername
-                    ? updatedAppliedInternship // Update the specific internship
+                    ? updatedAppliedInternship
                     : internship
                 ),
               }
@@ -61,12 +77,20 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
         )
       );
 
-      // Redirect the student to a confirmation or back to the previous page
       alert("Report submitted successfully!");
-      navigate(-1); // Go back to the previous page
+      navigate(-1);
     } else {
       alert("No matching internship found.");
     }
+  };
+
+  const handleCourseChange = (e) => {
+    const value = e.target.value;
+    setSelectedCourses((prevCourses) =>
+      prevCourses.includes(value)
+        ? prevCourses.filter((course) => course !== value)
+        : [...prevCourses, value]
+    );
   };
 
   return (
@@ -79,7 +103,6 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
             <label htmlFor="report">Internship Report:</label>
             <textarea
               id="report"
-              name="report"
               rows="5"
               cols="50"
               value={report}
@@ -93,7 +116,6 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
             <input
               type="number"
               id="rating"
-              name="rating"
               value={rating}
               onChange={(e) =>
                 setRating(Math.max(1, Math.min(5, e.target.value)))
@@ -109,24 +131,21 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
             <input
               type="text"
               id="duration"
-              name="duration"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
             />
           </div>
 
           <div>
-            <label htmlFor="recommend">
-              Would you recommend this internship to another student?
-            </label>
+            <label>Would you recommend this internship?</label>
             <div>
               <label>
                 <input
                   type="radio"
                   name="recommend"
                   value="yes"
-                  onChange={(e) => setRecommend(e.target.value)}
                   checked={recommend === "yes"}
+                  onChange={(e) => setRecommend(e.target.value)}
                 />
                 Yes
               </label>
@@ -135,8 +154,8 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
                   type="radio"
                   name="recommend"
                   value="no"
-                  onChange={(e) => setRecommend(e.target.value)}
                   checked={recommend === "no"}
+                  onChange={(e) => setRecommend(e.target.value)}
                 />
                 No
               </label>
@@ -148,17 +167,58 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
             <input
               type="file"
               id="file"
-              name="file"
               accept=".jpg, .jpeg, .png, .pdf"
               onChange={(e) => setFile(e.target.files[0])}
             />
           </div>
+
+          <div>
+            <label htmlFor="major">Select Your Major:</label>
+            <select
+              id="major"
+              value={selectedMajor}
+              onChange={(e) => {
+                setSelectedMajor(e.target.value);
+                setSelectedCourses([]); // Reset courses when major changes
+              }}
+              required
+            >
+              <option value="">-- Select Major --</option>
+              {Object.keys(majorCourseMap).map((major) => (
+                <option key={major} value={major}>
+                  {major}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedMajor && (
+            <div>
+              <label>
+                Select Courses That Helped You Durring The Internship:
+              </label>
+              {majorCourseMap[selectedMajor].map((course) => (
+                <div key={course}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value={course}
+                      checked={selectedCourses.includes(course)}
+                      onChange={handleCourseChange}
+                    />
+                    {course}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
 
           <button type="submit">Submit Report</button>
         </form>
       ) : (
         <p>No matching internship found for this student.</p>
       )}
+
       <button onClick={() => navigate(-1)}>Go Back</button>
     </div>
   );
