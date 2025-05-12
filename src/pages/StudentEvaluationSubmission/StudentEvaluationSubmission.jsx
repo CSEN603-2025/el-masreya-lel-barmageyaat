@@ -34,6 +34,7 @@ function StudentReportSubmission({ studentUsers, setStudentUsers }) {
           body: report.body,
           conclusion: report.conclusion,
           date: new Date().toISOString(),
+          status: "pending",
         },
       };
 
