@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-//////this is the page where the intern uploads his cover leeter and documents///////
+//////this is the page where the intern uploads his cover letter and documents///////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 function InternshipApplicationPage({
@@ -12,35 +12,41 @@ function InternshipApplicationPage({
   studentUsers,
   setStudentUsers,
 }) {
-  const { internshipId, companyName } = useParams(); // Updated variable names
+  const { internshipId, companyName } = useParams();
   const currUser = studentUsers.find((user) => user.studentId === currUserId);
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    // Handling file upload, ensuring it's attached correctly
-    const documentFile = formData.get("documents"); // This will be the file
-    const coverLetter = formData.get("coverLetter"); // This will be the cover letter text
+    const documentFile = formData.get("documents");
+    const coverLetter = formData.get("coverLetter");
 
     const updatedCompanies = companyUsers.map((company) => {
       if (company.username === companyName) {
+        const fullName = `${currUser?.firstName || ''} ${currUser?.lastName || ''}`.trim();
+        const today = new Date().toISOString().split('T')[0];
+
+        company.notifications = company.notifications || [];
+
+        company.notifications.push({
+          message: `${fullName} applied for your internship`,
+          date: today,
+        });
+
         const updatedInternships = company.internships.map((internship) => {
           if (internship.internshipID === parseInt(internshipId)) {
-            let updatedApplications = internship.applications.map(
-              (application) => {
-                if (application.username === currUser.username) {
-                  return {
-                    ...application,
-                    coverLetter,
-                    documents: documentFile, // Store the file object
-                  };
-                }
-                return application;
+            let updatedApplications = internship.applications.map((application) => {
+              if (application.username === currUser.username) {
+                return {
+                  ...application,
+                  coverLetter,
+                  documents: documentFile,
+                };
               }
-            );
+              return application;
+            });
 
-            // If user hasn't applied before, add new application
             const userAlreadyApplied = internship.applications.some(
               (application) => application.username === currUser.username
             );
@@ -60,7 +66,7 @@ function InternshipApplicationPage({
                   education: currUser.education,
                   profilePicture: currUser.profilePicture,
                   coverLetter,
-                  documents: documentFile, // Store the file object
+                  documents: documentFile,
                   status: "Pending",
                   internshipStatus: "didntStartYet",
                 },
@@ -80,12 +86,12 @@ function InternshipApplicationPage({
           internships: updatedInternships,
         };
       }
+
       return company;
     });
 
     setCompanyUsers(updatedCompanies);
 
-    // Update student users with applied internships
     const updatedStudents = studentUsers.map((student) => {
       if (student.studentId === currUserId) {
         const alreadyReferenced = (student.appliedInternships || []).some(
@@ -117,7 +123,7 @@ function InternshipApplicationPage({
 
   return (
     <div>
-      <h1>Any additional information you would like to give? </h1>
+      <h1>Any additional information you would like to give?</h1>
       <form onSubmit={handleSubmit}>
         <label>Cover Letter:</label>
         <textarea

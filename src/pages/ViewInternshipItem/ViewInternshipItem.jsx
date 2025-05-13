@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 function ViewInternshipItem({ studentUsers }) {
   const { type, studentId, internshipId, companyUsername } = useParams();
 
-  const student = studentUsers.find((s) => s.studentId === parseInt(studentId));
+  const student = studentUsers.find((s) => s.studentId === parseInt(studentId, 10));
 
   if (!student) {
     return <p>🚫 Student not found.</p>;
@@ -11,7 +11,7 @@ function ViewInternshipItem({ studentUsers }) {
 
   const internship = student.appliedInternships.find(
     (i) =>
-      i.internshipId === parseInt(internshipId) &&
+      i.internshipId === parseInt(internshipId, 10) &&
       i.companyUsername === companyUsername
   );
 
@@ -47,18 +47,63 @@ function ViewInternshipItem({ studentUsers }) {
     return (
       <div>
         <h1>📋 Internship Review</h1>
+        {/* Content */}
         <p>
-          <strong>Reviewed By:</strong> {review.reviewer}
+          <strong>Content:</strong>
         </p>
-        <p>
-          <strong>Rating:</strong> {review.rating} ⭐
-        </p>
-        <p>
-          <strong>Comments:</strong>
-        </p>
-        <div style={{ whiteSpace: "pre-line", marginTop: "1rem" }}>
-          {review.comments}
+        <div style={{ whiteSpace: "pre-line", marginTop: "0.5rem" }}>
+          {review.content}
         </div>
+
+        {/* Date */}
+        {review.date && (
+          <p>
+            <strong>Date:</strong> {new Date(review.date).toLocaleDateString()}
+          </p>
+        )}
+
+        {/* Rating */}
+        {review.rating != null && (
+          <p>
+            <strong>Rating:</strong> {review.rating} ⭐
+          </p>
+        )}
+
+        {/* Recommend */}
+        {review.recommend != null && (
+          <p>
+            <strong>Recommend:</strong> {review.recommend ? "Yes" : "No"}
+          </p>
+        )}
+
+        {/* Duration */}
+        {review.duration && (
+          <p>
+            <strong>Duration:</strong> {review.duration}
+          </p>
+        )}
+
+        {/* Major Courses */}
+        {review.majorCourses && (
+          <p>
+            <strong>Major Courses:</strong>
+          </p>
+        )}
+        {review.majorCourses && (
+          <div style={{ whiteSpace: "pre-line", marginTop: "0.5rem" }}>
+            {review.majorCourses}
+          </div>
+        )}
+
+        {/* Optional File */}
+        {review.fileUrl && (
+          <p>
+            <strong>Attachment:</strong>{" "}
+            <a href={review.fileUrl} target="_blank" rel="noopener noreferrer">
+              Download File
+            </a>
+          </p>
+        )}
       </div>
     );
   }
