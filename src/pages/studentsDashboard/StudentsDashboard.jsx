@@ -56,9 +56,9 @@ function StudentsDashboard({ companyUsers }) {
       </div>
 
       <div className="navigation-links">
-        <Link to="/">Home</Link>
-        <br />
-        <Link to="/studentProfile">Student Profile</Link>
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/studentProfile" className="nav-link">Student Profile</Link>
+        <Link to="/SuggestedCompanies" className="nav-link suggested-link">View Suggested Companies</Link>
       </div>
     </div>
   );

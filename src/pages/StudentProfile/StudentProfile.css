@@ -139,4 +139,12 @@
 .profile-link:hover {
   background-color: #5a6268;
   text-decoration: none;
+}
+
+.profile-link.suggested-link {
+  background-color: #4a6cf7;
+}
+
+.profile-link.suggested-link:hover {
+  background-color: #3a5ce5;
 } 

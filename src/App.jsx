@@ -19,6 +19,7 @@ import StudentInternships from "./pages/StudentInternships/StudentInternships";
 import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
 import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCompanyRequestDetails";
 import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
+import SuggestedCompanies from "./pages/SuggestedCompanies/SuggestedCompanies";
 import NotificationList from "./components/NotificationList/NotificationList";
 
 function App() {
@@ -262,6 +263,16 @@ function App() {
             path="/MyInterns"
             element={
               <MyInterns companyUsers={companyUsers} currUser={currUser} />
+            }
+          />
+          <Route
+            path="/SuggestedCompanies"
+            element={
+              <SuggestedCompanies
+                currUser={currUser}
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
+              />
             }
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />
