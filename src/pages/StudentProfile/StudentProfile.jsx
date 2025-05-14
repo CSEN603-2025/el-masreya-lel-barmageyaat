@@ -9,6 +9,7 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
   const [semester, setSemester] = useState(currUser.semester || "");
   const [successMessage, setSuccessMessage] = useState("");
   const [localUser, setLocalUser] = useState(currUser);
+  const [showMajorsList, setShowMajorsList] = useState(false);
   
   // Update local state when currUser changes
   useEffect(() => {
@@ -17,31 +18,34 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
     setLocalUser(currUser);
   }, [currUser]);
   
-  // List of possible majors - can be expanded
-  const majors = [
-    "Computer Science",
-    "Information Technology",
-    "Computer Engineering",
-    "Software Engineering",
-    "Data Science",
-    "Cybersecurity",
-    "Artificial Intelligence",
-    "Business Information Systems",
-    "Electrical Engineering",
-    "Mechanical Engineering",
-    "Civil Engineering",
-    "Architecture",
-    "Business Administration",
-    "Economics",
-    "Marketing",
-    "Finance",
-    "Accounting",
-    "Communications",
-    "Journalism",
-    "Medicine",
-    "Pharmacy",
-    "Law"
+  // List of possible majors with their available semester ranges
+  const majorsWithSemesters = [
+    { name: "Computer Science", semesters: "1-8" },
+    { name: "Information Technology", semesters: "1-8" },
+    { name: "Computer Engineering", semesters: "1-10" },
+    { name: "Software Engineering", semesters: "1-8" },
+    { name: "Data Science", semesters: "1-8" },
+    { name: "Cybersecurity", semesters: "1-8" },
+    { name: "Artificial Intelligence", semesters: "1-8" },
+    { name: "Business Information Systems", semesters: "1-8" },
+    { name: "Electrical Engineering", semesters: "1-10" },
+    { name: "Mechanical Engineering", semesters: "1-10" },
+    { name: "Civil Engineering", semesters: "1-10" },
+    { name: "Architecture", semesters: "1-10" },
+    { name: "Business Administration", semesters: "1-8" },
+    { name: "Economics", semesters: "1-8" },
+    { name: "Marketing", semesters: "1-8" },
+    { name: "Finance", semesters: "1-8" },
+    { name: "Accounting", semesters: "1-8" },
+    { name: "Communications", semesters: "1-8" },
+    { name: "Journalism", semesters: "1-8" },
+    { name: "Medicine", semesters: "1-12" },
+    { name: "Pharmacy", semesters: "1-10" },
+    { name: "Law", semesters: "1-10" }
   ];
+  
+  // Simple majors list for dropdown
+  const majors = majorsWithSemesters.map(m => m.name);
   
   // Handle form submission
   const handleSubmit = (e) => {
@@ -93,17 +97,39 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
       <StudentsNavBar />
       <div className="profile-header">
         <h1>Student Profile</h1>
-        <button 
-          className="edit-button" 
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? "Cancel" : "Edit Profile"}
-        </button>
+        <div className="header-buttons">
+          <button 
+            className="view-majors-button" 
+            onClick={() => setShowMajorsList(!showMajorsList)}
+          >
+            {showMajorsList ? "Hide Majors List" : "View Majors List"}
+          </button>
+          <button 
+            className="edit-button" 
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            {isEditing ? "Cancel" : "Edit Profile"}
+          </button>
+        </div>
       </div>
       
       {successMessage && (
         <div className={`success-message ${successMessage.includes("Error") ? "error-message" : ""}`}>
           {successMessage}
+        </div>
+      )}
+      
+      {showMajorsList && (
+        <div className="majors-list-section">
+          <h2>Available Majors and Semesters</h2>
+          <div className="majors-grid">
+            {majorsWithSemesters.map((major, index) => (
+              <div key={index} className="major-item">
+                <h3>{major.name}</h3>
+                <p>Semesters: {major.semesters}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       
@@ -135,7 +161,7 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
                 required
               >
                 <option value="">Select a semester</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
                   <option key={num} value={num}>Semester {num}</option>
                 ))}
               </select>
