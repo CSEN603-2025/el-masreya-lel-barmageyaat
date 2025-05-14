@@ -116,15 +116,32 @@ h1 {
 .navigation-links {
   text-align: center;
   margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.navigation-links a {
-  font-size: 16px;
-  color: #2a3d66;
+.nav-link {
+  display: inline-block;
+  background-color: #6c757d;
+  color: white !important;
   text-decoration: none;
-  margin: 5px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
 }
 
-.navigation-links a:hover {
-  color: #4caf50;
+.nav-link:hover {
+  background-color: #5a6268;
+  color: white !important;
+}
+
+.nav-link.suggested-link {
+  background-color: #4a6cf7;
+}
+
+.nav-link.suggested-link:hover {
+  background-color: #3a5ce5;
 }

@@ -201,6 +201,9 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
         <Link to={`/StudentInternships/${localUser.studentId}`} className="profile-link">
           View My Internships
         </Link>
+        <Link to="/SuggestedCompanies" className="profile-link suggested-link">
+          View Suggested Companies
+        </Link>
         <Link to="/studentsDashboard" className="profile-link">
           Go to Students Dashboard
         </Link>
