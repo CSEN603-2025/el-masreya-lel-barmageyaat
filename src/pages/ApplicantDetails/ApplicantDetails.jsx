@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import "./ApplicantDetails.css";
 
 function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
   const { username } = useParams();
@@ -11,131 +12,185 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
         (application) => application.username === username
       )
     )
-  )[0]; // the [0] is to get the first match
+  )[0];
+
+  const handleStatusChange = (newStatus) => {
+    const prevStatus = companyApplicant.status;
+    
+    const updatedCompanyUsers = companyUsers.map((company) => ({
+      ...company,
+      internships: company.internships.map((internship) => ({
+        ...internship,
+        applications: internship.applications.map((application) =>
+          application.username === username
+            ? { 
+                ...application, 
+                status: newStatus,
+                statusNotified: false
+              }
+            : application
+        ),
+      })),
+    }));
+    
+    setCompanyUsers(updatedCompanyUsers);
+    
+    // Send a notification when status changes
+    if (addNotification && prevStatus !== newStatus) {
+      if (newStatus === "accepted") {
+        addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been accepted.`, "success");
+      } else if (newStatus === "rejected") {
+        addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been rejected.`, "error");
+      } else if (newStatus === "finalized") {
+        addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been finalized.`, "info");
+      }
+    }
+  };
+
+  const handleInternshipStatusChange = (newStatus) => {
+    const prevStatus = companyApplicant.internshipStatus;
+    
+    const updatedCompanyUsers = companyUsers.map((company) => ({
+      ...company,
+      internships: company.internships.map((internship) => ({
+        ...internship,
+        applications: internship.applications.map((application) =>
+          application.username === username
+            ? {
+                ...application,
+                internshipStatus: newStatus,
+                internshipStatusNotified: false,
+                completionDate: newStatus === "InternshipComplete" ? new Date().toISOString() : application.completionDate
+              }
+            : application
+        ),
+      })),
+    }));
+    
+    setCompanyUsers(updatedCompanyUsers);
+    
+    // Send a notification when internship status changes
+    if (addNotification && prevStatus !== newStatus) {
+      if (newStatus === "currentIntern") {
+        addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has started the internship.`, "info");
+      } else if (newStatus === "InternshipComplete") {
+        addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has completed the internship.`, "success");
+      }
+    }
+  };
+
+  if (!companyApplicant) {
+    return (
+      <div className="applicant-not-found">
+        <h1>No applicant found</h1>
+        <button onClick={() => navigate(-1)} className="back-button">
+          Go Back
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {companyApplicant ? (
-        <div>
-          <b>name:</b> {companyApplicant.firstName} {companyApplicant.lastName}
-          <br />
-          <b>cover letter:</b> {companyApplicant.coverLetter}
-          <br />
-          <b>email:</b> {companyApplicant.email}
-          <br />
-          <b>skills:</b>
-          <ul>
-            {companyApplicant.skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-          <br />
-          experiences: <h4>this is a placeholder for the experiences</h4>
-          <br />
-          <label>status:</label>
-          <select
-            value={companyApplicant.status}
-            onChange={(e) => {
-              const newStatus = e.target.value;
-              const prevStatus = companyApplicant.status;
-              
-              const updatedCompanyUsers = companyUsers.map((company) => {
-                return {
-                  ...company,
-                  internships: company.internships.map((internship) => {
-                    return {
-                      ...internship,
-                      applications: internship.applications.map(
-                        (application) => {
-                          if (application.username === username) {
-                            return { 
-                              ...application, 
-                              status: newStatus,
-                              statusNotified: false // Reset notification flag
-                            };
-                          }
-                          return application;
-                        }
-                      ),
-                    };
-                  }),
-                };
-              });
-              
-              setCompanyUsers(updatedCompanyUsers);
-              
-              // Send a notification when status changes
-              if (addNotification && prevStatus !== newStatus) {
-                if (newStatus === "accepted") {
-                  addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been accepted.`, "success");
-                } else if (newStatus === "rejected") {
-                  addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been rejected.`, "error");
-                } else if (newStatus === "finalized") {
-                  addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been finalized.`, "info");
-                }
-              }
-            }}
-          >
-            <option value="pending">pending</option>
-            <option value="accepted">accepted</option>
-            <option value="rejected">rejected</option>
-            <option value="finalized">finalized</option>
-          </select>
-          <br />
-          <label>internship status: </label>
-          <select
-            value={companyApplicant.internshipStatus}
-            onChange={(e) => {
-              const newInternshipStatus = e.target.value;
-              const prevStatus = companyApplicant.internshipStatus;
-              
-              const updatedCompanyUsers = companyUsers.map((company) => {
-                return {
-                  ...company,
-                  internships: company.internships.map((internship) => {
-                    return {
-                      ...internship,
-                      applications: internship.applications.map(
-                        (application) => {
-                          if (application.username === username) {
-                            return {
-                              ...application,
-                              internshipStatus: newInternshipStatus,
-                              internshipStatusNotified: false // Reset notification flag
-                            };
-                          }
-                          return application;
-                        }
-                      ),
-                    };
-                  }),
-                };
-              });
-              
-              setCompanyUsers(updatedCompanyUsers);
-              
-              // Send a notification when internship status changes
-              if (addNotification && prevStatus !== newInternshipStatus) {
-                if (newInternshipStatus === "currentIntern") {
-                  addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has started the internship.`, "info");
-                } else if (newInternshipStatus === "InternshipComplete") {
-                  addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has completed the internship.`, "success");
-                }
-              }
-            }}
-          >
-            <option value="didntStartYet">didn't start yet</option>
-            <option value="currentIntern">current intern</option>
-            <option value="InternshipComplete">InternshipComplete</option>
-          </select>
-          <br />
+    <div className="applicant-details-container">
+      <div className="applicant-header">
+        <h1>Applicant Details</h1>
+        <div className="status-badges">
+          <span className={`status-badge ${companyApplicant.status}`}>
+            {companyApplicant.status}
+          </span>
+          <span className={`status-badge ${companyApplicant.internshipStatus}`}>
+            {companyApplicant.internshipStatus}
+          </span>
         </div>
-      ) : (
-        <h1>No applicants found with that name (this is a code issue)</h1>
-      )}
-      <button onClick={() => navigate(-1)} style={{ marginTop: "20px" }}>
-        Go Back
-      </button>
+      </div>
+
+      <div className="applicant-info">
+        <div className="info-section">
+          <h2>Personal Information</h2>
+          <div className="info-grid">
+            <div className="info-item">
+              <label>Name:</label>
+              <p>{companyApplicant.firstName} {companyApplicant.lastName}</p>
+            </div>
+            <div className="info-item">
+              <label>Email:</label>
+              <p>{companyApplicant.email}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="info-section">
+          <h2>Skills</h2>
+          <div className="skills-list">
+            {companyApplicant.skills.map((skill, index) => (
+              <span key={index} className="skill-tag">{skill}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="info-section">
+          <h2>Cover Letter</h2>
+          <div className="cover-letter">
+            {companyApplicant.coverLetter}
+          </div>
+        </div>
+
+        <div className="info-section">
+          <h2>Application Status</h2>
+          <div className="status-controls">
+            <div className="status-group">
+              <label>Application Status:</label>
+              <select
+                value={companyApplicant.status}
+                onChange={(e) => handleStatusChange(e.target.value)}
+                className={`status-select ${companyApplicant.status}`}
+              >
+                <option value="pending">Pending</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+                <option value="finalized">Finalized</option>
+              </select>
+            </div>
+
+            <div className="status-group">
+              <label>Internship Progress:</label>
+              <select
+                value={companyApplicant.internshipStatus}
+                onChange={(e) => handleInternshipStatusChange(e.target.value)}
+                className={`status-select ${companyApplicant.internshipStatus}`}
+              >
+                <option value="didntStartYet">Not Started</option>
+                <option value="currentIntern">In Progress</option>
+                <option value="InternshipComplete">Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {companyApplicant.internshipStatus === "InternshipComplete" && (
+          <div className="info-section completion-info">
+            <h2>Completion Details</h2>
+            <p>
+              <strong>Completed on:</strong>{" "}
+              {new Date(companyApplicant.completionDate).toLocaleDateString()}
+            </p>
+            <div className="completion-actions">
+              <button className="action-button" onClick={() => navigate(`/intern-evaluation/${username}`)}>
+                View Evaluation
+              </button>
+              <button className="action-button" onClick={() => navigate(`/intern-report/${username}`)}>
+                View Final Report
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="action-buttons">
+        <button onClick={() => navigate(-1)} className="back-button">
+          Go Back
+        </button>
+      </div>
     </div>
   );
 }
