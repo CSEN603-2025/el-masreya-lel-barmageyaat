@@ -61,29 +61,47 @@ h1 {
   background-color: #e8700d;
 }
 
-/* Search and Filter Container */
-.filter-search-container {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-bottom: 30px;
+.view-filters {
+  background-color: #6f42c1;
 }
 
-.search-input,
-.filter-input {
-  padding: 10px 15px;
-  font-size: 16px;
-  border: 1px solid #ddd;
+.view-filters:hover {
+  background-color: #5e35b1;
+}
+
+/* Filter Container */
+.filter-container {
+  margin-bottom: 25px;
+}
+
+.filter-container h2 {
+  font-size: 18px;
+  color: #343a40;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 8px;
+}
+
+/* No Results Message */
+.no-results {
+  background-color: #fff;
   border-radius: 8px;
-  width: 250px;
-  max-width: 100%;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin: 30px auto;
+  max-width: 600px;
 }
 
-.search-input:focus,
-.filter-input:focus {
-  outline: none;
-  border-color: #4caf50; /* Green focus effect */
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+.no-results h3 {
+  color: #6c757d;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.no-results p {
+  color: #adb5bd;
+  font-size: 16px;
 }
 
 /* Internship List */

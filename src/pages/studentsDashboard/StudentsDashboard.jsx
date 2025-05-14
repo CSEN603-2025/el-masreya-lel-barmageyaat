@@ -1,28 +1,30 @@
 import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
+import InternshipFilter from "../../components/InternshipFilter/InternshipFilter";
 import { useEffect, useMemo, useState } from "react";
 import "./StudentsDashboard.css";
 
 function StudentsDashboard({ companyUsers }) {
   const allInternships = useMemo(() => {
-    return companyUsers.flatMap((company) => company.internships);
+    return companyUsers.flatMap((company) => {
+      // Add company industry to each internship
+      return company.internships.map(internship => ({
+        ...internship,
+        industry: company.industry || 'Not specified',
+        // Add default start dates if not present for filtering
+        startDate: internship.startDate || '2023-01-15',
+        endDate: internship.endDate || null
+      }));
+    });
   }, [companyUsers]);
 
-  const [filteredInternships, setFilteredInternships] =
-    useState(allInternships);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterTerm, setFilterTerm] = useState("");
-
-  useEffect(() => {
-    const filtered = allInternships.filter((internship) => {
-      return (
-        internship.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        internship.companyName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-    setFilteredInternships(filtered);
-  }, [filterTerm, searchTerm, allInternships]);
+  const [filteredInternships, setFilteredInternships] = useState(allInternships);
+  
+  // Function to handle filter changes from the InternshipFilter component
+  const handleFilterChange = (filteredResults) => {
+    setFilteredInternships(filteredResults);
+  };
 
   return (
     <div className="students-dashboard">
@@ -39,32 +41,34 @@ function StudentsDashboard({ companyUsers }) {
         <Link to="/SuggestedCompanies" className="action-button view-suggested">
           Suggested Companies
         </Link>
+        <Link to="/FilterDemo" className="action-button view-filters">
+          View All Filters
+        </Link>
       </div>
 
-      <div className="filter-search-container">
-        <input
-          type="text"
-          placeholder="Search by title"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-        <input
-          type="text"
-          placeholder="Filter by company name"
-          value={filterTerm}
-          onChange={(e) => setFilterTerm(e.target.value)}
-          className="filter-input"
+      <div className="filter-container">
+        <InternshipFilter 
+          internships={allInternships} 
+          onFilterChange={handleFilterChange}
+          userType="student"
+          showDateFilters={true}
         />
       </div>
 
       <div className="internship-list">
-        {filteredInternships.map((internship) => (
-          <InternshipList
-            internship={internship}
-            key={internship.companyName + internship.title}
-          />
-        ))}
+        {filteredInternships.length > 0 ? (
+          filteredInternships.map((internship) => (
+            <InternshipList
+              internship={internship}
+              key={internship.companyName + internship.title}
+            />
+          ))
+        ) : (
+          <div className="no-results">
+            <h3>No internships found</h3>
+            <p>Try adjusting your filters or search terms</p>
+          </div>
+        )}
       </div>
 
       <div className="navigation-links">
