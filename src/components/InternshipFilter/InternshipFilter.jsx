@@ -8,71 +8,15 @@ function InternshipFilter({
   showDurationFilter = true,
   showPaidFilter = true,
   showTitleSearch = true,
-  showCompanyFilter = true,
-  showDateFilters = true,
-  userType = 'student' // Can be 'student', 'proStudent', 'scad', or 'company'
+  showCompanyFilter = true
 }) {
   const [filters, setFilters] = useState({
     industry: '',
     duration: '',
     paid: '',
     searchTerm: '',
-    companyName: '',
-    startDate: '',
-    endDate: ''
+    companyName: ''
   });
-
-  // Customize filter interface based on user type
-  const getFilterConfig = () => {
-    switch(userType) {
-      case 'proStudent':
-        return {
-          title: 'Pro Student Filter',
-          showIndustry: true,
-          showDuration: true,
-          showPaid: true,
-          showTitle: true,
-          showCompany: true,
-          showDates: true,
-          className: 'pro-student-filter'
-        };
-      case 'scad':
-        return {
-          title: 'SCAD Office Filter',
-          showIndustry: true,
-          showDuration: true,
-          showPaid: true,
-          showTitle: true,
-          showCompany: true,
-          showDates: true,
-          className: 'scad-filter'
-        };
-      case 'company':
-        return {
-          title: 'Company Filter',
-          showIndustry: true,
-          showDuration: true,
-          showPaid: true,
-          showTitle: true,
-          showCompany: false,
-          showDates: true,
-          className: 'company-filter'
-        };
-      default: // student
-        return {
-          title: 'Student Filter',
-          showIndustry: true,
-          showDuration: true,
-          showPaid: true,
-          showTitle: true,
-          showCompany: true,
-          showDates: true,
-          className: 'student-filter'
-        };
-    }
-  };
-
-  const filterConfig = getFilterConfig();
 
   // Get unique industries from all internships
   const industries = [...new Set(internships
@@ -92,13 +36,6 @@ function InternshipFilter({
       ...prevFilters,
       [filterType]: value
     }));
-  };
-
-  // Format date to YYYY-MM-DD for filtering
-  const formatDateForComparison = (dateString) => {
-    if (!dateString) return null;
-    const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
   };
 
   // Apply filters whenever they change
@@ -132,38 +69,6 @@ function InternshipFilter({
         return false;
       }
       
-      // Start date filter
-      if (filters.startDate && internship.startDate) {
-        const filterStartDate = new Date(filters.startDate);
-        const internshipStartDate = new Date(internship.startDate);
-        if (internshipStartDate < filterStartDate) {
-          return false;
-        }
-      }
-      
-      // End date filter
-      if (filters.endDate && internship.endDate) {
-        const filterEndDate = new Date(filters.endDate);
-        const internshipEndDate = new Date(internship.endDate);
-        if (internshipEndDate > filterEndDate) {
-          return false;
-        }
-      } else if (filters.endDate && internship.startDate && internship.duration) {
-        // Calculate approximate end date if endDate isn't provided
-        const internshipStartDate = new Date(internship.startDate);
-        // Extract duration number (assumes format like "3 months")
-        const durationMatch = internship.duration.match(/(\d+)/);
-        if (durationMatch) {
-          const durationMonths = parseInt(durationMatch[0]);
-          const estimatedEndDate = new Date(internshipStartDate);
-          estimatedEndDate.setMonth(estimatedEndDate.getMonth() + durationMonths);
-          const filterEndDate = new Date(filters.endDate);
-          if (estimatedEndDate > filterEndDate) {
-            return false;
-          }
-        }
-      }
-      
       return true;
     });
     
@@ -177,20 +82,14 @@ function InternshipFilter({
       duration: '',
       paid: '',
       searchTerm: '',
-      companyName: '',
-      startDate: '',
-      endDate: ''
+      companyName: ''
     });
   };
 
   return (
-    <div className={`internship-filter ${filterConfig.className}`}>
-      {filterConfig.title && (
-        <h3 className="filter-title">{filterConfig.title}</h3>
-      )}
-      
+    <div className="internship-filter">
       <div className="filter-section">
-        {showTitleSearch && filterConfig.showTitle && (
+        {showTitleSearch && (
           <div className="filter-group">
             <label htmlFor="search-term">Title Search:</label>
             <input
@@ -204,7 +103,7 @@ function InternshipFilter({
           </div>
         )}
         
-        {showCompanyFilter && filterConfig.showCompany && (
+        {showCompanyFilter && (
           <div className="filter-group">
             <label htmlFor="company-name">Company:</label>
             <input
@@ -220,7 +119,7 @@ function InternshipFilter({
       </div>
       
       <div className="filter-section">
-        {showIndustryFilter && filterConfig.showIndustry && (
+        {showIndustryFilter && (
           <div className="filter-group">
             <label htmlFor="industry">Industry:</label>
             <select
@@ -237,7 +136,7 @@ function InternshipFilter({
           </div>
         )}
         
-        {showDurationFilter && filterConfig.showDuration && (
+        {showDurationFilter && (
           <div className="filter-group">
             <label htmlFor="duration">Duration:</label>
             <select
@@ -254,7 +153,7 @@ function InternshipFilter({
           </div>
         )}
         
-        {showPaidFilter && filterConfig.showPaid && (
+        {showPaidFilter && (
           <div className="filter-group">
             <label htmlFor="paid">Compensation:</label>
             <select
@@ -270,32 +169,6 @@ function InternshipFilter({
           </div>
         )}
       </div>
-      
-      {showDateFilters && filterConfig.showDates && (
-        <div className="filter-section date-filters">
-          <div className="filter-group">
-            <label htmlFor="start-date">Start Date (after):</label>
-            <input
-              id="start-date"
-              type="date"
-              value={filters.startDate}
-              onChange={(e) => handleFilterChange('startDate', e.target.value)}
-              className="filter-input date-input"
-            />
-          </div>
-          
-          <div className="filter-group">
-            <label htmlFor="end-date">End Date (before):</label>
-            <input
-              id="end-date"
-              type="date"
-              value={filters.endDate}
-              onChange={(e) => handleFilterChange('endDate', e.target.value)}
-              className="filter-input date-input"
-            />
-          </div>
-        </div>
-      )}
       
       <button className="filter-reset" onClick={resetFilters}>
         Reset Filters

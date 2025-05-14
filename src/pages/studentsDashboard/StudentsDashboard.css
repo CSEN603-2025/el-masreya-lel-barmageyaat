@@ -61,14 +61,6 @@ h1 {
   background-color: #e8700d;
 }
 
-.view-filters {
-  background-color: #6f42c1;
-}
-
-.view-filters:hover {
-  background-color: #5e35b1;
-}
-
 /* Filter Container */
 .filter-container {
   margin-bottom: 25px;
