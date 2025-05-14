@@ -12,6 +12,10 @@ function HomePage() {
       <br />
       <Link to="/studentsDashboard">Go to Students Dashboard</Link>
       <br />
+      <Link to="/Workshops">Workshops</Link>
+      <br />
+      <Link to="/StudentWorkshops">StudentWorkshops</Link>
+
       <Link to="/MyInterns">My Interns</Link>
     </div>
   );

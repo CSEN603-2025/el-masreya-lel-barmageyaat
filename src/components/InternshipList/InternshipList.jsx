@@ -12,6 +12,7 @@ function InternshipList({ internship }) {
         <p className="internship-company">Company: {internship.companyName}</p>
         <p className="internship-location">Location: {internship.location}</p>
         <p className="internship-status">Status: {internship.status}</p>
+        <button className="delte_internship-button">Delete</button>
       </div>
     </Link>
   );
