@@ -127,7 +127,7 @@ function App() {
           />
           <Route
             path="/CompanyViewPostings"
-            element={<CompanyViewPostings currUser={currUser} />}
+            element={<CompanyViewPostings currUser={currUser} setCompanyUsers={setCompanyUsers} />}
           />
           <Route
             path="/ApplicantDetails/:username"
