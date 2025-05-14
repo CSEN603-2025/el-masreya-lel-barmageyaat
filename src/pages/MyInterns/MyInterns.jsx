@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import InternshipFilter from "../../components/InternshipFilter/InternshipFilter";
-import { Link } from "react-router-dom";
 import "./MyInterns.css";
 
 function MyInterns({ companyUsers, currUser }) {
@@ -23,10 +22,7 @@ function MyInterns({ companyUsers, currUser }) {
       industry: currCompany.industry || "Not specified",
       paid: internship.paid || false,
       duration: internship.duration || "Not specified",
-      companyName: currCompany.name || currCompany.username,
-      // Add default start dates if not present for filtering
-      startDate: internship.startDate || '2023-01-15',
-      endDate: internship.endDate || null
+      companyName: currCompany.name || currCompany.username
     }));
   }, [currCompany]);
 
@@ -57,33 +53,27 @@ function MyInterns({ companyUsers, currUser }) {
     <div className="my-interns-container">
       <h1>Company Dashboard</h1>
       
-      <div className="dashboard-actions">
-        <div className="view-toggle">
-          <button 
-            className={`toggle-button ${currentView === 'internships' ? 'active' : ''}`}
-            onClick={() => setCurrentView('internships')}
-          >
-            View Internships
-          </button>
-          <button 
-            className={`toggle-button ${currentView === 'interns' ? 'active' : ''}`}
-            onClick={() => setCurrentView('interns')}
-          >
-            View Interns
-          </button>
-        </div>
-        
-        <Link to="/FilterDemo" className="action-button view-filters">
-          View All Filters
-        </Link>
+      <div className="view-toggle">
+        <button 
+          className={`toggle-button ${currentView === 'internships' ? 'active' : ''}`}
+          onClick={() => setCurrentView('internships')}
+        >
+          View Internships
+        </button>
+        <button 
+          className={`toggle-button ${currentView === 'interns' ? 'active' : ''}`}
+          onClick={() => setCurrentView('interns')}
+        >
+          View Interns
+        </button>
       </div>
       
       <div className="filter-container">
+        <h2>Filter Options</h2>
         <InternshipFilter 
           internships={allInternships} 
           onFilterChange={handleFilterChange}
           showCompanyFilter={false} // No need to filter by company since it's a single company view
-          userType="company"
         />
       </div>
       
@@ -102,9 +92,6 @@ function MyInterns({ companyUsers, currUser }) {
                 <p><strong>Duration:</strong> {internship.duration}</p>
                 <p><strong>Location:</strong> {internship.location}</p>
                 <p><strong>Industry:</strong> {internship.industry}</p>
-                {internship.startDate && (
-                  <p><strong>Start Date:</strong> {new Date(internship.startDate).toLocaleDateString()}</p>
-                )}
                 <p>
                   <strong>Applications:</strong> {internship.applications ? internship.applications.length : 0}
                 </p>
@@ -137,10 +124,6 @@ function MyInterns({ companyUsers, currUser }) {
           )}
         </div>
       )}
-      
-      <div className="navigation-links">
-        <Link to="/CompanyViewPostings" className="nav-link">Back to Dashboard</Link>
-      </div>
     </div>
   );
 }

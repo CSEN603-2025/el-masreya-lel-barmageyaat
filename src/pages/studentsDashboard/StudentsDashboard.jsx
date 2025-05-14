@@ -11,10 +11,7 @@ function StudentsDashboard({ companyUsers }) {
       // Add company industry to each internship
       return company.internships.map(internship => ({
         ...internship,
-        industry: company.industry || 'Not specified',
-        // Add default start dates if not present for filtering
-        startDate: internship.startDate || '2023-01-15',
-        endDate: internship.endDate || null
+        industry: company.industry || 'Not specified'
       }));
     });
   }, [companyUsers]);
@@ -41,17 +38,13 @@ function StudentsDashboard({ companyUsers }) {
         <Link to="/SuggestedCompanies" className="action-button view-suggested">
           Suggested Companies
         </Link>
-        <Link to="/FilterDemo" className="action-button view-filters">
-          View All Filters
-        </Link>
       </div>
 
       <div className="filter-container">
+        <h2>Filter Internships</h2>
         <InternshipFilter 
           internships={allInternships} 
           onFilterChange={handleFilterChange}
-          userType="student"
-          showDateFilters={true}
         />
       </div>
 

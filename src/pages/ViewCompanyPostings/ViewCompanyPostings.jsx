@@ -11,10 +11,7 @@ function ViewCompanyPostings({ companyUsers }) {
       company.internships.map(internship => ({
         ...internship,
         industry: company.industry || 'Not specified',
-        companyName: company.name || company.username,
-        // Add default start dates if not present for filtering
-        startDate: internship.startDate || '2023-01-15',
-        endDate: internship.endDate || null
+        companyName: company.name || company.username
       }))
     );
   }, [companyUsers]);
@@ -50,42 +47,36 @@ function ViewCompanyPostings({ companyUsers }) {
 
   return (
     <div className="view-postings-container">
-      <h1>SCAD Office - Company Postings</h1>
+      <h1>View All Company Postings</h1>
       
-      <div className="dashboard-actions">
-        <div className="company-filters">
-          <h2>Filter by Company</h2>
-          <div className="company-buttons">
+      <div className="company-filters">
+        <h2>Filter by Company</h2>
+        <div className="company-buttons">
+          <button 
+            className={`company-filter-btn ${activeCompany === '' ? 'active' : ''}`}
+            onClick={() => handleCompanyFilter('')}
+          >
+            All Companies
+          </button>
+          
+          {companyNames.map((company, index) => (
             <button 
-              className={`company-filter-btn ${activeCompany === '' ? 'active' : ''}`}
-              onClick={() => handleCompanyFilter('')}
+              key={index}
+              className={`company-filter-btn ${activeCompany === company ? 'active' : ''}`}
+              onClick={() => handleCompanyFilter(company)}
             >
-              All Companies
+              {company}
             </button>
-            
-            {companyNames.map((company, index) => (
-              <button 
-                key={index}
-                className={`company-filter-btn ${activeCompany === company ? 'active' : ''}`}
-                onClick={() => handleCompanyFilter(company)}
-              >
-                {company}
-              </button>
-            ))}
-          </div>
+          ))}
         </div>
-        
-        <Link to="/FilterDemo" className="action-button view-filters">
-          View All Filters
-        </Link>
       </div>
 
       <div className="filter-container">
+        <h2>Filter Internships</h2>
         <InternshipFilter 
           internships={allInternships} 
           onFilterChange={handleFilterChange}
           showCompanyFilter={false}
-          userType="scad"
         />
       </div>
 

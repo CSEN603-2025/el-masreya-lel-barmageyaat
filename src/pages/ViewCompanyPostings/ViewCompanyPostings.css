@@ -120,37 +120,4 @@ h2 {
     font-size: 13px;
     padding: 6px 12px;
   }
-}
-
-.dashboard-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 25px;
-}
-
-.action-button {
-  padding: 12px 18px;
-  border-radius: 6px;
-  font-weight: bold;
-  text-decoration: none;
-  color: white;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-}
-
-.action-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  color: white;
-}
-
-.view-filters {
-  background-color: #6f42c1;
-}
-
-.view-filters:hover {
-  background-color: #5e35b1;
 } 
