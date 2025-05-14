@@ -22,6 +22,7 @@ import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/Stu
 import SuggestedCompanies from "./pages/SuggestedCompanies/SuggestedCompanies";
 import NotificationList from "./components/NotificationList/NotificationList";
 import ViewCompanyPostings from "./pages/ViewCompanyPostings/ViewCompanyPostings";
+import CompletedInterns from "./pages/CompletedInterns/CompletedInterns";
 
 function App() {
   // this stores the current user logged in
@@ -243,11 +244,11 @@ function App() {
           <Route
             path="/CompanyViewPostings"
             element={
-              <CompanyViewPostings 
-                currUser={currUser} 
-                addNotification={addNotification}
+              <CompanyViewPostings
+                currUser={currUser}
                 companyUsers={companyUsers}
                 setCompanyUsers={setCompanyUsers}
+                addNotification={addNotification}
               />
             }
           />
@@ -282,6 +283,15 @@ function App() {
                 currUser={currUser}
                 companyUsers={companyUsers}
                 studentUsers={studentUsers}
+              />
+            }
+          />
+          <Route
+            path="/completed-interns"
+            element={
+              <CompletedInterns
+                currUser={currUser}
+                companyUsers={companyUsers}
               />
             }
           />

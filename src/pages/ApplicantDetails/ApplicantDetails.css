@@ -1,0 +1,262 @@
+.applicant-details-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.applicant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.applicant-header h1 {
+  margin: 0;
+  color: #2a3d66;
+}
+
+.status-badges {
+  display: flex;
+  gap: 10px;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Application Status Badges */
+.status-badge.pending {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.status-badge.accepted {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-badge.rejected {
+  background-color: #dc3545;
+  color: white;
+}
+
+.status-badge.finalized {
+  background-color: #17a2b8;
+  color: white;
+}
+
+/* Internship Status Badges */
+.status-badge.didntStartYet {
+  background-color: #6c757d;
+  color: white;
+}
+
+.status-badge.currentIntern {
+  background-color: #4a6cf7;
+  color: white;
+}
+
+.status-badge.InternshipComplete {
+  background-color: #28a745;
+  color: white;
+}
+
+.applicant-info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.info-section {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h2 {
+  color: #343a40;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.info-item p {
+  margin: 0;
+  color: #212529;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+.cover-letter {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  color: #495057;
+  line-height: 1.5;
+}
+
+.status-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.status-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.status-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.status-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #495057;
+  background-color: white;
+  cursor: pointer;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.25);
+}
+
+/* Status-specific select colors */
+.status-select.pending {
+  border-color: #ffc107;
+}
+
+.status-select.accepted {
+  border-color: #28a745;
+}
+
+.status-select.rejected {
+  border-color: #dc3545;
+}
+
+.status-select.finalized {
+  border-color: #17a2b8;
+}
+
+.completion-info {
+  background-color: #e8f5e9;
+  border: 1px solid #a5d6a7;
+}
+
+.completion-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.action-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #4a6cf7;
+  color: white;
+}
+
+.action-button:hover {
+  background-color: #3a5ce5;
+}
+
+.action-buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.back-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #6c757d;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+.applicant-not-found {
+  text-align: center;
+  padding: 40px;
+}
+
+.applicant-not-found h1 {
+  color: #dc3545;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .applicant-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .status-controls {
+    flex-direction: column;
+  }
+
+  .completion-actions {
+    flex-direction: column;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+} 

@@ -370,4 +370,12 @@
 
 .internship-filter-select option {
   padding: 10px;
+}
+
+.action-button.view-completed {
+  background-color: #28a745;
+}
+
+.action-button.view-completed:hover {
+  background-color: #218838;
 } 

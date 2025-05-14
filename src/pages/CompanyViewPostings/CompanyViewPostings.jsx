@@ -123,6 +123,9 @@ function CompanyViewPostings({ currUser, addNotification, companyUsers, setCompa
         <Link to="/myInterns" className="action-button view-interns">
           View My Interns
         </Link>
+        <Link to="/completed-interns" className="action-button view-completed">
+          View Completed Interns
+        </Link>
         <Link to="/companyProfile" className="action-button edit-profile">
           Edit Company Profile
         </Link>
