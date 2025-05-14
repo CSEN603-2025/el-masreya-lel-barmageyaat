@@ -1,0 +1,145 @@
+.company-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.company-info {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-actions {
+  margin-bottom: 20px;
+}
+
+.notification-toggle {
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+}
+
+.notification-toggle:hover {
+  background-color: #3a5ce5;
+}
+
+.notification-toggle.has-notifications {
+  background-color: #dc3545;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+.notification-panel {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notification-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notification-item {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border-left: 4px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.notification-item.unread {
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.notification-item.unread::after {
+  content: 'NEW';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #dc3545;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
+.notification-item.accepted {
+  background-color: #d4edda;
+  border-left-color: #28a745;
+}
+
+.notification-item.rejected {
+  background-color: #f8d7da;
+  border-left-color: #dc3545;
+}
+
+.notification-item.pending {
+  background-color: #fff3cd;
+  border-left-color: #ffc107;
+}
+
+.notification-item.finalized {
+  background-color: #cff4fc;
+  border-left-color: #0dcaf0;
+}
+
+.internship-listings {
+  margin-bottom: 20px;
+}
+
+.navigation-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.back-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+.my-interns-link {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.my-interns-link:hover {
+  background-color: #218838;
+} 

@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-function ApplicantDetails({ companyUsers, setCompanyUsers }) {
+function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
   const { username } = useParams();
   const navigate = useNavigate();
 
@@ -37,6 +37,8 @@ function ApplicantDetails({ companyUsers, setCompanyUsers }) {
             value={companyApplicant.status}
             onChange={(e) => {
               const newStatus = e.target.value;
+              const prevStatus = companyApplicant.status;
+              
               const updatedCompanyUsers = companyUsers.map((company) => {
                 return {
                   ...company,
@@ -46,7 +48,11 @@ function ApplicantDetails({ companyUsers, setCompanyUsers }) {
                       applications: internship.applications.map(
                         (application) => {
                           if (application.username === username) {
-                            return { ...application, status: newStatus };
+                            return { 
+                              ...application, 
+                              status: newStatus,
+                              statusNotified: false // Reset notification flag
+                            };
                           }
                           return application;
                         }
@@ -55,7 +61,19 @@ function ApplicantDetails({ companyUsers, setCompanyUsers }) {
                   }),
                 };
               });
+              
               setCompanyUsers(updatedCompanyUsers);
+              
+              // Send a notification when status changes
+              if (addNotification && prevStatus !== newStatus) {
+                if (newStatus === "accepted") {
+                  addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been accepted.`, "success");
+                } else if (newStatus === "rejected") {
+                  addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been rejected.`, "error");
+                } else if (newStatus === "finalized") {
+                  addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been finalized.`, "info");
+                }
+              }
             }}
           >
             <option value="pending">pending</option>
@@ -69,6 +87,8 @@ function ApplicantDetails({ companyUsers, setCompanyUsers }) {
             value={companyApplicant.internshipStatus}
             onChange={(e) => {
               const newInternshipStatus = e.target.value;
+              const prevStatus = companyApplicant.internshipStatus;
+              
               const updatedCompanyUsers = companyUsers.map((company) => {
                 return {
                   ...company,
@@ -81,6 +101,7 @@ function ApplicantDetails({ companyUsers, setCompanyUsers }) {
                             return {
                               ...application,
                               internshipStatus: newInternshipStatus,
+                              internshipStatusNotified: false // Reset notification flag
                             };
                           }
                           return application;
@@ -90,7 +111,17 @@ function ApplicantDetails({ companyUsers, setCompanyUsers }) {
                   }),
                 };
               });
+              
               setCompanyUsers(updatedCompanyUsers);
+              
+              // Send a notification when internship status changes
+              if (addNotification && prevStatus !== newInternshipStatus) {
+                if (newInternshipStatus === "currentIntern") {
+                  addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has started the internship.`, "info");
+                } else if (newInternshipStatus === "InternshipComplete") {
+                  addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has completed the internship.`, "success");
+                }
+              }
             }}
           >
             <option value="didntStartYet">didn't start yet</option>

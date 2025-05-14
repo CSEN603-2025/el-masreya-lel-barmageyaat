@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import styles from "./LoginPage.module.css";
 
-function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
+function LoginPage({ setCurrUser, studentUser, scadUser, companyUser, companyRequests, addNotification }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState("");
@@ -41,6 +41,34 @@ function LoginPage({ setCurrUser, studentUser, scadUser, companyUser }) {
       setCurrUser(foundScadUser);
     } else if (foundCompanyUser) {
       setMessage("Login successful! Redirecting to Company Dashboard...");
+      
+      // Always show an acceptance notification for company users
+      if (addNotification) {
+        setTimeout(() => {
+          addNotification("Your company application has been accepted!", "success");
+        }, 1000); // Small delay to ensure notification appears after navigation
+      }
+      
+      // Check for any application status updates
+      if (addNotification && foundCompanyUser.internships) {
+        foundCompanyUser.internships.forEach(internship => {
+          if (internship.applications) {
+            internship.applications.forEach(application => {
+              if (application.status && !application.statusNotified) {
+                // Create notification based on status
+                setTimeout(() => {
+                  if (application.status === "accepted") {
+                    addNotification(`Application from ${application.firstName} ${application.lastName} has been accepted.`, "success");
+                  } else if (application.status === "rejected") {
+                    addNotification(`Application from ${application.firstName} ${application.lastName} has been rejected.`, "error");
+                  }
+                }, 1500);
+              }
+            });
+          }
+        });
+      }
+      
       navigate(`/companyViewPostings/`);
       setCurrUser(foundCompanyUser);
     } else {
