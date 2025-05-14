@@ -8,11 +8,37 @@ function InternshipList({ internship }) {
       className="internship-card-link"
     >
       <div className="internship-card">
-        <h2 className="internship-title">{internship.title}</h2>
-        <p className="internship-company">Company: {internship.companyName}</p>
-        <p className="internship-location">Location: {internship.location}</p>
-        <p className="internship-status">Status: {internship.status}</p>
-        <button className="delte_internship-button">Delete</button>
+        <div className="internship-main-info">
+          <h2 className="internship-title">{internship.title}</h2>
+          <div className="internship-badges">
+            <span className={`badge ${internship.paid ? "paid" : "unpaid"}`}>
+              {internship.paid ? "Paid" : "Unpaid"}
+            </span>
+            {internship.status && (
+              <span className={`badge status-${internship.status.toLowerCase()}`}>
+                {internship.status}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="internship-details">
+          <p className="internship-company">
+            <span className="detail-label">Company:</span> {internship.companyName}
+          </p>
+          {internship.industry && (
+            <p className="internship-industry">
+              <span className="detail-label">Industry:</span> {internship.industry}
+            </p>
+          )}
+          <p className="internship-location">
+            <span className="detail-label">Location:</span> {internship.location}
+          </p>
+          {internship.duration && (
+            <p className="internship-duration">
+              <span className="detail-label">Duration:</span> {internship.duration}
+            </p>
+          )}
+        </div>
       </div>
     </Link>
   );

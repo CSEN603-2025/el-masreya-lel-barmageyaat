@@ -1,0 +1,73 @@
+.filter-demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #2a3d66;
+  margin-bottom: 15px;
+}
+
+.demo-description {
+  text-align: center;
+  color: #6c757d;
+  margin-bottom: 30px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.filter-section-container {
+  margin-bottom: 40px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.filter-section-container:hover {
+  transform: translateY(-5px);
+}
+
+.filter-section-container h2 {
+  color: #343a40;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.results-counter {
+  text-align: right;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.navigation-links {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.nav-link {
+  display: inline-block;
+  background-color: #4a6cf7;
+  color: white;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #3a5ce5;
+  color: white;
+} 

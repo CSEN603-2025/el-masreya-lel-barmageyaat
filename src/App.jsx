@@ -21,6 +21,8 @@ import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCom
 import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
 import SuggestedCompanies from "./pages/SuggestedCompanies/SuggestedCompanies";
 import NotificationList from "./components/NotificationList/NotificationList";
+import ViewCompanyPostings from "./pages/ViewCompanyPostings/ViewCompanyPostings";
+import FilterDemo from "./pages/FilterDemo/FilterDemo";
 
 function App() {
   // this stores the current user logged in
@@ -246,6 +248,22 @@ function App() {
                 addNotification={addNotification}
                 companyUsers={companyUsers}
                 setCompanyUsers={setCompanyUsers}
+              />
+            }
+          />
+          <Route
+            path="/ViewCompanyPostings"
+            element={
+              <ViewCompanyPostings 
+                companyUsers={companyUsers}
+              />
+            }
+          />
+          <Route
+            path="/FilterDemo"
+            element={
+              <FilterDemo 
+                companyUsers={companyUsers}
               />
             }
           />
