@@ -6,6 +6,8 @@ import "./CompanyViewPostings.css";
 
 function CompanyViewPostings({ currUser, addNotification, companyUsers, setCompanyUsers }) {
   const navigate = useNavigate();
+  const [selectedInternship, setSelectedInternship] = useState('all');
+  const [filteredInternships, setFilteredInternships] = useState([]);
   
   // Check if the user is logged in
   useEffect(() => {
@@ -13,6 +15,21 @@ function CompanyViewPostings({ currUser, addNotification, companyUsers, setCompa
       navigate("/login");
     }
   }, [currUser, navigate]);
+  
+  // Initialize and filter internships
+  useEffect(() => {
+    if (currUser?.internships) {
+      if (selectedInternship === 'all') {
+        setFilteredInternships(currUser.internships);
+      } else {
+        setFilteredInternships(
+          currUser.internships.filter(
+            internship => internship.internshipID === parseInt(selectedInternship)
+          )
+        );
+      }
+    }
+  }, [currUser, selectedInternship]);
   
   // Always show acceptance notification on dashboard load
   useEffect(() => {
@@ -70,6 +87,15 @@ function CompanyViewPostings({ currUser, addNotification, companyUsers, setCompa
     return <div className="loading-message">Please log in to view your company dashboard.</div>;
   }
 
+  // Calculate total applications for each internship
+  const getTotalApplications = (internship) => {
+    return internship.applications?.length || 0;
+  };
+
+  // Calculate total applications across all internships
+  const totalApplications = currUser.internships?.reduce((total, internship) => 
+    total + getTotalApplications(internship), 0) || 0;
+
   return (
     <div className="company-dashboard">
       <div className="dashboard-header">
@@ -102,7 +128,25 @@ function CompanyViewPostings({ currUser, addNotification, companyUsers, setCompa
         </Link>
       </div>
       
-      <h2 className="section-title">Your Internship Postings</h2>
+      <div className="internship-filter-section">
+        <h2 className="section-title">Your Internship Postings</h2>
+        <div className="filter-controls">
+          <label htmlFor="internship-filter">Filter by Internship: </label>
+          <select 
+            id="internship-filter"
+            value={selectedInternship}
+            onChange={(e) => setSelectedInternship(e.target.value)}
+            className="internship-filter-select"
+          >
+            <option value="all">All Internships ({totalApplications} total applications)</option>
+            {currUser.internships?.map((internship) => (
+              <option key={internship.internshipID} value={internship.internshipID}>
+                {internship.title} ({getTotalApplications(internship)} applications)
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
       
       <div className="email-notification-alert">
         <div className="email-notification-content">
@@ -115,8 +159,8 @@ function CompanyViewPostings({ currUser, addNotification, companyUsers, setCompa
       </div>
       
       <div className="internship-listings">
-        {currUser.internships && currUser.internships.length > 0 ? (
-          currUser.internships.map((internship, index) => (
+        {filteredInternships.length > 0 ? (
+          filteredInternships.map((internship, index) => (
             <div key={index} className="internship-listing-container">
               <InternshipList internship={internship} />
               <div className="internship-stats">
