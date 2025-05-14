@@ -29,6 +29,18 @@ function StudentsDashboard({ companyUsers }) {
       <StudentsNavBar />
       <h1>Students Dashboard</h1>
 
+      <div className="dashboard-actions">
+        <Link to="/studentProfile" className="action-button view-profile">
+          View/Edit Profile
+        </Link>
+        <Link to="/studentProfile" className="action-button view-majors">
+          View Majors & Semesters
+        </Link>
+        <Link to="/SuggestedCompanies" className="action-button view-suggested">
+          Suggested Companies
+        </Link>
+      </div>
+
       <div className="filter-search-container">
         <input
           type="text"
