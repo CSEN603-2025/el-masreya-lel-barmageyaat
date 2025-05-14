@@ -14,20 +14,14 @@ import InitialCompanyUserData from "./data/InitialCompanyUsersData";
 import InitialStudentData from "./data/InitialStudentData";
 import InitialCompanyRequestsData from "./data/InitialCompanyRequestsData";
 import StudentsViewApplications from "./pages/StudentsViewApplications/StudentsViewApplications";
-
-import Workshops from "./pages/Workshops/Workshops";
-import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
-
 import MyInterns from "./pages/MyInterns/MyInterns";
 import StudentInternships from "./pages/StudentInternships/StudentInternships";
 import StudentReportSubmission from "./pages/StudentReportSubmission/StudentReportSubmission";
 import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCompanyRequestDetails";
 import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
-import AllStudents from "./pages/AllStudents/AllStudents";
-import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
-import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
-import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
+import NotificationList from "./components/NotificationList/NotificationList";
 
+import NotificationList from "./components/NotificationList/NotificationList";
 
 function App() {
   // this stores the current user logged in
@@ -36,6 +30,29 @@ function App() {
   const [scadUsers, setScadUsers] = useState([
     { username: "scad", password: "1234" },
   ]);
+  
+  // Add notifications state
+  const [notifications, setNotifications] = useState([]);
+
+  // Function to add a notification
+  const addNotification = (message, type) => {
+    const newNotification = {
+      message,
+      type,
+      id: Date.now()
+    };
+    setNotifications(prev => [...prev, newNotification]);
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+      dismissNotification(newNotification.id);
+    }, 5000);
+  };
+
+  // Function to dismiss a notification
+  const dismissNotification = (id) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
+  };
 
   // this checks if there is data in local storage and sets the company users to that data
   // if there is no data in local storage, it sets the company users to the initial data JSON file
@@ -70,8 +87,49 @@ function App() {
     localStorage.setItem("companyRequests", JSON.stringify(companyRequests));
   }, [companyRequests]);
 
+  // Check for status changes in companyRequests to create notifications
+  useEffect(() => {
+    if (currUser && currUser.username) {
+      // Find matching company request
+      const userRequest = companyRequests.find(
+        request => request.companyName === currUser.name
+      );
+      
+      // If the company's request status has changed to accepted or rejected
+      if (userRequest && !userRequest.notified) {
+        if (userRequest.status === "accepted") {
+          addNotification("Your company application has been accepted!", "success");
+          
+          // Mark as notified
+          setCompanyRequests(prev => 
+            prev.map(req => 
+              req.companyName === userRequest.companyName 
+                ? { ...req, notified: true } 
+                : req
+            )
+          );
+        } else if (userRequest.status === "rejected") {
+          addNotification("Your company application has been rejected.", "error");
+          
+          // Mark as notified
+          setCompanyRequests(prev => 
+            prev.map(req => 
+              req.companyName === userRequest.companyName 
+                ? { ...req, notified: true } 
+                : req
+            )
+          );
+        }
+      }
+    }
+  }, [currUser, companyRequests]);
+
   return (
     <div>
+      <NotificationList 
+        notifications={notifications} 
+        onDismiss={dismissNotification} 
+      />
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -83,6 +141,8 @@ function App() {
                 studentUser={studentUsers}
                 scadUser={scadUsers}
                 companyUser={companyUsers}
+                companyRequests={companyRequests}
+                addNotification={addNotification}
               />
             }
           />
@@ -170,12 +230,20 @@ function App() {
               <ViewCompanyRequestDetails
                 companyRequests={companyRequests}
                 setCompanyRequests={setCompanyRequests}
+                addNotification={addNotification}
               />
             }
           />
           <Route
             path="/CompanyViewPostings"
-            element={<CompanyViewPostings currUser={currUser} />}
+            element={
+              <CompanyViewPostings 
+                currUser={currUser} 
+                addNotification={addNotification}
+                companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers}
+              />
+            }
           />
           <Route
             path="/ApplicantDetails/:username"
@@ -183,6 +251,7 @@ function App() {
               <ApplicantDetails
                 companyUsers={companyUsers}
                 setCompanyUsers={setCompanyUsers}
+                addNotification={addNotification}
               />
             }
           />

@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-function ViewCompanyRequestDetails({ companyRequests, setCompanyRequests }) {
+function ViewCompanyRequestDetails({ companyRequests, setCompanyRequests, addNotification }) {
   const { companyName } = useParams();
   const navigate = useNavigate(); // Hook to navigate to previous page
 
@@ -18,6 +18,12 @@ function ViewCompanyRequestDetails({ companyRequests, setCompanyRequests }) {
           : request
       )
     );
+    
+    // Add notification in the background
+    if (addNotification) {
+      addNotification(`Company request from ${companyName} has been accepted.`, "success");
+    }
+    
     navigate(-1); // Navigate back to the previous page after accepting
   };
 
@@ -30,6 +36,12 @@ function ViewCompanyRequestDetails({ companyRequests, setCompanyRequests }) {
           : request
       )
     );
+    
+    // Add notification in the background
+    if (addNotification) {
+      addNotification(`Company request from ${companyName} has been rejected.`, "error");
+    }
+    
     navigate(-1); // Navigate back to the previous page after rejecting
   };
 
