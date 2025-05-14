@@ -21,8 +21,6 @@ import ViewCompanyRequestDetails from "./pages/ViewCompanyRequestDetails/ViewCom
 import StudentEvaluationSubmission from "./pages/StudentEvaluationSubmission/StudentEvaluationSubmission";
 import NotificationList from "./components/NotificationList/NotificationList";
 
-import NotificationList from "./components/NotificationList/NotificationList";
-
 function App() {
   // this stores the current user logged in
   // it can be a student, scad user or company user
@@ -175,7 +173,12 @@ function App() {
           <Route
             path="/StudentProfile"
             element={
-              <StudentProfile currUser={currUser} studentUsers={studentUsers} />
+              <StudentProfile 
+                currUser={currUser} 
+                studentUsers={studentUsers} 
+                setStudentUsers={setStudentUsers}
+                setCurrUser={setCurrUser}
+              />
             }
           />
           <Route
@@ -261,27 +264,7 @@ function App() {
               <MyInterns companyUsers={companyUsers} currUser={currUser} />
             }
           />
-          <Route path="/ScadDashboard" element={<ScadDashboard />} />
-          <Route
-            path="/AllStudents"
-            element={<AllStudents studentUsers={studentUsers} />}
-          />
-          <Route
-            path="/ScadViewOfStudentProfile/:studentID"
-            element={
-              <ScadViewOfStudentProfile
-                studentUsers={studentUsers}
-                companyUsers={companyUsers}
-              />
-            }
-          />
-          <Route path="/Workshops" element={<Workshops />} />
-          <Route path="/StudentWorkshops" element={<StudentWorkshops />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
-          <Route
-            path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
-            element={<ViewInternshipItem studentUsers={studentUsers} />}
-          />
         </Routes>
       </Router>
     </div>
