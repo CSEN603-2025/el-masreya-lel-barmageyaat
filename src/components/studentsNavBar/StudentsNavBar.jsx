@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import "./StudentsNavBar.css"; // Make sure this line is added
 

@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import "./InternshipList.css"; // Make sure this line is added
 
@@ -15,7 +16,9 @@ function InternshipList({ internship }) {
               {internship.paid ? "Paid" : "Unpaid"}
             </span>
             {internship.status && (
-              <span className={`badge status-${internship.status.toLowerCase()}`}>
+              <span
+                className={`badge status-${internship.status.toLowerCase()}`}
+              >
                 {internship.status}
               </span>
             )}
@@ -23,19 +26,23 @@ function InternshipList({ internship }) {
         </div>
         <div className="internship-details">
           <p className="internship-company">
-            <span className="detail-label">Company:</span> {internship.companyName}
+            <span className="detail-label">Company:</span>{" "}
+            {internship.companyName}
           </p>
           {internship.industry && (
             <p className="internship-industry">
-              <span className="detail-label">Industry:</span> {internship.industry}
+              <span className="detail-label">Industry:</span>{" "}
+              {internship.industry}
             </p>
           )}
           <p className="internship-location">
-            <span className="detail-label">Location:</span> {internship.location}
+            <span className="detail-label">Location:</span>{" "}
+            {internship.location}
           </p>
           {internship.duration && (
             <p className="internship-duration">
-              <span className="detail-label">Duration:</span> {internship.duration}
+              <span className="detail-label">Duration:</span>{" "}
+              {internship.duration}
             </p>
           )}
         </div>

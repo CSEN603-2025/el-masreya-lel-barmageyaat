@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React from "react";
+
 import HomePage from "./pages/homepage/HomePage";
 import StudentsDashboard from "./pages/studentsDashboard/StudentsDashboard";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -26,6 +28,10 @@ import CompletedInterns from "./pages/CompletedInterns/CompletedInterns";
 import InternEvaluation from "./pages/InternEvaluation/InternEvaluation";
 import ActiveInterns from "./pages/ActiveInterns/ActiveInterns";
 import ScadReports from "./pages/ScadReports/ScadReports";
+import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
+import AllStudents from "./pages/AllStudents/AllStudents";
+import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
+import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
 
 function App() {
   // this stores the current user logged in
@@ -34,7 +40,7 @@ function App() {
   const [scadUsers, setScadUsers] = useState([
     { username: "scad", password: "1234" },
   ]);
-  
+
   // Add notifications state
   const [notifications, setNotifications] = useState([]);
 
@@ -43,10 +49,10 @@ function App() {
     const newNotification = {
       message,
       type,
-      id: Date.now()
+      id: Date.now(),
     };
-    setNotifications(prev => [...prev, newNotification]);
-    
+    setNotifications((prev) => [...prev, newNotification]);
+
     // Auto-dismiss after 5 seconds
     setTimeout(() => {
       dismissNotification(newNotification.id);
@@ -55,7 +61,9 @@ function App() {
 
   // Function to dismiss a notification
   const dismissNotification = (id) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
+    setNotifications((prev) =>
+      prev.filter((notification) => notification.id !== id)
+    );
   };
 
   // this checks if there is data in local storage and sets the company users to that data
@@ -96,30 +104,36 @@ function App() {
     if (currUser && currUser.username) {
       // Find matching company request
       const userRequest = companyRequests.find(
-        request => request.companyName === currUser.name
+        (request) => request.companyName === currUser.name
       );
-      
+
       // If the company's request status has changed to accepted or rejected
       if (userRequest && !userRequest.notified) {
         if (userRequest.status === "accepted") {
-          addNotification("Your company application has been accepted!", "success");
-          
+          addNotification(
+            "Your company application has been accepted!",
+            "success"
+          );
+
           // Mark as notified
-          setCompanyRequests(prev => 
-            prev.map(req => 
-              req.companyName === userRequest.companyName 
-                ? { ...req, notified: true } 
+          setCompanyRequests((prev) =>
+            prev.map((req) =>
+              req.companyName === userRequest.companyName
+                ? { ...req, notified: true }
                 : req
             )
           );
         } else if (userRequest.status === "rejected") {
-          addNotification("Your company application has been rejected.", "error");
-          
+          addNotification(
+            "Your company application has been rejected.",
+            "error"
+          );
+
           // Mark as notified
-          setCompanyRequests(prev => 
-            prev.map(req => 
-              req.companyName === userRequest.companyName 
-                ? { ...req, notified: true } 
+          setCompanyRequests((prev) =>
+            prev.map((req) =>
+              req.companyName === userRequest.companyName
+                ? { ...req, notified: true }
                 : req
             )
           );
@@ -130,9 +144,9 @@ function App() {
 
   return (
     <div>
-      <NotificationList 
-        notifications={notifications} 
-        onDismiss={dismissNotification} 
+      <NotificationList
+        notifications={notifications}
+        onDismiss={dismissNotification}
       />
       <Router>
         <Routes>
@@ -180,9 +194,9 @@ function App() {
           <Route
             path="/StudentProfile"
             element={
-              <StudentProfile 
-                currUser={currUser} 
-                studentUsers={studentUsers} 
+              <StudentProfile
+                currUser={currUser}
+                studentUsers={studentUsers}
                 setStudentUsers={setStudentUsers}
                 setCurrUser={setCurrUser}
               />
@@ -257,11 +271,7 @@ function App() {
           />
           <Route
             path="/ViewCompanyPostings"
-            element={
-              <ViewCompanyPostings 
-                companyUsers={companyUsers}
-              />
-            }
+            element={<ViewCompanyPostings companyUsers={companyUsers} />}
           />
           <Route
             path="/ApplicantDetails/:username"
@@ -329,6 +339,24 @@ function App() {
                 addNotification={addNotification}
               />
             }
+          />
+          <Route path="/ScadDashboard" element={<ScadDashboard />} />
+          <Route
+            path="/AllStudents"
+            element={<AllStudents studentUsers={studentUsers} />}
+          />
+          <Route
+            path="/ScadViewOfStudentProfile/:studentID"
+            element={
+              <ScadViewOfStudentProfile
+                studentUsers={studentUsers}
+                companyUsers={companyUsers}
+              />
+            }
+          />
+          <Route
+            path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
+            element={<ViewInternshipItem studentUsers={studentUsers} />}
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

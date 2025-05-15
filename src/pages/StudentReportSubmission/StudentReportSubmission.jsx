@@ -1,3 +1,4 @@
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { generateReportPDF } from "../../utils/pdfGenerator";

@@ -1,70 +1,84 @@
+
+import React from "react";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CompletedInterns.css';
 import { generateEvaluationPDF } from '../../utils/pdfGenerator';
 
-function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotification }) {
+function CompletedInterns({
+  companyUsers,
+  currUser,
+  setCompanyUsers,
+  addNotification,
+}) {
+  
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('completionDate'); // 'completionDate', 'name'
-  const [timeFilter, setTimeFilter] = useState('all'); // 'all', 'lastMonth', 'last3Months', 'last6Months', 'lastYear'
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("completionDate"); // 'completionDate', 'name'
+  const [timeFilter, setTimeFilter] = useState("all"); // 'all', 'lastMonth', 'last3Months', 'last6Months', 'lastYear'
   const [selectedIntern, setSelectedIntern] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const [evaluation, setEvaluation] = useState({
-    technicalSkills: '',
+    technicalSkills: "",
     technicalSkillsRating: 0,
-    communicationSkills: '',
+    communicationSkills: "",
     communicationSkillsRating: 0,
-    teamwork: '',
+    teamwork: "",
     teamworkRating: 0,
-    initiative: '',
+    initiative: "",
     initiativeRating: 0,
-    overallPerformance: '',
+    overallPerformance: "",
     overallRating: 0,
-    strengthsAndAchievements: '',
-    areasForImprovement: '',
-    additionalComments: '',
+    strengthsAndAchievements: "",
+    areasForImprovement: "",
+    additionalComments: "",
     evaluationDate: new Date().toISOString(),
     lastModified: new Date().toISOString(),
-    history: []
+    history: [],
   });
 
   if (!currUser) {
-    navigate('/login');
+    navigate("/login");
     return null;
   }
 
   // Get current company's data
-  const companyData = companyUsers.find(company => company.username === currUser.username);
-  
+  const companyData = companyUsers.find(
+    (company) => company.username === currUser.username
+  );
+
   // Get all completed interns from all internships
-  const completedInterns = companyData?.internships?.flatMap(internship => 
-    (internship.applications || [])
-      .filter(application => application.internshipStatus === "InternshipComplete")
-      .map(application => ({
-        ...application,
-        internshipTitle: internship.title,
-        internshipId: internship.internshipID
-      }))
-  ) || [];
+  const completedInterns =
+    companyData?.internships?.flatMap((internship) =>
+      (internship.applications || [])
+        .filter(
+          (application) => application.internshipStatus === "InternshipComplete"
+        )
+        .map((application) => ({
+          ...application,
+          internshipTitle: internship.title,
+          internshipId: internship.internshipID,
+        }))
+    ) || [];
 
   // Filter interns based on completion date
   const filterInternsByTime = (interns) => {
     const now = new Date();
-    return interns.filter(intern => {
+    return interns.filter((intern) => {
       const completionDate = new Date(intern.completionDate);
-      const monthsDiff = (now.getFullYear() - completionDate.getFullYear()) * 12 + 
-                        (now.getMonth() - completionDate.getMonth());
-      
-      switch(timeFilter) {
-        case 'lastMonth':
+      const monthsDiff =
+        (now.getFullYear() - completionDate.getFullYear()) * 12 +
+        (now.getMonth() - completionDate.getMonth());
+
+      switch (timeFilter) {
+        case "lastMonth":
           return monthsDiff <= 1;
-        case 'last3Months':
+        case "last3Months":
           return monthsDiff <= 3;
-        case 'last6Months':
+        case "last6Months":
           return monthsDiff <= 6;
-        case 'lastYear':
+        case "lastYear":
           return monthsDiff <= 12;
         default:
           return true;
@@ -73,65 +87,73 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
   };
 
   // Sort interns
-  const sortedInterns = [...filterInternsByTime(completedInterns)].sort((a, b) => {
-    if (sortBy === 'completionDate') {
-      return new Date(b.completionDate) - new Date(a.completionDate);
+  const sortedInterns = [...filterInternsByTime(completedInterns)].sort(
+    (a, b) => {
+      if (sortBy === "completionDate") {
+        return new Date(b.completionDate) - new Date(a.completionDate);
+      }
+      return `${a.firstName} ${a.lastName}`.localeCompare(
+        `${b.firstName} ${b.lastName}`
+      );
     }
-    return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
-  });
+  );
 
   // Filter interns based on search
-  const filteredInterns = sortedInterns.filter(intern => {
+  const filteredInterns = sortedInterns.filter((intern) => {
     const searchString = searchTerm.toLowerCase();
     const fullName = `${intern.firstName} ${intern.lastName}`.toLowerCase();
     const internshipTitle = intern.internshipTitle.toLowerCase();
-    
-    return fullName.includes(searchString) || internshipTitle.includes(searchString);
+
+    return (
+      fullName.includes(searchString) || internshipTitle.includes(searchString)
+    );
   });
 
   const handleSelectIntern = (intern) => {
     setSelectedIntern(intern);
-    setEvaluation(intern.evaluation || {
-      technicalSkills: '',
-      technicalSkillsRating: 0,
-      communicationSkills: '',
-      communicationSkillsRating: 0,
-      teamwork: '',
-      teamworkRating: 0,
-      initiative: '',
-      initiativeRating: 0,
-      overallPerformance: '',
-      overallRating: 0,
-      strengthsAndAchievements: '',
-      areasForImprovement: '',
-      additionalComments: '',
-      evaluationDate: new Date().toISOString(),
-      lastModified: new Date().toISOString(),
-      history: []
-    });
+    setEvaluation(
+      intern.evaluation || {
+        technicalSkills: "",
+        technicalSkillsRating: 0,
+        communicationSkills: "",
+        communicationSkillsRating: 0,
+        teamwork: "",
+        teamworkRating: 0,
+        initiative: "",
+        initiativeRating: 0,
+        overallPerformance: "",
+        overallRating: 0,
+        strengthsAndAchievements: "",
+        areasForImprovement: "",
+        additionalComments: "",
+        evaluationDate: new Date().toISOString(),
+        lastModified: new Date().toISOString(),
+        history: [],
+      }
+    );
     setIsEditing(!intern.evaluation);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEvaluation(prev => ({
+    setEvaluation((prev) => ({
       ...prev,
       [name]: value,
-      lastModified: new Date().toISOString()
+      lastModified: new Date().toISOString(),
     }));
   };
 
   const handleRatingChange = (name, value) => {
-    setEvaluation(prev => ({
+    setEvaluation((prev) => ({
       ...prev,
       [name]: value,
-      lastModified: new Date().toISOString()
+      lastModified: new Date().toISOString(),
     }));
   };
 
   const handleSubmitEvaluation = (e) => {
     e.preventDefault();
-    
+
     // Create history entry
     const historyEntry = {
       timestamp: new Date().toISOString(),
@@ -148,26 +170,27 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
         overallRating: evaluation.overallRating,
         strengthsAndAchievements: evaluation.strengthsAndAchievements,
         areasForImprovement: evaluation.areasForImprovement,
-        additionalComments: evaluation.additionalComments
-      }
+        additionalComments: evaluation.additionalComments,
+      },
     };
 
     const updatedEvaluation = {
       ...evaluation,
       lastModified: new Date().toISOString(),
-      history: [...(evaluation.history || []), historyEntry]
+      history: [...(evaluation.history || []), historyEntry],
     };
-    
-    const updatedCompanyUsers = companyUsers.map(company => ({
+
+    const updatedCompanyUsers = companyUsers.map((company) => ({
       ...company,
-      internships: (company.internships || []).map(internship => ({
+      internships: (company.internships || []).map((internship) => ({
         ...internship,
-        applications: (internship.applications || []).map(application =>
-          application.username === selectedIntern.username && application.internshipStatus === "InternshipComplete"
+        applications: (internship.applications || []).map((application) =>
+          application.username === selectedIntern.username &&
+          application.internshipStatus === "InternshipComplete"
             ? { ...application, evaluation: updatedEvaluation }
             : application
-        )
-      }))
+        ),
+      })),
     }));
 
     setCompanyUsers(updatedCompanyUsers);
@@ -177,37 +200,42 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
   };
 
   const handleDeleteEvaluation = () => {
-    if (window.confirm("Are you sure you want to delete this evaluation? This action cannot be undone.")) {
-      const updatedCompanyUsers = companyUsers.map(company => ({
+    if (
+      window.confirm(
+        "Are you sure you want to delete this evaluation? This action cannot be undone."
+      )
+    ) {
+      const updatedCompanyUsers = companyUsers.map((company) => ({
         ...company,
-        internships: (company.internships || []).map(internship => ({
+        internships: (company.internships || []).map((internship) => ({
           ...internship,
-          applications: (internship.applications || []).map(application =>
-            application.username === selectedIntern.username && application.internshipStatus === "InternshipComplete"
+          applications: (internship.applications || []).map((application) =>
+            application.username === selectedIntern.username &&
+            application.internshipStatus === "InternshipComplete"
               ? { ...application, evaluation: null }
               : application
-          )
-        }))
+          ),
+        })),
       }));
 
       setCompanyUsers(updatedCompanyUsers);
       setEvaluation({
-        technicalSkills: '',
+        technicalSkills: "",
         technicalSkillsRating: 0,
-        communicationSkills: '',
+        communicationSkills: "",
         communicationSkillsRating: 0,
-        teamwork: '',
+        teamwork: "",
         teamworkRating: 0,
-        initiative: '',
+        initiative: "",
         initiativeRating: 0,
-        overallPerformance: '',
+        overallPerformance: "",
         overallRating: 0,
-        strengthsAndAchievements: '',
-        areasForImprovement: '',
-        additionalComments: '',
+        strengthsAndAchievements: "",
+        areasForImprovement: "",
+        additionalComments: "",
         evaluationDate: new Date().toISOString(),
         lastModified: new Date().toISOString(),
-        history: []
+        history: [],
       });
       setIsEditing(true);
       addNotification("Evaluation deleted successfully!", "success");
@@ -222,35 +250,35 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
         name: `${selectedIntern.firstName} ${selectedIntern.lastName}`,
         email: selectedIntern.email,
         internshipTitle: selectedIntern.internshipTitle,
-        completionDate: selectedIntern.completionDate
+        completionDate: selectedIntern.completionDate,
       },
       evaluation: {
         technicalSkills: {
           rating: evaluation.technicalSkillsRating,
-          comments: evaluation.technicalSkills
+          comments: evaluation.technicalSkills,
         },
         communicationSkills: {
           rating: evaluation.communicationSkillsRating,
-          comments: evaluation.communicationSkills
+          comments: evaluation.communicationSkills,
         },
         teamwork: {
           rating: evaluation.teamworkRating,
-          comments: evaluation.teamwork
+          comments: evaluation.teamwork,
         },
         initiative: {
           rating: evaluation.initiativeRating,
-          comments: evaluation.initiative
+          comments: evaluation.initiative,
         },
         overallPerformance: {
           rating: evaluation.overallRating,
-          comments: evaluation.overallPerformance
+          comments: evaluation.overallPerformance,
         },
         strengthsAndAchievements: evaluation.strengthsAndAchievements,
         areasForImprovement: evaluation.areasForImprovement,
         additionalComments: evaluation.additionalComments,
         evaluationDate: evaluation.evaluationDate,
-        lastModified: evaluation.lastModified
-      }
+        lastModified: evaluation.lastModified,
+      },
     };
 
     // Generate PDF file
@@ -264,6 +292,20 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
     } else {
       addNotification("Failed to export evaluation as PDF.", "error");
     }
+    const blob = new Blob([JSON.stringify(evaluationData, null, 2)], {
+      type: "application/json",
+    });
+    
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `evaluation_${selectedIntern.firstName}_${
+      selectedIntern.lastName
+    }_${new Date().toISOString().split("T")[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const RatingInput = ({ name, value }) => (
@@ -272,7 +314,7 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
         <button
           key={star}
           type="button"
-          className={`star-button ${star <= value ? 'active' : ''}`}
+          className={`star-button ${star <= value ? "active" : ""}`}
           onClick={() => handleRatingChange(name, star)}
           disabled={!isEditing}
         >
@@ -297,7 +339,7 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
             />
           </div>
           <div className="filter-controls">
-            <select 
+            <select
               value={timeFilter}
               onChange={(e) => setTimeFilter(e.target.value)}
               className="time-filter-select"
@@ -308,7 +350,7 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
               <option value="last6Months">Last 6 Months</option>
               <option value="lastYear">Last Year</option>
             </select>
-            <select 
+            <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="sort-select"
@@ -335,30 +377,43 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
         <div className="interns-list">
           {filteredInterns.length > 0 ? (
             filteredInterns.map((intern) => (
-              <div 
-                key={`${intern.username}-${intern.internshipId}`} 
-                className={`intern-card ${selectedIntern?.username === intern.username ? 'selected' : ''}`}
+              <div
+                key={`${intern.username}-${intern.internshipId}`}
+                className={`intern-card ${
+                  selectedIntern?.username === intern.username ? "selected" : ""
+                }`}
                 onClick={() => handleSelectIntern(intern)}
               >
                 <div className="intern-info">
                   <div className="intern-primary-info">
-                    <h2>{intern.firstName} {intern.lastName}</h2>
+                    <h2>
+                      {intern.firstName} {intern.lastName}
+                    </h2>
                     <span className="completion-date">
-                      Completed: {new Date(intern.completionDate).toLocaleDateString()}
+                      Completed:{" "}
+                      {new Date(intern.completionDate).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="intern-details">
-                    <p><strong>Past Internship:</strong> {intern.internshipTitle}</p>
-                    <p><strong>Email:</strong> {intern.email}</p>
+                    <p>
+                      <strong>Past Internship:</strong> {intern.internshipTitle}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {intern.email}
+                    </p>
                   </div>
                   <div className="intern-skills">
                     {intern.skills.map((skill, index) => (
-                      <span key={index} className="skill-tag">{skill}</span>
+                      <span key={index} className="skill-tag">
+                        {skill}
+                      </span>
                     ))}
                   </div>
                   <div className="evaluation-status">
                     {intern.evaluation ? (
-                      <span className="status-complete">Evaluation Complete</span>
+                      <span className="status-complete">
+                        Evaluation Complete
+                      </span>
                     ) : (
                       <span className="status-pending">Evaluation Pending</span>
                     )}
@@ -371,7 +426,9 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
               {searchTerm ? (
                 <p>No past interns match your search.</p>
               ) : (
-                <p>No completed internships found for the selected time period.</p>
+                <p>
+                  No completed internships found for the selected time period.
+                </p>
               )}
             </div>
           )}
@@ -380,14 +437,22 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
         {selectedIntern && (
           <div className="evaluation-panel">
             <div className="evaluation-header">
-              <h2>Evaluation for {selectedIntern.firstName} {selectedIntern.lastName}</h2>
-              <p className="internship-title">{selectedIntern.internshipTitle}</p>
+              <h2>
+                Evaluation for {selectedIntern.firstName}{" "}
+                {selectedIntern.lastName}
+              </h2>
+              <p className="internship-title">
+                {selectedIntern.internshipTitle}
+              </p>
             </div>
 
             <form onSubmit={handleSubmitEvaluation} className="evaluation-form">
               <div className="evaluation-section">
                 <h3>Technical Skills</h3>
-                <RatingInput name="technicalSkillsRating" value={evaluation.technicalSkillsRating} />
+                <RatingInput
+                  name="technicalSkillsRating"
+                  value={evaluation.technicalSkillsRating}
+                />
                 <textarea
                   name="technicalSkills"
                   value={evaluation.technicalSkills}
@@ -400,7 +465,10 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
 
               <div className="evaluation-section">
                 <h3>Communication Skills</h3>
-                <RatingInput name="communicationSkillsRating" value={evaluation.communicationSkillsRating} />
+                <RatingInput
+                  name="communicationSkillsRating"
+                  value={evaluation.communicationSkillsRating}
+                />
                 <textarea
                   name="communicationSkills"
                   value={evaluation.communicationSkills}
@@ -413,7 +481,10 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
 
               <div className="evaluation-section">
                 <h3>Teamwork</h3>
-                <RatingInput name="teamworkRating" value={evaluation.teamworkRating} />
+                <RatingInput
+                  name="teamworkRating"
+                  value={evaluation.teamworkRating}
+                />
                 <textarea
                   name="teamwork"
                   value={evaluation.teamwork}
@@ -426,7 +497,10 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
 
               <div className="evaluation-section">
                 <h3>Initiative & Proactivity</h3>
-                <RatingInput name="initiativeRating" value={evaluation.initiativeRating} />
+                <RatingInput
+                  name="initiativeRating"
+                  value={evaluation.initiativeRating}
+                />
                 <textarea
                   name="initiative"
                   value={evaluation.initiative}
@@ -439,7 +513,10 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
 
               <div className="evaluation-section">
                 <h3>Overall Performance</h3>
-                <RatingInput name="overallRating" value={evaluation.overallRating} />
+                <RatingInput
+                  name="overallRating"
+                  value={evaluation.overallRating}
+                />
                 <textarea
                   name="overallPerformance"
                   value={evaluation.overallPerformance}
@@ -492,52 +569,68 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
                   </button>
                 ) : (
                   <div className="action-buttons">
-                    <button type="button" onClick={() => setIsEditing(true)} className="edit-button">
+                    <button
+                      type="button"
+                      onClick={() => setIsEditing(true)}
+                      className="edit-button"
+                    >
                       Edit Evaluation
                     </button>
-                    <button type="button" onClick={handleDeleteEvaluation} className="delete-button">
+                    <button
+                      type="button"
+                      onClick={handleDeleteEvaluation}
+                      className="delete-button"
+                    >
                       Delete Evaluation
                     </button>
+                    
                     <button type="button" onClick={handleExportEvaluation} className="export-button">
-                      Download as PDF
-                    </button>
+                      Download evaluation as PDF
+
                   </div>
                 )}
               </div>
 
-              {!isEditing && evaluation.history && evaluation.history.length > 0 && (
-                <div className="evaluation-history">
-                  <h3>Evaluation History</h3>
-                  <div className="history-list">
-                    {evaluation.history.map((entry, index) => (
-                      <div key={index} className="history-entry">
-                        <p className="history-timestamp">
-                          {new Date(entry.timestamp).toLocaleString()}
-                        </p>
-                        <button
-                          type="button"
-                          className="view-history-button"
-                          onClick={() => {
-                            if (window.confirm("View this historical version? Current unsaved changes will be lost.")) {
-                              setEvaluation({
-                                ...evaluation,
-                                ...entry.changes
-                              });
-                            }
-                          }}
-                        >
-                          View This Version
-                        </button>
-                      </div>
-                    ))}
+              {!isEditing &&
+                evaluation.history &&
+                evaluation.history.length > 0 && (
+                  <div className="evaluation-history">
+                    <h3>Evaluation History</h3>
+                    <div className="history-list">
+                      {evaluation.history.map((entry, index) => (
+                        <div key={index} className="history-entry">
+                          <p className="history-timestamp">
+                            {new Date(entry.timestamp).toLocaleString()}
+                          </p>
+                          <button
+                            type="button"
+                            className="view-history-button"
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  "View this historical version? Current unsaved changes will be lost."
+                                )
+                              ) {
+                                setEvaluation({
+                                  ...evaluation,
+                                  ...entry.changes,
+                                });
+                              }
+                            }}
+                          >
+                            View This Version
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </form>
 
             {!isEditing && evaluation.lastModified && (
               <div className="last-modified">
-                Last modified: {new Date(evaluation.lastModified).toLocaleString()}
+                Last modified:{" "}
+                {new Date(evaluation.lastModified).toLocaleString()}
               </div>
             )}
           </div>
@@ -545,7 +638,10 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
       </div>
 
       <div className="navigation-footer">
-        <button onClick={() => navigate('/active-interns')} className="view-active-button">
+        <button
+          onClick={() => navigate("/active-interns")}
+          className="view-active-button"
+        >
           View Active Interns
         </button>
         <button onClick={() => navigate(-1)} className="back-button">
@@ -556,4 +652,4 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
   );
 }
 
-export default CompletedInterns; 
+export default CompletedInterns;

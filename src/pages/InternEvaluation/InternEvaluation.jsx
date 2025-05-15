@@ -1,27 +1,28 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './InternEvaluation.css';
+import React from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./InternEvaluation.css";
 
 function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
   const { username } = useParams();
   const navigate = useNavigate();
 
   const [evaluation, setEvaluation] = useState({
-    technicalSkills: '',
+    technicalSkills: "",
     technicalSkillsRating: 0,
-    communicationSkills: '',
+    communicationSkills: "",
     communicationSkillsRating: 0,
-    teamwork: '',
+    teamwork: "",
     teamworkRating: 0,
-    initiative: '',
+    initiative: "",
     initiativeRating: 0,
-    overallPerformance: '',
+    overallPerformance: "",
     overallRating: 0,
-    strengthsAndAchievements: '',
-    areasForImprovement: '',
-    additionalComments: '',
+    strengthsAndAchievements: "",
+    areasForImprovement: "",
+    additionalComments: "",
     evaluationDate: new Date().toISOString(),
-    lastModified: new Date().toISOString()
+    lastModified: new Date().toISOString(),
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -32,13 +33,15 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
     for (const company of companyUsers) {
       for (const internship of company.internships || []) {
         const application = internship.applications?.find(
-          app => app.username === username && app.internshipStatus === "InternshipComplete"
+          (app) =>
+            app.username === username &&
+            app.internshipStatus === "InternshipComplete"
         );
         if (application) {
           return {
             intern: application,
             internship,
-            company
+            company,
           };
         }
       }
@@ -60,34 +63,35 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEvaluation(prev => ({
+    setEvaluation((prev) => ({
       ...prev,
       [name]: value,
-      lastModified: new Date().toISOString()
+      lastModified: new Date().toISOString(),
     }));
   };
 
   const handleRatingChange = (name, value) => {
-    setEvaluation(prev => ({
+    setEvaluation((prev) => ({
       ...prev,
       [name]: value,
-      lastModified: new Date().toISOString()
+      lastModified: new Date().toISOString(),
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const updatedCompanyUsers = companyUsers.map(company => ({
+
+    const updatedCompanyUsers = companyUsers.map((company) => ({
       ...company,
-      internships: (company.internships || []).map(internship => ({
+      internships: (company.internships || []).map((internship) => ({
         ...internship,
-        applications: (internship.applications || []).map(application =>
-          application.username === username && application.internshipStatus === "InternshipComplete"
+        applications: (internship.applications || []).map((application) =>
+          application.username === username &&
+          application.internshipStatus === "InternshipComplete"
             ? { ...application, evaluation }
             : application
-        )
-      }))
+        ),
+      })),
     }));
 
     setCompanyUsers(updatedCompanyUsers);
@@ -96,36 +100,41 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
   };
 
   const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this evaluation? This action cannot be undone.")) {
-      const updatedCompanyUsers = companyUsers.map(company => ({
+    if (
+      window.confirm(
+        "Are you sure you want to delete this evaluation? This action cannot be undone."
+      )
+    ) {
+      const updatedCompanyUsers = companyUsers.map((company) => ({
         ...company,
-        internships: (company.internships || []).map(internship => ({
+        internships: (company.internships || []).map((internship) => ({
           ...internship,
-          applications: (internship.applications || []).map(application =>
-            application.username === username && application.internshipStatus === "InternshipComplete"
+          applications: (internship.applications || []).map((application) =>
+            application.username === username &&
+            application.internshipStatus === "InternshipComplete"
               ? { ...application, evaluation: null }
               : application
-          )
-        }))
+          ),
+        })),
       }));
 
       setCompanyUsers(updatedCompanyUsers);
       setEvaluation({
-        technicalSkills: '',
+        technicalSkills: "",
         technicalSkillsRating: 0,
-        communicationSkills: '',
+        communicationSkills: "",
         communicationSkillsRating: 0,
-        teamwork: '',
+        teamwork: "",
         teamworkRating: 0,
-        initiative: '',
+        initiative: "",
         initiativeRating: 0,
-        overallPerformance: '',
+        overallPerformance: "",
         overallRating: 0,
-        strengthsAndAchievements: '',
-        areasForImprovement: '',
-        additionalComments: '',
+        strengthsAndAchievements: "",
+        areasForImprovement: "",
+        additionalComments: "",
         evaluationDate: new Date().toISOString(),
-        lastModified: new Date().toISOString()
+        lastModified: new Date().toISOString(),
       });
       setIsEditing(true);
       addNotification("Evaluation deleted successfully!", "success");
@@ -153,7 +162,7 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
         <button
           key={star}
           type="button"
-          className={`star-button ${star <= value ? 'active' : ''}`}
+          className={`star-button ${star <= value ? "active" : ""}`}
           onClick={() => handleRatingChange(name, star)}
           disabled={!isEditing}
         >
@@ -168,10 +177,13 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
       <div className="evaluation-header">
         <h1>Intern Evaluation</h1>
         <div className="intern-info">
-          <h2>{internData.intern.firstName} {internData.intern.lastName}</h2>
+          <h2>
+            {internData.intern.firstName} {internData.intern.lastName}
+          </h2>
           <p className="internship-title">{internData.internship.title}</p>
           <p className="completion-date">
-            Completed: {new Date(internData.intern.completionDate).toLocaleDateString()}
+            Completed:{" "}
+            {new Date(internData.intern.completionDate).toLocaleDateString()}
           </p>
         </div>
       </div>
@@ -179,7 +191,10 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
       <form onSubmit={handleSubmit} className="evaluation-form">
         <div className="evaluation-section">
           <h3>Technical Skills</h3>
-          <RatingInput name="technicalSkillsRating" value={evaluation.technicalSkillsRating} />
+          <RatingInput
+            name="technicalSkillsRating"
+            value={evaluation.technicalSkillsRating}
+          />
           <textarea
             name="technicalSkills"
             value={evaluation.technicalSkills}
@@ -192,7 +207,10 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
 
         <div className="evaluation-section">
           <h3>Communication Skills</h3>
-          <RatingInput name="communicationSkillsRating" value={evaluation.communicationSkillsRating} />
+          <RatingInput
+            name="communicationSkillsRating"
+            value={evaluation.communicationSkillsRating}
+          />
           <textarea
             name="communicationSkills"
             value={evaluation.communicationSkills}
@@ -205,7 +223,10 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
 
         <div className="evaluation-section">
           <h3>Teamwork</h3>
-          <RatingInput name="teamworkRating" value={evaluation.teamworkRating} />
+          <RatingInput
+            name="teamworkRating"
+            value={evaluation.teamworkRating}
+          />
           <textarea
             name="teamwork"
             value={evaluation.teamwork}
@@ -218,7 +239,10 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
 
         <div className="evaluation-section">
           <h3>Initiative & Proactivity</h3>
-          <RatingInput name="initiativeRating" value={evaluation.initiativeRating} />
+          <RatingInput
+            name="initiativeRating"
+            value={evaluation.initiativeRating}
+          />
           <textarea
             name="initiative"
             value={evaluation.initiative}
@@ -284,15 +308,27 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
             </button>
           ) : (
             <div className="action-buttons">
-              <button type="button" onClick={() => setIsEditing(true)} className="edit-button">
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="edit-button"
+              >
                 Edit Evaluation
               </button>
-              <button type="button" onClick={handleDelete} className="delete-button">
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="delete-button"
+              >
                 Delete Evaluation
               </button>
             </div>
           )}
-          <button type="button" onClick={() => navigate(-1)} className="back-button">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="back-button"
+          >
             Back
           </button>
         </div>
@@ -307,4 +343,4 @@ function InternEvaluation({ companyUsers, setCompanyUsers, addNotification }) {
   );
 }
 
-export default InternEvaluation; 
+export default InternEvaluation;
