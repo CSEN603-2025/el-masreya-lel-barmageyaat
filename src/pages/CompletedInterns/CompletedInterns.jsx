@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CompletedInterns.css';
+import { generateEvaluationPDF } from '../../utils/pdfGenerator';
 
 function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotification }) {
   const navigate = useNavigate();
@@ -252,15 +253,17 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
       }
     };
 
-    const blob = new Blob([JSON.stringify(evaluationData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `evaluation_${selectedIntern.firstName}_${selectedIntern.lastName}_${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // Generate PDF file
+    const success = generateEvaluationPDF(
+      evaluationData, 
+      `evaluation_${selectedIntern.firstName}_${selectedIntern.lastName}_${new Date().toISOString().split('T')[0]}`
+    );
+    
+    if (success) {
+      addNotification("Evaluation exported successfully as PDF!", "success");
+    } else {
+      addNotification("Failed to export evaluation as PDF.", "error");
+    }
   };
 
   const RatingInput = ({ name, value }) => (
@@ -496,7 +499,7 @@ function CompletedInterns({ companyUsers, currUser, setCompanyUsers, addNotifica
                       Delete Evaluation
                     </button>
                     <button type="button" onClick={handleExportEvaluation} className="export-button">
-                      Export Evaluation
+                      Download as PDF
                     </button>
                   </div>
                 )}

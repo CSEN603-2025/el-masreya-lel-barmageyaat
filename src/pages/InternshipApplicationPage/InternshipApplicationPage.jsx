@@ -81,8 +81,8 @@ function InternshipApplicationPage({
 
     try {
       const { coverLetter, documents } = formData;
-      const fullName = `${currUser?.firstName || ''} ${currUser?.lastName || ''}`.trim();
-      const today = new Date().toISOString().split('T')[0];
+        const fullName = `${currUser?.firstName || ''} ${currUser?.lastName || ''}`.trim();
+        const today = new Date().toISOString().split('T')[0];
 
       // Create a notification payload
       const notificationMessage = `${fullName} applied for your "${internship.title}" internship`;
@@ -91,20 +91,20 @@ function InternshipApplicationPage({
       const updatedCompanies = companyUsers.map((company) => {
         if (company.username === companyName) {
           // Add notification to company
-          company.notifications = company.notifications || [];
-          company.notifications.push({
+        company.notifications = company.notifications || [];
+        company.notifications.push({
             id: Date.now(),
             message: notificationMessage,
-            date: today,
+          date: today,
             read: false,
             type: "application",
             studentId: currUser.studentId,
             internshipId: parseInt(internshipId)
-          });
+        });
 
           // Update internship applications
-          const updatedInternships = company.internships.map((internship) => {
-            if (internship.internshipID === parseInt(internshipId)) {
+        const updatedInternships = company.internships.map((internship) => {
+          if (internship.internshipID === parseInt(internshipId)) {
               let updatedApplications = internship.applications || [];
               
               const userAlreadyApplied = updatedApplications.some(
@@ -114,16 +114,16 @@ function InternshipApplicationPage({
               if (userAlreadyApplied) {
                 // Update existing application
                 updatedApplications = updatedApplications.map(application => {
-                  if (application.username === currUser.username) {
-                    return {
-                      ...application,
-                      coverLetter,
+              if (application.username === currUser.username) {
+                return {
+                  ...application,
+                  coverLetter,
                       documents,
                       updatedAt: today
-                    };
-                  }
-                  return application;
-                });
+                };
+              }
+              return application;
+            });
               } else {
                 // Create new application
                 updatedApplications.push({
@@ -143,54 +143,54 @@ function InternshipApplicationPage({
                   internshipStatus: "didntStartYet",
                   appliedAt: today
                 });
-              }
-
-              return {
-                ...internship,
-                applications: updatedApplications,
-              };
             }
-            return internship;
-          });
 
-          return {
-            ...company,
-            internships: updatedInternships,
-          };
-        }
-        return company;
-      });
-
-      // Update student data
-      const updatedStudents = studentUsers.map((student) => {
-        if (student.studentId === currUserId) {
-          const alreadyReferenced = (student.appliedInternships || []).some(
-            (app) =>
-              app.internshipId === parseInt(internshipId) &&
-              app.companyUsername === companyName
-          );
-
-          if (!alreadyReferenced) {
-            const updatedApplications = [
-              ...(student.appliedInternships || []),
-              {
-                internshipId: parseInt(internshipId),
-                companyUsername: companyName,
-                appliedAt: today
-              },
-            ];
             return {
-              ...student,
-              appliedInternships: updatedApplications,
+              ...internship,
+              applications: updatedApplications,
             };
           }
+          return internship;
+        });
+
+        return {
+          ...company,
+          internships: updatedInternships,
+        };
+      }
+      return company;
+    });
+
+      // Update student data
+    const updatedStudents = studentUsers.map((student) => {
+      if (student.studentId === currUserId) {
+        const alreadyReferenced = (student.appliedInternships || []).some(
+          (app) =>
+            app.internshipId === parseInt(internshipId) &&
+            app.companyUsername === companyName
+        );
+
+        if (!alreadyReferenced) {
+          const updatedApplications = [
+            ...(student.appliedInternships || []),
+            {
+              internshipId: parseInt(internshipId),
+              companyUsername: companyName,
+                appliedAt: today
+            },
+          ];
+          return {
+            ...student,
+            appliedInternships: updatedApplications,
+          };
         }
-        return student;
-      });
+      }
+      return student;
+    });
 
       // Update state
       setCompanyUsers(updatedCompanies);
-      setStudentUsers(updatedStudents);
+    setStudentUsers(updatedStudents);
 
       // Send email notification
       await sendApplicationNotificationEmail({
@@ -204,7 +204,7 @@ function InternshipApplicationPage({
         addNotification("Your application has been submitted successfully!", "success");
       } else {
         alert("Application submitted successfully!");
-      }
+  }
 
       // Redirect to dashboard
       navigate("/studentsDashboard");
@@ -240,9 +240,9 @@ function InternshipApplicationPage({
         <form onSubmit={handleSubmit} className="application-form">
           <div className="form-group">
             <label htmlFor="coverLetter">Cover Letter:</label>
-            <textarea
+        <textarea
               id="coverLetter"
-              name="coverLetter"
+          name="coverLetter"
               rows="6"
               placeholder="Explain why you're interested in this position and what makes you a good fit..."
               value={formData.coverLetter}
@@ -280,9 +280,9 @@ function InternshipApplicationPage({
               disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : (isReapplying ? "Update Application" : "Submit Application")}
-            </button>
+        </button>
           </div>
-        </form>
+      </form>
       </div>
     </div>
   );

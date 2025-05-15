@@ -1,0 +1,147 @@
+.scad-reports-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.scad-reports-container h1 {
+  color: #2a3d66;
+  margin-bottom: 10px;
+}
+
+.reports-description {
+  color: #6c757d;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.report-form {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #495057;
+  background-color: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group label {
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.form-checkbox {
+  width: 18px;
+  height: 18px;
+}
+
+.form-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.generate-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.generate-button:hover {
+  background-color: #218838;
+}
+
+.generate-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.report-description {
+  margin-bottom: 30px;
+}
+
+.description-box {
+  background-color: #e9ecef;
+  border-radius: 10px;
+  padding: 20px;
+  border-left: 5px solid #4a6cf7;
+}
+
+.description-box h2 {
+  color: #2a3d66;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.description-box p {
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.description-box ul {
+  padding-left: 20px;
+  color: #495057;
+}
+
+.description-box li {
+  margin-bottom: 5px;
+}
+
+.navigation-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.back-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+} 
