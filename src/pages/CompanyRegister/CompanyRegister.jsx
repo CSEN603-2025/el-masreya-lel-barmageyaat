@@ -2,13 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import { useState } from "react";
 
-function CompanyRegister({ setCompanyUsers }) {
+function CompanyRegister({ setCompanyRequests }) {
   const navigate = useNavigate();
   const [logo, setLogo] = useState(null);
 
   function handleRegister(e) {
     e.preventDefault();
-    setCompanyUsers((prevUsers) => [
+    setCompanyRequests((prevUsers) => [
       ...prevUsers,
       {
         companyName: e.target.companyName.value,
