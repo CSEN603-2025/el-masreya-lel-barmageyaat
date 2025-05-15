@@ -32,6 +32,7 @@ import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
 import AllStudents from "./pages/AllStudents/AllStudents";
 import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
 import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
+import InternshipCycleSettings from "./pages/InternshipCycleSettings/InternshipCycleSettings";
 
 function App() {
   // this stores the current user logged in
@@ -98,6 +99,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem("companyRequests", JSON.stringify(companyRequests));
   }, [companyRequests]);
+
+  //INTERNSHIP CYCLES STATE
+  const [internshipCycles, setInternshipCycles] = useState(() => {
+    const saved = localStorage.getItem("internshipCycles");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("internshipCycles", JSON.stringify(internshipCycles));
+  }, [internshipCycles]);
 
   // Check for status changes in companyRequests to create notifications
   useEffect(() => {
@@ -357,6 +368,17 @@ function App() {
           <Route
             path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
             element={<ViewInternshipItem studentUsers={studentUsers} />}
+          />
+          <Route
+            path="/InternshipCycleSettings"
+            element={
+              <InternshipCycleSettings
+                currUser={currUser}
+                internshipCycles={internshipCycles}
+                setInternshipCycles={setInternshipCycles}
+                addNotification={addNotification}
+              />
+            }
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

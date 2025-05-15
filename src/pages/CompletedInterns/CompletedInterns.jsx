@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -585,7 +584,8 @@ function CompletedInterns({
                     </button>
                     
                     <button type="button" onClick={handleExportEvaluation} className="export-button">
-                      Download evaluation as PDF
+                      Download as PDF
+                    </button>
 
                   </div>
                 )}
