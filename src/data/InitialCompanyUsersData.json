@@ -55,7 +55,19 @@
         "duration": "6 months",
         "status": "open",
         "applications": []
+        
       }
-    ]
+    ],
+    "notifications": [
+          {
+            "message": "New application received for Data Analyst Intern",
+            "date": "2023-10-01"
+          }
+        ,
+          {
+            "message": "Internship application received",
+            "date": "2023-10-02"
+          }
+        ]
   }
 ]

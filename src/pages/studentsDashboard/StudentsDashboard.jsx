@@ -1,64 +1,73 @@
 import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
+import InternshipFilter from "../../components/InternshipFilter/InternshipFilter";
 import { useEffect, useMemo, useState } from "react";
 import "./StudentsDashboard.css";
 
 function StudentsDashboard({ companyUsers }) {
   const allInternships = useMemo(() => {
-    return companyUsers.flatMap((company) => company.internships);
+    return companyUsers.flatMap((company) => {
+      // Add company industry to each internship
+      return company.internships.map(internship => ({
+        ...internship,
+        industry: company.industry || 'Not specified'
+      }));
+    });
   }, [companyUsers]);
 
-  const [filteredInternships, setFilteredInternships] =
-    useState(allInternships);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterTerm, setFilterTerm] = useState("");
-
-  useEffect(() => {
-    const filtered = allInternships.filter((internship) => {
-      return (
-        internship.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        internship.companyName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-    setFilteredInternships(filtered);
-  }, [filterTerm, searchTerm, allInternships]);
+  const [filteredInternships, setFilteredInternships] = useState(allInternships);
+  
+  // Function to handle filter changes from the InternshipFilter component
+  const handleFilterChange = (filteredResults) => {
+    setFilteredInternships(filteredResults);
+  };
 
   return (
     <div className="students-dashboard">
       <StudentsNavBar />
       <h1>Students Dashboard</h1>
 
-      <div className="filter-search-container">
-        <input
-          type="text"
-          placeholder="Search by title"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-        <input
-          type="text"
-          placeholder="Filter by company name"
-          value={filterTerm}
-          onChange={(e) => setFilterTerm(e.target.value)}
-          className="filter-input"
+      <div className="dashboard-actions">
+        <Link to="/studentProfile" className="action-button view-profile">
+          View/Edit Profile
+        </Link>
+        <Link to="/studentProfile" className="action-button view-majors">
+          View Majors & Semesters
+        </Link>
+        <Link to="/SuggestedCompanies" className="action-button view-suggested">
+          Suggested Companies
+        </Link>
+      </div>
+
+      <div className="filter-container">
+        <h2>Filter Internships</h2>
+        <InternshipFilter 
+          internships={allInternships} 
+          onFilterChange={handleFilterChange}
         />
       </div>
 
       <div className="internship-list">
-        {filteredInternships.map((internship) => (
-          <InternshipList
-            internship={internship}
-            key={internship.companyName + internship.title}
-          />
-        ))}
+        {filteredInternships.length > 0 ? (
+          filteredInternships.map((internship) => (
+            <InternshipList
+              internship={internship}
+              key={internship.companyName + internship.title}
+            />
+          ))
+        ) : (
+          <div className="no-results">
+            <h3>No internships found</h3>
+            <p>Try adjusting your filters or search terms</p>
+          </div>
+        )}
       </div>
 
       <div className="navigation-links">
-        <Link to="/">Home</Link>
-        <br />
-        <Link to="/studentProfile">Student Profile</Link>
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/studentProfile" className="nav-link">Student Profile</Link>
+        <Link to="/SuggestedCompanies" className="nav-link suggested-link">View Suggested Companies</Link>
       </div>
     </div>
   );

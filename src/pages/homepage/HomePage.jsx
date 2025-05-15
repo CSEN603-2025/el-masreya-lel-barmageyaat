@@ -16,6 +16,7 @@ function HomePage() {
       <br />
       <Link to="/StudentWorkshops">StudentWorkshops</Link>
 
+      <Link to="/MyInterns">My Interns</Link>
     </div>
   );
 }
