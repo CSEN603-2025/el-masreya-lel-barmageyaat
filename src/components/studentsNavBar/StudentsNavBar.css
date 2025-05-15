@@ -1,20 +1,101 @@
-/* Navbar Styling */
+.background-wrapper {
+  background-image: url('src/assets/homebackground.jpg'); /* image must be in public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(135, 105, 91, 0.5); /* Soft brown with transparency */
+  backdrop-filter: blur(4px); /* Optional: soft blur */
+  z-index: 1;
+}
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 12rem !important;
+  max-width: 90%;
+  font-weight: bold;
+  z-index: 2;
+  line-height: 1.1;
+}
+
+.hero-text h1 {
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word;
+}
+
+
+
+
+
 .navbar {
-  background-color: #2a3d66; /* Dark blue background */
-  padding: 10px 0;
+  height: 150px; /* fixed height */
+  background-color: rgba(92, 64, 51, 0.644); /* Soft brown with transparency */
+  backdrop-filter: blur(12px);              /* Background blur */
+  -webkit-backdrop-filter: blur(12px);      /* Safari support */
+  padding: 0px 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+
 }
 
+.navbar-logo {
+  height: 150px; /* Adjust based on your logo proportions */
+  width: 70;
+  margin-right: 7px;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(40, 10, 10, 0.2); /* Optional for depth */
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-main {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.navbar-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Left-aligned navigation links */
 .navbar-links {
   list-style: none;
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  gap: 15px;
   margin: 0;
   padding: 0;
+}
+
+/* Right-aligned auth buttons */
+.navbar-auth {
+  display: flex;
+  gap: 15px;
 }
 
 .navbar-link {
@@ -22,28 +103,232 @@
   color: white;
   font-size: 16px;
   font-weight: 500;
-  padding: 8px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  padding: 50px 50px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.05); /* subtle translucent background */
+  backdrop-filter: blur(5px); /* optional: adds a glass-like effect */
 }
 
 .navbar-link:hover {
-  background-color: #4caf50; /* Green hover effect */
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
 }
 
-.navbar-link:active {
-  background-color: #388e3c; /* Darker green on click */
+.auth-button {
+  background-color: #9C6139;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* Mobile Responsive Styling */
+.auth-button:hover {
+  background-color: #814F2E; /* Slightly darker for hover effect */
+}
+
+.auth-button:active {
+  background-color: #6B3F25; /* Even darker for click effect */
+}
+
+/* Mobile styles */
+.hamburger {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
 @media (max-width: 768px) {
-  .navbar-links {
+  .navbar {
+    flex-direction: column;
+    padding: 15px 20px;
+  }
+  
+  .navbar-container {
+    flex-direction: column;
+  }
+  
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+  }
+  
+  .navbar-links,
+  .navbar-auth {
+    display: none;
+    width: 100%;
     flex-direction: column;
     gap: 10px;
+    padding: 10px 0;
   }
-
-  .navbar-link {
-    padding: 12px 20px;
+  
+  .navbar-links.active,
+  .navbar-auth.active {
+    display: flex;
+  }
+  
+  .navbar-link,
+  .auth-button {
+    width: 100%;
     text-align: center;
+    padding: 12px;
   }
+}
+
+.home-box-container{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 20px;
+  background-color: #f5f7fa;
+  flex-wrap: wrap;
+}
+
+.home-box {
+  background-color: rgba(92, 64, 51, 0.75); /* Soft brown with transparency */
+  backdrop-filter: blur(10px);              /* Glass-like effect */
+  -webkit-backdrop-filter: blur(10px);
+  padding: 30px 25px;
+  width: 340px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: white; /* Ensure text is readable */
+}
+
+.home-box h2 {
+  margin: 0;
+  font-size: 24px;
+  color: white;
+}
+
+.subtext {
+  margin: 0;
+  font-size: 14px;
+  color: #f0e6e6;
+}
+
+.subtext a {
+  color: #f4d6b0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+label {
+  font-size: 14px;
+  color: #f4e6dd;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d3c0b0;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+input::placeholder {
+  color: #ddd;
+}
+
+.input-row a {
+  font-size: 12px;
+  color: #f4d6b0;
+}
+
+.checkbox-row {
+  color: #f0e6e6;
+}
+
+.auth-button-main {
+  background-color: #9C6139;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.auth-button-main:hover {
+  background-color: #814F2E;
+}
+
+.divider {
+  text-align: center;
+  font-size: 13px;
+  color: #e0d2c5;
+  margin: 14px 0;
+}
+
+.google-button,
+.facebook-button {
+  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(5px);
+}
+
+.google-button:hover {
+  background-color: rgba(234, 67, 53, 0.2);
+}
+
+.facebook-button:hover {
+  background-color: rgba(59, 89, 152, 0.2);
+}
+
+.footer {
+  width: 100%;
+  background-color: #814F2E;
+  color: white;
+  padding: 40px 60px;
+  box-sizing: border-box;
+
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-column h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.footer-column p,
+.footer-column a {
+  font-size: 0.9rem;
+  color: #d0d0d0;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+  color: #84bfff;
 }
