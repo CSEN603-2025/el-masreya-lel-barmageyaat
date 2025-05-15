@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 
 import "./StudentsDashboard.css";
 
-function StudentsDashboard({ companyUsers }) {
+function StudentsDashboard({ companyUsers, currUser, studentUsers, markNotificationAsRead, clearAllNotifications }) {
   const allInternships = useMemo(() => {
     if (!companyUsers) return [];
     return companyUsers.flatMap((company) =>
@@ -19,6 +19,13 @@ function StudentsDashboard({ companyUsers }) {
   }, [companyUsers]);
 
   const [filteredInternships, setFilteredInternships] = useState([]);
+  
+  // Get student notifications if user is logged in
+  const studentNotifications = useMemo(() => {
+    if (!currUser || !studentUsers) return [];
+    const student = studentUsers.find(s => s.studentId === currUser.studentId);
+    return student?.notifications || [];
+  }, [currUser, studentUsers]);
 
   // Set filtered internships when allInternships changes
   useEffect(() => {
@@ -34,14 +41,18 @@ function StudentsDashboard({ companyUsers }) {
   }, [allInternships]);
 
   // Function to handle filter changes from the InternshipFilter component
-
   const handleFilterChange = useCallback((filteredResults) => {
     setFilteredInternships(filteredResults);
   }, []);
 
   return (
     <div className="students-dashboard">
-      <StudentsNavBar />
+      <StudentsNavBar 
+        currUser={currUser}
+        notifications={studentNotifications}
+        onMarkAsRead={markNotificationAsRead}
+        onClearAll={clearAllNotifications}
+      />
       <h1>Students Dashboard</h1>
 
       <div className="dashboard-actions">

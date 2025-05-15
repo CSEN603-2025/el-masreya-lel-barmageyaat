@@ -8,10 +8,18 @@
   z-index: 1000;
 }
 
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .navbar-links {
   list-style: none;
   display: flex;
-  justify-content: center;
   gap: 20px;
   margin: 0;
   padding: 0;
@@ -35,15 +43,45 @@
   background-color: #388e3c; /* Darker green on click */
 }
 
+.navbar-notifications {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-notifications .student-notifications .notification-toggle {
+  color: white;
+}
+
+.navbar-notifications .student-notifications .notification-toggle:hover {
+  color: #4caf50;
+}
+
+.navbar-notifications .student-notifications .notification-toggle.has-unread {
+  color: #4caf50;
+}
+
 /* Mobile Responsive Styling */
 @media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
   .navbar-links {
     flex-direction: column;
     gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
   }
 
   .navbar-link {
     padding: 12px 20px;
     text-align: center;
+  }
+  
+  .navbar-notifications {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
   }
 }
