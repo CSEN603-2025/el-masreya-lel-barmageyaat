@@ -219,7 +219,9 @@ function App() {
           />
           <Route
             path="/CompanyRegister"
-            element={<CompanyRegister setCompanyUsers={setCompanyUsers} />}
+            element={
+              <CompanyRegister setCompanyRequests={setCompanyRequests} />
+            }
           />
           <Route
             path="/studentsDashboard"
