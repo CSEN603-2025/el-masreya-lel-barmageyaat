@@ -1,0 +1,231 @@
+.evaluation-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.evaluation-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.evaluation-header h1 {
+  color: #2a3d66;
+  margin-bottom: 20px;
+}
+
+.intern-info {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.intern-info h2 {
+  color: #343a40;
+  margin: 0 0 10px 0;
+}
+
+.internship-title {
+  color: #4a6cf7;
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.completion-date {
+  color: #28a745;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.evaluation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.evaluation-section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.evaluation-section h3 {
+  color: #343a40;
+  margin: 0 0 15px 0;
+  font-size: 18px;
+}
+
+.rating-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #dee2e6;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.star-button.active {
+  color: #ffc107;
+}
+
+.star-button:disabled {
+  cursor: default;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+}
+
+textarea:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.evaluation-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #e9ecef;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-button,
+.edit-button,
+.delete-button,
+.back-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+.edit-button {
+  background-color: #4a6cf7;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #3a5ce5;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.back-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+.last-modified {
+  text-align: right;
+  color: #6c757d;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #6c757d;
+}
+
+.not-found {
+  text-align: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.not-found h2 {
+  color: #dc3545;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .evaluation-container {
+    padding: 15px;
+  }
+
+  .evaluation-section {
+    padding: 15px;
+  }
+
+  .evaluation-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .save-button,
+  .edit-button,
+  .delete-button,
+  .back-button {
+    width: 100%;
+  }
+
+  .rating-input {
+    justify-content: center;
+  }
+
+  .star-button {
+    font-size: 28px;
+  }
+} 
