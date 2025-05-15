@@ -263,9 +263,9 @@ function InternshipApplicationPage({
         <form onSubmit={handleSubmit} className="application-form">
           <div className="form-group">
             <label htmlFor="coverLetter">Cover Letter:</label>
-            <textarea
+        <textarea
               id="coverLetter"
-              name="coverLetter"
+          name="coverLetter"
               rows="6"
               placeholder="Explain why you're interested in this position and what makes you a good fit..."
               value={formData.coverLetter}
@@ -305,9 +305,10 @@ function InternshipApplicationPage({
               disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : (isReapplying ? "Update Application" : "Submit Application")}
-            </button>
+        </button>
+
           </div>
-        </form>
+      </form>
       </div>
     </div>
   );
