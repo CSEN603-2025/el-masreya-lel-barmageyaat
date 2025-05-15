@@ -1,3 +1,4 @@
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ApplicantDetails.css";
 
@@ -16,40 +17,49 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
 
   const handleStatusChange = (newStatus) => {
     const prevStatus = companyApplicant.status;
-    
+
     const updatedCompanyUsers = companyUsers.map((company) => ({
       ...company,
       internships: company.internships.map((internship) => ({
         ...internship,
         applications: internship.applications.map((application) =>
           application.username === username
-            ? { 
-                ...application, 
+            ? {
+                ...application,
                 status: newStatus,
-                statusNotified: false
+                statusNotified: false,
               }
             : application
         ),
       })),
     }));
-    
+
     setCompanyUsers(updatedCompanyUsers);
-    
+
     // Send a notification when status changes
     if (addNotification && prevStatus !== newStatus) {
       if (newStatus === "accepted") {
-        addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been accepted.`, "success");
+        addNotification(
+          `Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been accepted.`,
+          "success"
+        );
       } else if (newStatus === "rejected") {
-        addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been rejected.`, "error");
+        addNotification(
+          `Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been rejected.`,
+          "error"
+        );
       } else if (newStatus === "finalized") {
-        addNotification(`Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been finalized.`, "info");
+        addNotification(
+          `Application for ${companyApplicant.firstName} ${companyApplicant.lastName} has been finalized.`,
+          "info"
+        );
       }
     }
   };
 
   const handleInternshipStatusChange = (newStatus) => {
     const prevStatus = companyApplicant.internshipStatus;
-    
+
     const updatedCompanyUsers = companyUsers.map((company) => ({
       ...company,
       internships: company.internships.map((internship) => ({
@@ -60,21 +70,30 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
                 ...application,
                 internshipStatus: newStatus,
                 internshipStatusNotified: false,
-                completionDate: newStatus === "InternshipComplete" ? new Date().toISOString() : application.completionDate
+                completionDate:
+                  newStatus === "InternshipComplete"
+                    ? new Date().toISOString()
+                    : application.completionDate,
               }
             : application
         ),
       })),
     }));
-    
+
     setCompanyUsers(updatedCompanyUsers);
-    
+
     // Send a notification when internship status changes
     if (addNotification && prevStatus !== newStatus) {
       if (newStatus === "currentIntern") {
-        addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has started the internship.`, "info");
+        addNotification(
+          `${companyApplicant.firstName} ${companyApplicant.lastName} has started the internship.`,
+          "info"
+        );
       } else if (newStatus === "InternshipComplete") {
-        addNotification(`${companyApplicant.firstName} ${companyApplicant.lastName} has completed the internship.`, "success");
+        addNotification(
+          `${companyApplicant.firstName} ${companyApplicant.lastName} has completed the internship.`,
+          "success"
+        );
       }
     }
   };
@@ -110,7 +129,9 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
           <div className="info-grid">
             <div className="info-item">
               <label>Name:</label>
-              <p>{companyApplicant.firstName} {companyApplicant.lastName}</p>
+              <p>
+                {companyApplicant.firstName} {companyApplicant.lastName}
+              </p>
             </div>
             <div className="info-item">
               <label>Email:</label>
@@ -123,16 +144,16 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
           <h2>Skills</h2>
           <div className="skills-list">
             {companyApplicant.skills.map((skill, index) => (
-              <span key={index} className="skill-tag">{skill}</span>
+              <span key={index} className="skill-tag">
+                {skill}
+              </span>
             ))}
           </div>
         </div>
 
         <div className="info-section">
           <h2>Cover Letter</h2>
-          <div className="cover-letter">
-            {companyApplicant.coverLetter}
-          </div>
+          <div className="cover-letter">{companyApplicant.coverLetter}</div>
         </div>
 
         <div className="info-section">
@@ -175,10 +196,16 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
               {new Date(companyApplicant.completionDate).toLocaleDateString()}
             </p>
             <div className="completion-actions">
-              <button className="action-button" onClick={() => navigate(`/intern-evaluation/${username}`)}>
+              <button
+                className="action-button"
+                onClick={() => navigate(`/intern-evaluation/${username}`)}
+              >
                 View Evaluation
               </button>
-              <button className="action-button" onClick={() => navigate(`/intern-report/${username}`)}>
+              <button
+                className="action-button"
+                onClick={() => navigate(`/intern-report/${username}`)}
+              >
                 View Final Report
               </button>
             </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Workshops.css";
+import React from "react";
 
 function Workshops() {
   const [workshopName, setWorkshopName] = useState("");
@@ -73,15 +74,15 @@ function Workshops() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newWorkshop = { 
-      name: workshopName, 
-      description, 
-      startDate, 
+    const newWorkshop = {
+      name: workshopName,
+      description,
+      startDate,
       endDate,
       image: imagePreview || null,
       videoUrl: videoUrl || null,
-      speakers: speakers.filter(s => s.name && s.bio),
-      agenda: agenda.filter(a => a.time && a.activity)
+      speakers: speakers.filter((s) => s.name && s.bio),
+      agenda: agenda.filter((a) => a.time && a.activity),
     };
 
     if (isEditing) {
@@ -129,9 +130,10 @@ function Workshops() {
   };
 
   const getYouTubeId = (url) => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return match && match[2].length === 11 ? match[2] : null;
   };
 
   return (
@@ -165,7 +167,7 @@ function Workshops() {
             required
           />
         </div>
-        
+
         <div className="image-upload">
           <label htmlFor="workshop-image">Workshop Image:</label>
           <input
@@ -180,7 +182,7 @@ function Workshops() {
             </div>
           )}
         </div>
-        
+
         <div className="video-input">
           <label>Workshop Video URL (YouTube or direct link):</label>
           <input
@@ -190,7 +192,7 @@ function Workshops() {
             onChange={(e) => setVideoUrl(e.target.value)}
           />
         </div>
-        
+
         <div className="speakers-section">
           <h3>Speakers</h3>
           {speakers.map((speaker, index) => (
@@ -199,18 +201,22 @@ function Workshops() {
                 type="text"
                 placeholder="Speaker Name"
                 value={speaker.name}
-                onChange={(e) => handleSpeakerChange(index, "name", e.target.value)}
+                onChange={(e) =>
+                  handleSpeakerChange(index, "name", e.target.value)
+                }
                 required={index === 0}
               />
               <textarea
                 placeholder="Speaker Bio"
                 value={speaker.bio}
-                onChange={(e) => handleSpeakerChange(index, "bio", e.target.value)}
+                onChange={(e) =>
+                  handleSpeakerChange(index, "bio", e.target.value)
+                }
                 required={index === 0}
               />
               {speakers.length > 1 && (
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="btn remove-btn"
                   onClick={() => removeSpeaker(index)}
                 >
@@ -219,15 +225,11 @@ function Workshops() {
               )}
             </div>
           ))}
-          <button 
-            type="button" 
-            className="btn add-btn"
-            onClick={addSpeaker}
-          >
+          <button type="button" className="btn add-btn" onClick={addSpeaker}>
             Add Speaker
           </button>
         </div>
-        
+
         <div className="agenda-section">
           <h3>Workshop Agenda</h3>
           {agenda.map((item, index) => (
@@ -236,19 +238,23 @@ function Workshops() {
                 type="text"
                 placeholder="Time (e.g., 9:00 AM - 10:00 AM)"
                 value={item.time}
-                onChange={(e) => handleAgendaChange(index, "time", e.target.value)}
+                onChange={(e) =>
+                  handleAgendaChange(index, "time", e.target.value)
+                }
                 required={index === 0}
               />
               <input
                 type="text"
                 placeholder="Activity"
                 value={item.activity}
-                onChange={(e) => handleAgendaChange(index, "activity", e.target.value)}
+                onChange={(e) =>
+                  handleAgendaChange(index, "activity", e.target.value)
+                }
                 required={index === 0}
               />
               {agenda.length > 1 && (
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="btn remove-btn"
                   onClick={() => removeAgendaItem(index)}
                 >
@@ -257,15 +263,11 @@ function Workshops() {
               )}
             </div>
           ))}
-          <button 
-            type="button" 
-            className="btn add-btn"
-            onClick={addAgendaItem}
-          >
+          <button type="button" className="btn add-btn" onClick={addAgendaItem}>
             Add Agenda Item
           </button>
         </div>
-        
+
         <button type="submit" className="btn submit-btn">
           {isEditing ? "Update Workshop" : "Add Workshop"}
         </button>
@@ -285,7 +287,7 @@ function Workshops() {
             <p className="date-range">
               {w.startDate} → {w.endDate}
             </p>
-            
+
             {w.speakers?.length > 0 && (
               <div className="speakers-list">
                 <h4>Speakers:</h4>
@@ -298,7 +300,7 @@ function Workshops() {
                 </ul>
               </div>
             )}
-            
+
             {w.agenda?.length > 0 && (
               <div className="agenda-list">
                 <h4>Agenda:</h4>
@@ -311,20 +313,25 @@ function Workshops() {
                 </ul>
               </div>
             )}
-            
+
             {w.videoUrl && (
               <div className="video-container">
-                <button 
-                  onClick={() => toggleVideo(index)} 
+                <button
+                  onClick={() => toggleVideo(index)}
                   className="btn video-btn"
                 >
-                  {showVideoIndex === index ? "Hide Video" : "Show Workshop Video"}
+                  {showVideoIndex === index
+                    ? "Hide Video"
+                    : "Show Workshop Video"}
                 </button>
                 {showVideoIndex === index && (
                   <div className="video-embed">
-                    {w.videoUrl.includes("youtube") || w.videoUrl.includes("youtu.be") ? (
+                    {w.videoUrl.includes("youtube") ||
+                    w.videoUrl.includes("youtu.be") ? (
                       <iframe
-                        src={`https://www.youtube.com/embed/${getYouTubeId(w.videoUrl)}`}
+                        src={`https://www.youtube.com/embed/${getYouTubeId(
+                          w.videoUrl
+                        )}`}
                         title="Workshop video"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -340,12 +347,18 @@ function Workshops() {
                 )}
               </div>
             )}
-            
+
             <div className="card-buttons">
-              <button onClick={() => handleEdit(index)} className="btn edit-btn">
+              <button
+                onClick={() => handleEdit(index)}
+                className="btn edit-btn"
+              >
                 Edit
               </button>
-              <button onClick={() => handleDelete(index)} className="btn delete-btn">
+              <button
+                onClick={() => handleDelete(index)}
+                className="btn delete-btn"
+              >
                 Delete
               </button>
             </div>

@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
@@ -15,7 +16,7 @@ function InternshipApplicationPage({
   currUserId,
   studentUsers,
   setStudentUsers,
-  addNotification
+  addNotification,
 }) {
   const { internshipId, companyName } = useParams();
   const navigate = useNavigate();
@@ -23,13 +24,13 @@ function InternshipApplicationPage({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     coverLetter: "",
-    documents: null
+    documents: null,
   });
 
   // Get the company and internship
-  const company = companyUsers.find(comp => comp.username === companyName);
+  const company = companyUsers.find((comp) => comp.username === companyName);
   const internship = company?.internships?.find(
-    intern => intern.internshipID === parseInt(internshipId)
+    (intern) => intern.internshipID === parseInt(internshipId)
   );
 
   if (!currUser) {
@@ -52,7 +53,10 @@ function InternshipApplicationPage({
         <StudentsNavBar />
         <div className="application-error">
           <h2>Error: Internship not found</h2>
-          <button onClick={() => navigate("/studentsDashboard")} className="nav-button">
+          <button
+            onClick={() => navigate("/studentsDashboard")}
+            className="nav-button"
+          >
             Back to Dashboard
           </button>
         </div>
@@ -65,12 +69,12 @@ function InternshipApplicationPage({
     if (name === "documents" && files.length > 0) {
       setFormData({
         ...formData,
-        documents: files[0]
+        documents: files[0],
       });
     } else {
       setFormData({
         ...formData,
-        [name]: value
+        [name]: value,
       });
     }
   };
@@ -81,12 +85,14 @@ function InternshipApplicationPage({
 
     try {
       const { coverLetter, documents } = formData;
-      const fullName = `${currUser?.firstName || ''} ${currUser?.lastName || ''}`.trim();
-      const today = new Date().toISOString().split('T')[0];
+      const fullName = `${currUser?.firstName || ""} ${
+        currUser?.lastName || ""
+      }`.trim();
+      const today = new Date().toISOString().split("T")[0];
 
       // Create a notification payload
       const notificationMessage = `${fullName} applied for your "${internship.title}" internship`;
-      
+
       // Update company data
       const updatedCompanies = companyUsers.map((company) => {
         if (company.username === companyName) {
@@ -99,27 +105,27 @@ function InternshipApplicationPage({
             read: false,
             type: "application",
             studentId: currUser.studentId,
-            internshipId: parseInt(internshipId)
+            internshipId: parseInt(internshipId),
           });
 
           // Update internship applications
           const updatedInternships = company.internships.map((internship) => {
             if (internship.internshipID === parseInt(internshipId)) {
               let updatedApplications = internship.applications || [];
-              
+
               const userAlreadyApplied = updatedApplications.some(
                 (application) => application.username === currUser.username
               );
 
               if (userAlreadyApplied) {
                 // Update existing application
-                updatedApplications = updatedApplications.map(application => {
+                updatedApplications = updatedApplications.map((application) => {
                   if (application.username === currUser.username) {
                     return {
                       ...application,
                       coverLetter,
                       documents,
-                      updatedAt: today
+                      updatedAt: today,
                     };
                   }
                   return application;
@@ -141,7 +147,7 @@ function InternshipApplicationPage({
                   documents,
                   status: "Pending",
                   internshipStatus: "didntStartYet",
-                  appliedAt: today
+                  appliedAt: today,
                 });
               }
 
@@ -176,7 +182,7 @@ function InternshipApplicationPage({
               {
                 internshipId: parseInt(internshipId),
                 companyUsername: companyName,
-                appliedAt: today
+                appliedAt: today,
               },
             ];
             return {
@@ -196,12 +202,15 @@ function InternshipApplicationPage({
       await sendApplicationNotificationEmail({
         company,
         student: currUser,
-        internship
+        internship,
       });
 
       // Show success notification
       if (addNotification) {
-        addNotification("Your application has been submitted successfully!", "success");
+        addNotification(
+          "Your application has been submitted successfully!",
+          "success"
+        );
       } else {
         alert("Application submitted successfully!");
       }
@@ -211,7 +220,10 @@ function InternshipApplicationPage({
     } catch (error) {
       console.error("Error submitting application:", error);
       if (addNotification) {
-        addNotification("Error submitting application. Please try again.", "error");
+        addNotification(
+          "Error submitting application. Please try again.",
+          "error"
+        );
       } else {
         alert("Error submitting application. Please try again.");
       }
@@ -221,20 +233,32 @@ function InternshipApplicationPage({
   };
 
   const isReapplying = currUser.appliedInternships?.some(
-    app => app.internshipId === parseInt(internshipId) && app.companyUsername === companyName
+    (app) =>
+      app.internshipId === parseInt(internshipId) &&
+      app.companyUsername === companyName
   );
 
   return (
     <div className="application-container">
       <StudentsNavBar />
       <div className="application-form-container">
-        <h1>{isReapplying ? "Update Your Application" : "Apply for Internship"}</h1>
+        <h1>
+          {isReapplying ? "Update Your Application" : "Apply for Internship"}
+        </h1>
         <div className="internship-info">
           <h2>{internship.title}</h2>
-          <p><strong>Company:</strong> {company.name || company.username}</p>
-          <p><strong>Location:</strong> {internship.location}</p>
-          <p><strong>Duration:</strong> {internship.duration}</p>
-          <p><strong>Compensation:</strong> {internship.paid ? "Paid" : "Unpaid"}</p>
+          <p>
+            <strong>Company:</strong> {company.name || company.username}
+          </p>
+          <p>
+            <strong>Location:</strong> {internship.location}
+          </p>
+          <p>
+            <strong>Duration:</strong> {internship.duration}
+          </p>
+          <p>
+            <strong>Compensation:</strong> {internship.paid ? "Paid" : "Unpaid"}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="application-form">
@@ -251,35 +275,41 @@ function InternshipApplicationPage({
               className="form-input"
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="documents">Upload Resume/CV:</label>
-            <input 
-              type="file" 
-              id="documents" 
-              name="documents" 
+            <input
+              type="file"
+              id="documents"
+              name="documents"
               onChange={handleInputChange}
               className="form-input file-input"
               accept=".pdf,.doc,.docx"
             />
-            <small className="file-hint">Accepted formats: PDF, DOC, DOCX</small>
+            <small className="file-hint">
+              Accepted formats: PDF, DOC, DOCX
+            </small>
           </div>
-          
+
           <div className="form-actions">
-            <button 
-              type="button" 
-              onClick={() => navigate(-1)} 
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
               className="back-button"
               disabled={isSubmitting}
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="submit-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : (isReapplying ? "Update Application" : "Submit Application")}
+              {isSubmitting
+                ? "Submitting..."
+                : isReapplying
+                ? "Update Application"
+                : "Submit Application"}
             </button>
           </div>
         </form>

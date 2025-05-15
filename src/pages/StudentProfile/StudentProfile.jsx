@@ -1,23 +1,29 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import { useState, useEffect } from "react";
 import "./StudentProfile.css";
 
-function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }) {
+function StudentProfile({
+  currUser,
+  studentUsers,
+  setStudentUsers,
+  setCurrUser,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [major, setMajor] = useState(currUser.major || "");
   const [semester, setSemester] = useState(currUser.semester || "");
   const [successMessage, setSuccessMessage] = useState("");
   const [localUser, setLocalUser] = useState(currUser);
   const [showMajorsList, setShowMajorsList] = useState(false);
-  
+
   // Update local state when currUser changes
   useEffect(() => {
     setMajor(currUser.major || "");
     setSemester(currUser.semester || "");
     setLocalUser(currUser);
   }, [currUser]);
-  
+
   // List of possible majors with their available semester ranges
   const majorsWithSemesters = [
     { name: "Computer Science", semesters: "1-8" },
@@ -41,48 +47,48 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
     { name: "Journalism", semesters: "1-8" },
     { name: "Medicine", semesters: "1-12" },
     { name: "Pharmacy", semesters: "1-10" },
-    { name: "Law", semesters: "1-10" }
+    { name: "Law", semesters: "1-10" },
   ];
-  
+
   // Simple majors list for dropdown
-  const majors = majorsWithSemesters.map(m => m.name);
-  
+  const majors = majorsWithSemesters.map((m) => m.name);
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Create updated user with new major and semester
     const updatedUser = {
       ...localUser,
       major,
-      semester
+      semester,
     };
-    
+
     // Update the current user locally
     setLocalUser(updatedUser);
-    
+
     // Also update the current user in the App state
     setCurrUser(updatedUser);
-    
+
     // Update the student users array
-    const updatedStudentUsers = studentUsers.map(student => {
+    const updatedStudentUsers = studentUsers.map((student) => {
       if (student.studentId === currUser.studentId) {
         return updatedUser;
       }
       return student;
     });
-    
+
     // Save the updated student users
     setStudentUsers(updatedStudentUsers);
-    
+
     // Save to localStorage directly to ensure persistence
     try {
       localStorage.setItem("studentUsers", JSON.stringify(updatedStudentUsers));
-      
+
       // Show success message
       setSuccessMessage("Profile updated successfully!");
       setTimeout(() => setSuccessMessage(""), 3000);
-      
+
       // Exit edit mode
       setIsEditing(false);
     } catch (error) {
@@ -91,34 +97,38 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
       setTimeout(() => setSuccessMessage(""), 3000);
     }
   };
-  
+
   return (
     <div className="student-profile-container">
       <StudentsNavBar />
       <div className="profile-header">
         <h1>Student Profile</h1>
         <div className="header-buttons">
-          <button 
-            className="view-majors-button" 
+          <button
+            className="view-majors-button"
             onClick={() => setShowMajorsList(!showMajorsList)}
           >
             {showMajorsList ? "Hide Majors List" : "View Majors List"}
           </button>
-          <button 
-            className="edit-button" 
+          <button
+            className="edit-button"
             onClick={() => setIsEditing(!isEditing)}
           >
             {isEditing ? "Cancel" : "Edit Profile"}
           </button>
         </div>
       </div>
-      
+
       {successMessage && (
-        <div className={`success-message ${successMessage.includes("Error") ? "error-message" : ""}`}>
+        <div
+          className={`success-message ${
+            successMessage.includes("Error") ? "error-message" : ""
+          }`}
+        >
           {successMessage}
         </div>
       )}
-      
+
       {showMajorsList && (
         <div className="majors-list-section">
           <h2>Available Majors and Semesters</h2>
@@ -132,62 +142,77 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
           </div>
         </div>
       )}
-      
+
       <div className="profile-section">
         <h2>Academic Information</h2>
         {isEditing ? (
           <form onSubmit={handleSubmit} className="edit-form">
             <div className="form-group">
               <label htmlFor="major">Major:</label>
-              <select 
-                id="major" 
-                value={major} 
+              <select
+                id="major"
+                value={major}
                 onChange={(e) => setMajor(e.target.value)}
                 required
               >
                 <option value="">Select a major</option>
                 {majors.map((m, index) => (
-                  <option key={index} value={m}>{m}</option>
+                  <option key={index} value={m}>
+                    {m}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="semester">Semester:</label>
-              <select 
-                id="semester" 
-                value={semester} 
+              <select
+                id="semester"
+                value={semester}
                 onChange={(e) => setSemester(e.target.value)}
                 required
               >
                 <option value="">Select a semester</option>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
-                  <option key={num} value={num}>Semester {num}</option>
+                  <option key={num} value={num}>
+                    Semester {num}
+                  </option>
                 ))}
               </select>
             </div>
-            
-            <button type="submit" className="save-button">Save Changes</button>
+
+            <button type="submit" className="save-button">
+              Save Changes
+            </button>
           </form>
         ) : (
           <div className="info-display">
-            <p><strong>Username:</strong> {localUser.username}</p>
-            <p><strong>Major:</strong> {localUser.major || "Not specified"}</p>
-            <p><strong>Semester:</strong> {localUser.semester ? `Semester ${localUser.semester}` : "Not specified"}</p>
+            <p>
+              <strong>Username:</strong> {localUser.username}
+            </p>
+            <p>
+              <strong>Major:</strong> {localUser.major || "Not specified"}
+            </p>
+            <p>
+              <strong>Semester:</strong>{" "}
+              {localUser.semester
+                ? `Semester ${localUser.semester}`
+                : "Not specified"}
+            </p>
           </div>
         )}
       </div>
-      
+
       <div className="profile-section">
         <h2>Job Interests</h2>
         <p>{localUser.interests?.join(", ") || "No interests specified"}</p>
       </div>
-      
+
       <div className="profile-section">
         <h2>Skills</h2>
         <p>{localUser.skills?.join(", ") || "No skills specified"}</p>
       </div>
-      
+
       <div className="profile-section">
         <h2>Experiences</h2>
         {localUser.experiences && localUser.experiences.length > 0 ? (
@@ -205,7 +230,7 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
           <p>No experiences listed</p>
         )}
       </div>
-      
+
       <div className="profile-section">
         <h2>Education</h2>
         {localUser.education && localUser.education.length > 0 ? (
@@ -222,9 +247,12 @@ function StudentProfile({ currUser, studentUsers, setStudentUsers, setCurrUser }
           <p>No education details listed</p>
         )}
       </div>
-      
+
       <div className="profile-actions">
-        <Link to={`/StudentInternships/${localUser.studentId}`} className="profile-link">
+        <Link
+          to={`/StudentInternships/${localUser.studentId}`}
+          className="profile-link"
+        >
           View My Internships
         </Link>
         <Link to="/SuggestedCompanies" className="profile-link suggested-link">

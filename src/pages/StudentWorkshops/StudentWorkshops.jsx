@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import "./StudentWorkshops.css";
 
@@ -30,9 +31,10 @@ function StudentWorkshops() {
 
   const getYouTubeId = (url) => {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return match && match[2].length === 11 ? match[2] : null;
   };
 
   const startTakingNotes = (workshopId) => {
@@ -43,7 +45,7 @@ function StudentWorkshops() {
   const saveNote = (workshopId) => {
     const updatedNotes = {
       ...notes,
-      [workshopId]: currentNote
+      [workshopId]: currentNote,
     };
     setNotes(updatedNotes);
     localStorage.setItem("workshopNotes", JSON.stringify(updatedNotes));
@@ -64,13 +66,13 @@ function StudentWorkshops() {
   const submitRating = (workshopId) => {
     const updatedRatings = {
       ...ratings,
-      [workshopId]: currentRating
+      [workshopId]: currentRating,
     };
     const updatedFeedbacks = {
       ...feedbacks,
-      [workshopId]: currentFeedback
+      [workshopId]: currentFeedback,
     };
-    
+
     setRatings(updatedRatings);
     setFeedbacks(updatedFeedbacks);
     localStorage.setItem("workshopRatings", JSON.stringify(updatedRatings));
@@ -88,12 +90,12 @@ function StudentWorkshops() {
     return (
       <div className="star-rating">
         {[1, 2, 3, 4, 5].map((star) => (
-          <span 
-            key={star} 
-            className={`star ${star <= rating ? 'filled' : ''}`}
+          <span
+            key={star}
+            className={`star ${star <= rating ? "filled" : ""}`}
             onClick={() => setCurrentRating(star)}
           >
-            {star <= rating ? '★' : '☆'}
+            {star <= rating ? "★" : "☆"}
           </span>
         ))}
       </div>
@@ -103,16 +105,16 @@ function StudentWorkshops() {
   return (
     <div className="student-workshops-container">
       <h1>Available Workshops</h1>
-      
+
       <div className="student-workshop-list">
         {workshops.length > 0 ? (
           workshops.map((w, index) => (
             <div key={index} className="student-workshop-card">
               {w.image && (
-                <img 
-                  src={w.image} 
-                  alt={w.name} 
-                  className="student-card-image" 
+                <img
+                  src={w.image}
+                  alt={w.name}
+                  className="student-card-image"
                 />
               )}
               <h3>{w.name}</h3>
@@ -120,7 +122,7 @@ function StudentWorkshops() {
               <p className="student-date-range">
                 {w.startDate} → {w.endDate}
               </p>
-              
+
               {w.speakers?.length > 0 && (
                 <div className="student-speakers-list">
                   <h4>Speakers</h4>
@@ -133,7 +135,7 @@ function StudentWorkshops() {
                   </ul>
                 </div>
               )}
-              
+
               {w.agenda?.length > 0 && (
                 <div className="student-agenda-list">
                   <h4>Agenda</h4>
@@ -146,20 +148,25 @@ function StudentWorkshops() {
                   </ul>
                 </div>
               )}
-              
+
               {w.videoUrl && (
                 <div className="student-video-container">
-                  <button 
-                    onClick={() => toggleVideo(index)} 
+                  <button
+                    onClick={() => toggleVideo(index)}
                     className="student-video-btn"
                   >
-                    {showVideoIndex === index ? "Hide Video" : "Show Workshop Video"}
+                    {showVideoIndex === index
+                      ? "Hide Video"
+                      : "Show Workshop Video"}
                   </button>
                   {showVideoIndex === index && (
                     <div className="student-video-embed">
-                      {w.videoUrl.includes("youtube") || w.videoUrl.includes("youtu.be") ? (
+                      {w.videoUrl.includes("youtube") ||
+                      w.videoUrl.includes("youtu.be") ? (
                         <iframe
-                          src={`https://www.youtube.com/embed/${getYouTubeId(w.videoUrl)}`}
+                          src={`https://www.youtube.com/embed/${getYouTubeId(
+                            w.videoUrl
+                          )}`}
                           title="Workshop video"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
@@ -185,14 +192,14 @@ function StudentWorkshops() {
                       className="notes-textarea"
                     />
                     <div className="notes-buttons">
-                      <button 
-                        onClick={() => saveNote(w.id)} 
+                      <button
+                        onClick={() => saveNote(w.id)}
                         className="btn save-note-btn"
                       >
                         Save Notes
                       </button>
-                      <button 
-                        onClick={cancelNote} 
+                      <button
+                        onClick={cancelNote}
                         className="btn cancel-note-btn"
                       >
                         Cancel
@@ -229,14 +236,14 @@ function StudentWorkshops() {
                       className="feedback-textarea"
                     />
                     <div className="feedback-buttons">
-                      <button 
-                        onClick={() => submitRating(w.id)} 
+                      <button
+                        onClick={() => submitRating(w.id)}
                         className="btn submit-feedback-btn"
                       >
                         Submit Feedback
                       </button>
-                      <button 
-                        onClick={cancelRating} 
+                      <button
+                        onClick={cancelRating}
                         className="btn cancel-feedback-btn"
                       >
                         Cancel
@@ -250,12 +257,16 @@ function StudentWorkshops() {
                         <h4>Your Rating</h4>
                         <div className="display-rating">
                           {renderStars(ratings[w.id])}
-                          <span className="rating-value">({ratings[w.id]}/5)</span>
+                          <span className="rating-value">
+                            ({ratings[w.id]}/5)
+                          </span>
                         </div>
                         {feedbacks[w.id] && (
                           <>
                             <h4>Your Feedback</h4>
-                            <p className="saved-feedback-text">{feedbacks[w.id]}</p>
+                            <p className="saved-feedback-text">
+                              {feedbacks[w.id]}
+                            </p>
                           </>
                         )}
                       </div>
