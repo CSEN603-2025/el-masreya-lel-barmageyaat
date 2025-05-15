@@ -2,26 +2,41 @@ import { Link } from "react-router-dom";
 import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
 import InternshipFilter from "../../components/InternshipFilter/InternshipFilter";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
+
 import "./StudentsDashboard.css";
 
 function StudentsDashboard({ companyUsers }) {
   const allInternships = useMemo(() => {
-    return companyUsers.flatMap((company) => {
-      // Add company industry to each internship
-      return company.internships.map(internship => ({
+    if (!companyUsers) return [];
+    return companyUsers.flatMap((company) =>
+      company.internships.map((internship) => ({
         ...internship,
-        industry: company.industry || 'Not specified'
-      }));
-    });
+        industry: company.industry || "Not specified",
+      }))
+    );
   }, [companyUsers]);
 
-  const [filteredInternships, setFilteredInternships] = useState(allInternships);
-  
+  const [filteredInternships, setFilteredInternships] = useState([]);
+
+  // Set filtered internships when allInternships changes
+  useEffect(() => {
+    // Only set state if different (to avoid endless loop)
+    setFilteredInternships((prev) => {
+      const newList = allInternships;
+      const sameLength = prev.length === newList.length;
+      const sameItems =
+        sameLength && prev.every((item, idx) => item.id === newList[idx].id);
+
+      return sameItems ? prev : newList;
+    });
+  }, [allInternships]);
+
   // Function to handle filter changes from the InternshipFilter component
-  const handleFilterChange = (filteredResults) => {
+
+  const handleFilterChange = useCallback((filteredResults) => {
     setFilteredInternships(filteredResults);
-  };
+  }, []);
 
   return (
     <div className="students-dashboard">
@@ -42,8 +57,8 @@ function StudentsDashboard({ companyUsers }) {
 
       <div className="filter-container">
         <h2>Filter Internships</h2>
-        <InternshipFilter 
-          internships={allInternships} 
+        <InternshipFilter
+          internships={allInternships}
           onFilterChange={handleFilterChange}
         />
       </div>
@@ -53,7 +68,7 @@ function StudentsDashboard({ companyUsers }) {
           filteredInternships.map((internship) => (
             <InternshipList
               internship={internship}
-              key={internship.companyName + internship.title}
+              key={internship.id || internship.companyName + internship.title}
             />
           ))
         ) : (
@@ -65,9 +80,15 @@ function StudentsDashboard({ companyUsers }) {
       </div>
 
       <div className="navigation-links">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/studentProfile" className="nav-link">Student Profile</Link>
-        <Link to="/SuggestedCompanies" className="nav-link suggested-link">View Suggested Companies</Link>
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+        <Link to="/studentProfile" className="nav-link">
+          Student Profile
+        </Link>
+        <Link to="/SuggestedCompanies" className="nav-link suggested-link">
+          View Suggested Companies
+        </Link>
       </div>
     </div>
   );

@@ -25,6 +25,7 @@ import ViewCompanyPostings from "./pages/ViewCompanyPostings/ViewCompanyPostings
 import CompletedInterns from "./pages/CompletedInterns/CompletedInterns";
 import InternEvaluation from "./pages/InternEvaluation/InternEvaluation";
 import ActiveInterns from "./pages/ActiveInterns/ActiveInterns";
+import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
 
 function App() {
   // this stores the current user logged in
