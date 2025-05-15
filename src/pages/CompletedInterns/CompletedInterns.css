@@ -259,4 +259,85 @@
   .action-button {
     width: 100%;
   }
+}
+
+.evaluation-history {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.evaluation-history h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.history-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.history-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.history-timestamp {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.view-history-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.view-history-button:hover {
+  background-color: #5a6268;
+}
+
+.export-button {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+  margin-left: 0.5rem;
+}
+
+.export-button:hover {
+  background-color: #138496;
+}
+
+.view-active-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4a6cf7;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-right: 10px;
+}
+
+.view-active-button:hover {
+  background-color: #3a5ce5;
 } 

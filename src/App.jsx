@@ -23,7 +23,8 @@ import SuggestedCompanies from "./pages/SuggestedCompanies/SuggestedCompanies";
 import NotificationList from "./components/NotificationList/NotificationList";
 import ViewCompanyPostings from "./pages/ViewCompanyPostings/ViewCompanyPostings";
 import CompletedInterns from "./pages/CompletedInterns/CompletedInterns";
-import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
+import InternEvaluation from "./pages/InternEvaluation/InternEvaluation";
+import ActiveInterns from "./pages/ActiveInterns/ActiveInterns";
 
 function App() {
   // this stores the current user logged in
@@ -297,6 +298,29 @@ function App() {
               <CompletedInterns
                 currUser={currUser}
                 companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers}
+                addNotification={addNotification}
+              />
+            }
+          />
+          <Route
+            path="/active-interns"
+            element={
+              <ActiveInterns
+                currUser={currUser}
+                companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers}
+                addNotification={addNotification}
+              />
+            }
+          />
+          <Route
+            path="/intern-evaluation/:username"
+            element={
+              <InternEvaluation
+                companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers}
+                addNotification={addNotification}
               />
             }
           />

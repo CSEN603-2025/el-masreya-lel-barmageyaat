@@ -378,4 +378,13 @@
 
 .action-button.view-completed:hover {
   background-color: #218838;
+}
+
+.view-active-interns {
+  background-color: #4a6cf7; /* Blue color */
+  color: white;
+}
+
+.view-active-interns:hover {
+  background-color: #3a5ce5;
 } 
