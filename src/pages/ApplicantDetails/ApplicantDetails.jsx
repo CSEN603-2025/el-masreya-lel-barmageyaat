@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ApplicantDetails.css";
+import { generateApplicationPDF } from "../../utils/pdfGenerator";
 
 function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
   const { username } = useParams();
@@ -95,6 +96,48 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
           "success"
         );
       }
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!companyApplicant) return;
+    
+    // Find the company and internship this application belongs to
+    let companyName = "";
+    let internshipTitle = "";
+    
+    companyUsers.forEach(company => {
+      company.internships.forEach(internship => {
+        internship.applications.forEach(application => {
+          if (application.username === username) {
+            companyName = company.name || company.username;
+            internshipTitle = internship.title;
+          }
+        });
+      });
+    });
+    
+    const applicationData = {
+      studentName: `${companyApplicant.firstName} ${companyApplicant.lastName}`,
+      studentId: companyApplicant.studentId || "",
+      email: companyApplicant.email,
+      companyName: companyName,
+      internshipTitle: internshipTitle,
+      status: companyApplicant.status || "pending",
+      internshipStatus: companyApplicant.internshipStatus || "didntStartYet",
+      appliedAt: companyApplicant.appliedAt || new Date().toISOString(),
+      coverLetter: companyApplicant.coverLetter || "",
+      skills: companyApplicant.skills || [],
+      experiences: companyApplicant.experiences || []
+    };
+    
+    const success = generateApplicationPDF(
+      applicationData,
+      `application_${companyApplicant.firstName}_${companyApplicant.lastName}`
+    );
+    
+    if (success && addNotification) {
+      addNotification("Application details exported as PDF successfully!", "success");
     }
   };
 
@@ -214,6 +257,9 @@ function ApplicantDetails({ companyUsers, setCompanyUsers, addNotification }) {
       </div>
 
       <div className="action-buttons">
+        <button onClick={handleDownloadPDF} className="download-button">
+          Download as PDF
+        </button>
         <button onClick={() => navigate(-1)} className="back-button">
           Go Back
         </button>

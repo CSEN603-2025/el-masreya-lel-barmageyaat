@@ -27,6 +27,7 @@ import ViewCompanyPostings from "./pages/ViewCompanyPostings/ViewCompanyPostings
 import CompletedInterns from "./pages/CompletedInterns/CompletedInterns";
 import InternEvaluation from "./pages/InternEvaluation/InternEvaluation";
 import ActiveInterns from "./pages/ActiveInterns/ActiveInterns";
+import ScadReports from "./pages/ScadReports/ScadReports";
 import ScadDashboard from "./pages/ScadDashboard/ScadDashboard";
 import AllStudents from "./pages/AllStudents/AllStudents";
 import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
@@ -293,6 +294,15 @@ function App() {
             element={
               <SuggestedCompanies
                 currUser={currUser}
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
+              />
+            }
+          />
+          <Route
+            path="/scad-reports"
+            element={
+              <ScadReports
                 companyUsers={companyUsers}
                 studentUsers={studentUsers}
               />
