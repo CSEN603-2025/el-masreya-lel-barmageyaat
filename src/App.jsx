@@ -33,6 +33,7 @@ import AllStudents from "./pages/AllStudents/AllStudents";
 import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewOfStudentProfile";
 import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
 import InternshipCycleSettings from "./pages/InternshipCycleSettings/InternshipCycleSettings";
+import { checkUpcomingCycles } from "./utils/notificationService";
 
 function App() {
   // this stores the current user logged in
@@ -90,6 +91,42 @@ function App() {
     localStorage.setItem("studentUsers", JSON.stringify(studentUsers));
   }, [studentUsers]);
 
+  // Function to mark student notification as read
+  const markStudentNotificationAsRead = (studentId, notificationId) => {
+    if (!studentId || !notificationId) return;
+    
+    setStudentUsers(prev => 
+      prev.map(student => {
+        if (student.studentId === studentId && student.notifications) {
+          return {
+            ...student,
+            notifications: student.notifications.map(notif => 
+              notif.id === notificationId ? { ...notif, read: true } : notif
+            )
+          };
+        }
+        return student;
+      })
+    );
+  };
+  
+  // Function to clear all student notifications
+  const clearAllStudentNotifications = (studentId) => {
+    if (!studentId) return;
+    
+    setStudentUsers(prev => 
+      prev.map(student => {
+        if (student.studentId === studentId) {
+          return {
+            ...student,
+            notifications: []
+          };
+        }
+        return student;
+      })
+    );
+  };
+
   //COMPANY REQUESTS STATE
   const [companyRequests, setCompanyRequests] = useState(() => {
     const saved = localStorage.getItem("companyRequests");
@@ -108,6 +145,11 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("internshipCycles", JSON.stringify(internshipCycles));
+    
+    // Check if we should notify students about upcoming cycles
+    if (studentUsers && studentUsers.length > 0) {
+      checkUpcomingCycles(internshipCycles, studentUsers, setStudentUsers);
+    }
   }, [internshipCycles]);
 
   // Check for status changes in companyRequests to create notifications
@@ -181,7 +223,15 @@ function App() {
           />
           <Route
             path="/studentsDashboard"
-            element={<StudentsDashboard companyUsers={companyUsers} />}
+            element={
+              <StudentsDashboard 
+                companyUsers={companyUsers} 
+                currUser={currUser}
+                studentUsers={studentUsers}
+                markNotificationAsRead={(notificationId) => currUser && markStudentNotificationAsRead(currUser.studentId, notificationId)}
+                clearAllNotifications={() => currUser && clearAllStudentNotifications(currUser.studentId)}
+              />
+            }
           />
           <Route
             path="/internshipDetails/:id/:companyName"
@@ -376,6 +426,8 @@ function App() {
                 currUser={currUser}
                 internshipCycles={internshipCycles}
                 setInternshipCycles={setInternshipCycles}
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
                 addNotification={addNotification}
               />
             }
