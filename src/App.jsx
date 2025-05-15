@@ -34,6 +34,8 @@ import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewO
 import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
 import InternshipCycleSettings from "./pages/InternshipCycleSettings/InternshipCycleSettings";
 import { checkUpcomingCycles } from "./utils/notificationService";
+import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
+import Workshops from "./pages/Workshops/Workshops";
 
 function App() {
   // this stores the current user logged in
@@ -94,32 +96,32 @@ function App() {
   // Function to mark student notification as read
   const markStudentNotificationAsRead = (studentId, notificationId) => {
     if (!studentId || !notificationId) return;
-    
-    setStudentUsers(prev => 
-      prev.map(student => {
+
+    setStudentUsers((prev) =>
+      prev.map((student) => {
         if (student.studentId === studentId && student.notifications) {
           return {
             ...student,
-            notifications: student.notifications.map(notif => 
+            notifications: student.notifications.map((notif) =>
               notif.id === notificationId ? { ...notif, read: true } : notif
-            )
+            ),
           };
         }
         return student;
       })
     );
   };
-  
+
   // Function to clear all student notifications
   const clearAllStudentNotifications = (studentId) => {
     if (!studentId) return;
-    
-    setStudentUsers(prev => 
-      prev.map(student => {
+
+    setStudentUsers((prev) =>
+      prev.map((student) => {
         if (student.studentId === studentId) {
           return {
             ...student,
-            notifications: []
+            notifications: [],
           };
         }
         return student;
@@ -145,7 +147,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("internshipCycles", JSON.stringify(internshipCycles));
-    
+
     // Check if we should notify students about upcoming cycles
     if (studentUsers && studentUsers.length > 0) {
       checkUpcomingCycles(internshipCycles, studentUsers, setStudentUsers);
@@ -224,12 +226,20 @@ function App() {
           <Route
             path="/studentsDashboard"
             element={
-              <StudentsDashboard 
-                companyUsers={companyUsers} 
+              <StudentsDashboard
+                companyUsers={companyUsers}
                 currUser={currUser}
                 studentUsers={studentUsers}
-                markNotificationAsRead={(notificationId) => currUser && markStudentNotificationAsRead(currUser.studentId, notificationId)}
-                clearAllNotifications={() => currUser && clearAllStudentNotifications(currUser.studentId)}
+                markNotificationAsRead={(notificationId) =>
+                  currUser &&
+                  markStudentNotificationAsRead(
+                    currUser.studentId,
+                    notificationId
+                  )
+                }
+                clearAllNotifications={() =>
+                  currUser && clearAllStudentNotifications(currUser.studentId)
+                }
               />
             }
           />
@@ -432,6 +442,8 @@ function App() {
               />
             }
           />
+          <Route path="/StudentWorkshops" element={<StudentWorkshops />} />
+          <Route path="/Workshops" element={<Workshops />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </Router>
