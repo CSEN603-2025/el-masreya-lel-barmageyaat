@@ -139,7 +139,7 @@ function ScadDashboard({ companyUsers, setCompanyUsers }) {
             </div>
 
             <div className="dashboard-card">
-              <h3>Company Evaluations</h3>
+              <h2>Company Evaluations</h2>
               <p>
                 View and manage evaluations submitted by companies for their
                 interns
@@ -151,44 +151,14 @@ function ScadDashboard({ companyUsers, setCompanyUsers }) {
                 View Company Evaluations
               </button>
             </div>
-          </div>
-        </div>
-
-        <div className="companies-section">
-          <h2>Company Registrations</h2>
-          <div className="companies-list">
-            {companyUsers.map((company) => (
-              <motion.div
-                key={company.id}
-                className="company-card"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="company-logo">
-                  {company.logo ? (
-                    <img src={company.logo} alt={company.companyName} />
-                  ) : (
-                    <FaBuilding />
-                  )}
-                </div>
-                <div className="company-info">
-                  <h3>{company.companyName}</h3>
-                  <p className="company-industry">{company.industry}</p>
-                  <p className="company-size">{company.companySize}</p>
-                  <p className="company-email">{company.email}</p>
-                  <span className={`status-badge ${company.status}`}>
-                    {company.status}
-                  </span>
-                </div>
-                <button
-                  className="view-details-btn"
-                  onClick={() => viewCompanyDetails(company)}
-                >
-                  View Details
-                </button>
-              </motion.div>
-            ))}
+            <div className="dashboard-card">
+              <div className="card-icon workshop-icon">🛠️</div>
+              <h2>Workshops</h2>
+              <p>Manage and review university workshops and participation.</p>
+              <Link to="/Workshops" className="card-button">
+                View Workshops
+              </Link>
+            </div>
           </div>
         </div>
       </main>
