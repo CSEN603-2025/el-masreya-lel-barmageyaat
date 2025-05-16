@@ -17,11 +17,26 @@ function StudentProfile({
   const [localUser, setLocalUser] = useState(currUser);
   const [showMajorsList, setShowMajorsList] = useState(false);
 
+  // New state for assessments posted to this user
+  const [assessmentsResults, setAssessmentsResults] = useState([]);
+
   // Update local state when currUser changes
   useEffect(() => {
     setMajor(currUser.major || "");
     setSemester(currUser.semester || "");
     setLocalUser(currUser);
+
+    // Load saved assessments from localStorage
+    const savedAssessments = localStorage.getItem("savedAssessments");
+    if (savedAssessments) {
+      const allAssessments = JSON.parse(savedAssessments);
+      // Filter assessments "belonging" to this student - assuming currUser.studentId
+      // If assessments do not store studentId, you may want to filter differently or skip filtering
+      // Here we just display all saved assessments as example
+      setAssessmentsResults(allAssessments || []);
+    } else {
+      setAssessmentsResults([]);
+    }
   }, [currUser]);
 
   // List of possible majors with their available semester ranges
@@ -245,6 +260,37 @@ function StudentProfile({
           </ul>
         ) : (
           <p>No education details listed</p>
+        )}
+      </div>
+
+      {/* New Section: Assessments Results */}
+      <div className="profile-section">
+        <h2>Assessment Results</h2>
+        {assessmentsResults.length > 0 ? (
+          <ul className="assessment-list">
+            {assessmentsResults.map((assessment, index) => (
+              <li key={index} className="assessment-item">
+                 <p>
+                <strong>Assessment Title:</strong> {assessment.title || "Unnamed Assessment"}
+               </p>
+                <p>
+                  <strong>Score:</strong> {assessment.score} /{"100"}
+                  {assessment.maxScore}
+                </p>
+                <p>
+
+                </p>
+                {assessment.details && (
+                  <details>
+                    <summary>Details</summary>
+                    <pre>{JSON.stringify(assessment.details, null, 2)}</pre>
+                  </details>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No assessments taken yet.</p>
         )}
       </div>
 

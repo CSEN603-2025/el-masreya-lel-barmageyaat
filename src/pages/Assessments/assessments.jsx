@@ -65,7 +65,7 @@ const mockAssessments = [
 
 const STORAGE_KEY = "savedAssessments";
 
-const Assessments = () => {
+const Assessments = ({ onPostToProfile }) => {
   const [assessments, setAssessments] = useState([]);
   const [currentAssessment, setCurrentAssessment] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
@@ -132,6 +132,17 @@ const Assessments = () => {
     setUserAnswers(Array(assessment.questions.length).fill(null));
   };
 
+  // New handler for "Post in Profile" button
+  const handlePostInProfile = (assessment) => {
+    if (onPostToProfile && typeof onPostToProfile === "function") {
+      onPostToProfile({
+        id: assessment.id,
+        title: assessment.title,
+        score: assessment.score,
+      });
+    }
+  };
+
   return (
     <div className="container">
       <h1>Online Assessments</h1>
@@ -186,8 +197,14 @@ const Assessments = () => {
                     <p>Score: {assessment.score}%</p>
                     <button
                       onClick={() => handleRetakeAssessment(assessment)}
+                      style={{ marginRight: "10px" }}
                     >
                       Retake Assessment
+                    </button>
+                    <button
+                      onClick={() => handlePostInProfile(assessment)}
+                    >
+                      Post in Profile
                     </button>
                   </>
                 ) : (
