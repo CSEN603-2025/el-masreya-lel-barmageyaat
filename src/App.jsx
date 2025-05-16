@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
+import Assessments from "./pages/Assessments/Assessments"; // import the component
 
 import HomePage from "./pages/homepage/HomePage";
 import StudentsDashboard from "./pages/studentsDashboard/StudentsDashboard";
@@ -225,6 +226,10 @@ function App() {
               <CompanyRegister setCompanyRequests={setCompanyRequests} />
             }
           />
+          <Route
+  path="/assessments"
+  element={<Assessments />}
+/>
           <Route
             path="/studentsDashboard"
             element={
