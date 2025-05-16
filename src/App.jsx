@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
+import Assessments from "./pages/Assessments/Assessments"; // import the component
 
 import HomePage from "./pages/homepage/HomePage";
 import StudentsDashboard from "./pages/studentsDashboard/StudentsDashboard";
@@ -228,6 +229,19 @@ function App() {
               <CompanyRegister setCompanyRequests={setCompanyRequests} />
             }
           />
+          {/* === EDITED: Pass currUser, studentUsers, setStudentUsers, addNotification to Assessments === */}
+          <Route
+            path="/assessments"
+            element={
+              <Assessments
+                currUser={currUser}
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+                addNotification={addNotification}
+              />
+            }
+          />
+
           <Route
             path="/studentsDashboard"
             element={
@@ -267,6 +281,7 @@ function App() {
             }
           />
 
+          {/* === EDITED: Pass currUser, studentUsers, setStudentUsers, setCurrUser to StudentProfile === */}
           <Route
             path="/StudentProfile"
             element={
@@ -381,48 +396,33 @@ function App() {
               <ScadReports
                 companyUsers={companyUsers}
                 studentUsers={studentUsers}
+                internshipCycles={internshipCycles}
               />
             }
           />
           <Route
-            path="/completed-interns"
+            path="/scad-dashboard"
             element={
-              <CompletedInterns
+              <ScadDashboard
                 currUser={currUser}
+                studentUsers={studentUsers}
                 companyUsers={companyUsers}
-                setCompanyUsers={setCompanyUsers}
-                addNotification={addNotification}
+                internshipCycles={internshipCycles}
               />
             }
           />
-          <Route
-            path="/active-interns"
-            element={
-              <ActiveInterns
-                currUser={currUser}
-                companyUsers={companyUsers}
-                setCompanyUsers={setCompanyUsers}
-                addNotification={addNotification}
-              />
-            }
-          />
-          <Route
-            path="/intern-evaluation/:username"
-            element={
-              <InternEvaluation
-                companyUsers={companyUsers}
-                setCompanyUsers={setCompanyUsers}
-                addNotification={addNotification}
-              />
-            }
-          />
-          <Route path="/ScadDashboard" element={<ScadDashboard />} />
           <Route
             path="/AllStudents"
-            element={<AllStudents studentUsers={studentUsers} />}
+            element={
+              <AllStudents
+                currUser={currUser}
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+              />
+            }
           />
           <Route
-            path="/ScadViewOfStudentProfile/:studentID"
+            path="/ScadViewOfStudentProfile/:studentId"
             element={
               <ScadViewOfStudentProfile
                 studentUsers={studentUsers}
@@ -431,6 +431,17 @@ function App() {
             }
           />
           <Route
+            path="/ViewInternshipItem/:id/:companyName"
+            element={
+              <ViewInternshipItem
+                companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers}
+                addNotification={addNotification}
+              />
+            }
+          />
+          <Route
+
             path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
             element={
               <ViewInternshipItem
@@ -452,17 +463,23 @@ function App() {
             path="/InternshipCycleSettings"
             element={
               <InternshipCycleSettings
-                currUser={currUser}
                 internshipCycles={internshipCycles}
                 setInternshipCycles={setInternshipCycles}
-                studentUsers={studentUsers}
-                setStudentUsers={setStudentUsers}
                 addNotification={addNotification}
               />
             }
           />
-          <Route path="/StudentWorkshops" element={<StudentWorkshops />} />
-          <Route path="/Workshops" element={<Workshops />} />
+          <Route
+            path="/StudentWorkshops"
+            element={<StudentWorkshops studentUsers={studentUsers} />}
+          />
+          <Route
+            path="/Workshops"
+            element={
+              <Workshops
+                companyUsers={companyUsers}
+                setCompanyUsers={setCompanyUsers} /> }/>
+
           <Route
             path="/scad/company-evaluations"
             element={
@@ -473,6 +490,18 @@ function App() {
             }
           />
           <Route
+
+            path="/ActiveInterns"
+            element={<ActiveInterns companyUsers={companyUsers} />}
+          />
+          <Route
+            path="/CompletedInterns"
+            element={<CompletedInterns companyUsers={companyUsers} />}
+          />
+          <Route
+            path="/InternEvaluation"
+            element={<InternEvaluation companyUsers={companyUsers} />}
+          />
             path="/student-past-internships"
             element={
               <StudentPastInternships
@@ -483,6 +512,7 @@ function App() {
             }
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />
+                                   
         </Routes>
       </Router>
     </div>
