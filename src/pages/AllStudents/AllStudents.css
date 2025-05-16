@@ -1,65 +1,143 @@
 .students-container {
-  padding: 24px;
-  max-width: 1000px;
-  margin: auto;
+  padding: 20px;
+}
+
+.students-container h1 {
+  color: #0f172a;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.students-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50px;
+  height: 4px;
+  background: #3b82f6;
+  border-radius: 4px;
 }
 
 .filter-bar {
-  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  margin-bottom: 30px;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.filter-bar label {
+  margin-right: 15px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.filter-bar select {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: white;
+  font-size: 1rem;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-bar select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .student-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
 }
 
 .student-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
-  padding: 16px 20px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background-color: #fff;
   color: inherit;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: box-shadow 0.2s ease;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.student-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+  opacity: 0.8;
 }
 
 .student-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 .student-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  flex: 2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0f172a;
 }
 
 .student-email {
-  color: #666;
-  flex: 2;
+  color: #64748b;
+  margin-bottom: 20px;
+  font-size: 1rem;
 }
 
 .internship-status {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.9rem;
   font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 0.85rem;
-  text-align: center;
-  flex: 1;
+  margin-top: 10px;
 }
 
 .internship-status.applied {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #dcfce7;
+  color: #16a34a;
 }
 
 .internship-status.not-applied {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .student-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filter-bar label {
+    margin-bottom: 10px;
+  }
+  
+  .filter-bar select {
+    width: 100%;
+  }
 }

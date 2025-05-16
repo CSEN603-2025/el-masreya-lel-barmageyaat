@@ -30,26 +30,23 @@ function ViewCompanyRequest({ companyRequests, setCompanyRequests }) {
   return (
     <div className="dashboard-container">
       <aside className="sidebar">
-        <h2>SCAD Panel</h2>
-        <nav>
+        <div className="sidebar-header">
+          <h2>SCAD Office</h2>
+          <div className="sidebar-divider"></div>
+        </div>
+        <nav className="sidebar-nav">
           <ul>
             <li>
-              <Link to="/ScadDashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/">Company</Link>
-            </li>
-            <li>
-              <Link to="/AllStudents">Students</Link>
-            </li>
-            <li>
-              <Link to="/">Job Posts</Link>
-            </li>
-            <li>
-              <Link to="/ViewCompanyRequest">Company Requests</Link>
+              <Link to="/login">
+                <i className="nav-icon logout-icon">🚪</i>
+                Logout
+              </Link>
             </li>
           </ul>
         </nav>
+        <div className="sidebar-footer">
+          <p>© 2023 SCAD Office</p>
+        </div>
       </aside>
 
       <main className="dashboard-main">

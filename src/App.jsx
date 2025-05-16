@@ -34,6 +34,7 @@ import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewO
 import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
 import InternshipCycleSettings from "./pages/InternshipCycleSettings/InternshipCycleSettings";
 import { checkUpcomingCycles } from "./utils/notificationService";
+import ScadSubmittedReports from "./pages/ScadSubmittedReports/ScadSubmittedReports";
 
 function App() {
   // this stores the current user logged in
@@ -418,6 +419,15 @@ function App() {
           <Route
             path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
             element={<ViewInternshipItem studentUsers={studentUsers} />}
+          />
+          <Route
+            path="/scad-submitted-reports"
+            element={
+              <ScadSubmittedReports
+                studentUsers={studentUsers}
+                companyUsers={companyUsers}
+              />
+            }
           />
           <Route
             path="/InternshipCycleSettings"

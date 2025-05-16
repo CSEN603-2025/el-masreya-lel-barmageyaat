@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './InternshipCycleSettings.css';
 import { notifyCycleToStudents } from '../../utils/notificationService';
 
@@ -126,148 +126,195 @@ function InternshipCycleSettings({ currUser, internshipCycles, setInternshipCycl
   const previousCycles = internshipCycles?.filter(cycle => !cycle.isActive) || [];
 
   return (
-    <div className="cycle-settings-container">
-      <h1>Internship Cycle Settings</h1>
-      
-      {currentCycle && (
-        <div className="current-cycle-card">
-          <h2>Current Active Cycle</h2>
-          <div className="cycle-details">
-            <h3>{currentCycle.name}</h3>
-            <div className="cycle-date">Start Date: {new Date(currentCycle.startDate).toLocaleDateString()}</div>
-            <div className="cycle-date">End Date: {new Date(currentCycle.endDate).toLocaleDateString()}</div>
-            {currentCycle.description && (
-              <div className="cycle-description">{currentCycle.description}</div>
-            )}
-            <div className="cycle-status">
-              <span className="status-badge active">Active</span>
-            </div>
-          </div>
-          <button className="edit-button" onClick={handleEdit}>Edit Cycle</button>
+    <div className="dashboard-container">
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h2>SCAD Office</h2>
+          <div className="sidebar-divider"></div>
         </div>
-      )}
+        <nav className="sidebar-nav">
+          <ul>
+            <li>
+              <Link to="/login">
+                <i className="nav-icon logout-icon">🚪</i>
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <div className="sidebar-footer">
+          <p>© 2023 SCAD Office</p>
+        </div>
+      </aside>
       
-      <div className="cycle-form-container">
-        <h2>{isEditing ? 'Edit Internship Cycle' : 'Create New Internship Cycle'}</h2>
-        <form className="cycle-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Cycle Name</label>
-            <input 
-              type="text" 
-              id="name" 
-              name="name" 
-              className="form-control" 
-              value={newCycle.name}
-              onChange={handleInputChange}
-              required
-              placeholder="e.g. Summer 2023 Internship Cycle"
-            />
+      <main className="dashboard-main">
+        <div className="cycle-settings-container">
+          <h1>Internship Cycle Settings</h1>
+          
+          {currentCycle && (
+            <div className="current-cycle-card">
+              <h2>Current Active Cycle</h2>
+              <div className="cycle-details">
+                <h3>{currentCycle.name}</h3>
+                <div className="cycle-date">Start Date: {new Date(currentCycle.startDate).toLocaleDateString()}</div>
+                <div className="cycle-date">End Date: {new Date(currentCycle.endDate).toLocaleDateString()}</div>
+                {currentCycle.description && (
+                  <div className="cycle-description">{currentCycle.description}</div>
+                )}
+                <div className="cycle-status">
+                  <span className="status-badge active">Active</span>
+                </div>
+              </div>
+              <button className="edit-button" onClick={handleEdit}>Edit Cycle</button>
+            </div>
+          )}
+          
+          <div className="cycle-form-container">
+            <h2>{isEditing ? 'Edit Internship Cycle' : 'Create New Internship Cycle'}</h2>
+            <form className="cycle-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Cycle Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  className="form-control" 
+                  value={newCycle.name}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="e.g. Summer 2023 Internship Cycle"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="startDate">Start Date</label>
+                <input 
+                  type="date" 
+                  id="startDate" 
+                  name="startDate" 
+                  className="form-control" 
+                  value={newCycle.startDate}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="endDate">End Date</label>
+                <input 
+                  type="date" 
+                  id="endDate" 
+                  name="endDate" 
+                  className="form-control" 
+                  value={newCycle.endDate}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <div className="checkbox-group">
+                  <input 
+                    type="checkbox" 
+                    id="isActive" 
+                    name="isActive" 
+                    className="form-checkbox" 
+                    checked={newCycle.isActive}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor="isActive">Set as Active Cycle</label>
+                  <div className="help-text">
+                    Only one cycle can be active at a time. Setting this as active will deactivate any other active cycle.
+                  </div>
+                </div>
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="description">Description (Optional)</label>
+                <textarea 
+                  id="description" 
+                  name="description" 
+                  className="form-control" 
+                  value={newCycle.description}
+                  onChange={handleInputChange}
+                  placeholder="Add any additional information about this internship cycle."
+                />
+              </div>
+              
+              <div className="form-actions">
+                {isEditing && (
+                  <button 
+                    type="button" 
+                    className="cancel-button"
+                    onClick={() => {
+                      setIsEditing(false);
+                      setNewCycle({
+                        name: '',
+                        startDate: '',
+                        endDate: '',
+                        isActive: true,
+                        description: ''
+                      });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                )}
+                <button type="submit" className="save-button">
+                  {isEditing ? 'Update Cycle' : 'Create Cycle'}
+                </button>
+              </div>
+            </form>
           </div>
           
-          <div className="form-group">
-            <label htmlFor="startDate">Start Date</label>
-            <input 
-              type="date" 
-              id="startDate" 
-              name="startDate" 
-              className="form-control" 
-              value={newCycle.startDate}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="endDate">End Date</label>
-            <input 
-              type="date" 
-              id="endDate" 
-              name="endDate" 
-              className="form-control" 
-              value={newCycle.endDate}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <div className="checkbox-group">
-              <input 
-                type="checkbox" 
-                id="isActive" 
-                name="isActive" 
-                className="form-checkbox" 
-                checked={newCycle.isActive}
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="isActive">Set as Active Cycle</label>
-              <div className="help-text">
-                Only one cycle can be active at a time. Setting this as active will deactivate any other active cycle.
+          {previousCycles.length > 0 && (
+            <div className="previous-cycles">
+              <h2>Previous Cycles</h2>
+              <div className="cycles-list">
+                {previousCycles.map(cycle => (
+                  <div key={cycle.id} className="cycle-item">
+                    <h3>{cycle.name}</h3>
+                    <div className="cycle-dates">
+                      <span>{new Date(cycle.startDate).toLocaleDateString()}</span> to <span>{new Date(cycle.endDate).toLocaleDateString()}</span>
+                    </div>
+                    {cycle.description && <p className="cycle-description">{cycle.description}</p>}
+                    <div className="cycle-actions">
+                      <button 
+                        className="activate-button"
+                        onClick={() => {
+                          // Activate this cycle and deactivate others
+                          const updatedCycles = internshipCycles.map(c => ({
+                            ...c,
+                            isActive: c.id === cycle.id
+                          }));
+                          
+                          setInternshipCycles(updatedCycles);
+                          setCurrentCycle({...cycle, isActive: true});
+                          
+                          // Notify students
+                          if (studentUsers && setStudentUsers) {
+                            notifyCycleToStudents({...cycle, isActive: true}, studentUsers, setStudentUsers);
+                          }
+                          
+                          addNotification(`${cycle.name} has been set as the active cycle.`, 'success');
+                        }}
+                      >
+                        Set as Active
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
           
-          <div className="form-group">
-            <label htmlFor="description">Description (Optional)</label>
-            <textarea 
-              id="description" 
-              name="description" 
-              className="form-control" 
-              value={newCycle.description}
-              onChange={handleInputChange}
-              placeholder="Add any additional information about this internship cycle."
-            />
-          </div>
-          
-          <div className="form-actions">
-            {isEditing && (
-              <button 
-                type="button" 
-                className="cancel-button"
-                onClick={() => {
-                  setIsEditing(false);
-                  setNewCycle({
-                    name: '',
-                    startDate: '',
-                    endDate: '',
-                    isActive: true,
-                    description: ''
-                  });
-                }}
-              >
-                Cancel
-              </button>
-            )}
-            <button type="submit" className="save-button">
-              {isEditing ? 'Update Cycle' : 'Create Cycle'}
+          <div className="navigation-footer">
+            <button onClick={() => navigate('/ScadDashboard')} className="back-button">
+              Back to Dashboard
             </button>
           </div>
-        </form>
-      </div>
-      
-      {previousCycles.length > 0 && (
-        <div className="previous-cycles">
-          <h2>Previous Cycles</h2>
-          <div className="cycles-list">
-            {previousCycles.map(cycle => (
-              <div key={cycle.id} className="cycle-item">
-                <h3>{cycle.name}</h3>
-                <p>Start: {new Date(cycle.startDate).toLocaleDateString()}</p>
-                <p>End: {new Date(cycle.endDate).toLocaleDateString()}</p>
-                {cycle.description && (
-                  <div className="cycle-item-description">{cycle.description}</div>
-                )}
-              </div>
-            ))}
-          </div>
         </div>
-      )}
-      
-      <div className="navigation-footer">
-        <button className="back-button" onClick={() => navigate('/ScadDashboard')}>
-          Back to Dashboard
-        </button>
-      </div>
+      </main>
     </div>
   );
 }
