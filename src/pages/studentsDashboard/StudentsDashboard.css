@@ -1,15 +1,131 @@
 /* General Styles */
 .students-dashboard {
-  padding: 30px;
-  background-color: #f0f4f8; /* Light grayish-blue background */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  min-height: 100vh;
+  background-color: #f8fafc;
 }
 
-h1 {
-  color: #2a3d66; /* Dark blue */
+.dashboard-main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  color: #1e293b;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.quick-action-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 20px;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #3b82f6;
+}
+
+.action-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.quick-action-card h3 {
+  color: #1e293b;
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.quick-action-card p {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.dashboard-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-header h2 {
+  color: #1e293b;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.internship-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #e2e8f0;
+}
+
+.no-results h3 {
+  color: #1e293b;
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.no-results p {
+  color: #64748b;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: 1rem;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 /* Dashboard Actions */
@@ -72,28 +188,6 @@ h1 {
   margin-bottom: 10px;
   border-bottom: 1px solid #dee2e6;
   padding-bottom: 8px;
-}
-
-/* No Results Message */
-.no-results {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 30px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  margin: 30px auto;
-  max-width: 600px;
-}
-
-.no-results h3 {
-  color: #6c757d;
-  margin-bottom: 10px;
-  font-size: 20px;
-}
-
-.no-results p {
-  color: #adb5bd;
-  font-size: 16px;
 }
 
 /* Internship List */
@@ -211,7 +305,7 @@ h1 {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .action-button {
     width: 100%;
     max-width: 250px;

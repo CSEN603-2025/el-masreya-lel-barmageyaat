@@ -1,68 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import StudentNotifications from "../StudentNotifications/StudentNotifications";
-import "./StudentsNavBar.css"; // Make sure this line is added
+import "./StudentsNavBar.css";
 
-function StudentsNavBar({ currUser, notifications, onMarkAsRead, onClearAll }) {
+function StudentsNavBar({
+  currUser,
+  notifications = [],
+  onMarkAsRead,
+  onClearAll,
+}) {
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const unreadCount = notifications?.filter((n) => !n.read).length || 0;
+
   return (
-    <div>
-      <nav className="navbar">
-        <div className="navbar-container">
-          <ul className="navbar-links">
-            <li>
-              <Link to="/" className="navbar-link">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/studentsDashboard" className="navbar-link">
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link to="/studentProfile" className="navbar-link">
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/login" className="navbar-link">
-                Logout
-              </Link>
-            </li>
-            <li>
-              <Link to="/CompanyRegister" className="navbar-link">
-                Company Register
-              </Link>
-            </li>
-            <li>
-              <Link to="/ViewCompanyRequest" className="navbar-link">
-                View Company Request
-              </Link>
-            </li>
-            <li>
-              <Link to="/CompanyViewPostings" className="navbar-link">
-                Company View Postings
-              </Link>
-            </li>
-            <li>
-              <Link to="/StudentsViewApplications" className="navbar-link">
-                Internship Application
-              </Link>
-            </li>
-          </ul>
-          
-          {currUser && (
-            <div className="navbar-notifications">
-              <StudentNotifications 
-                notifications={notifications} 
-                onMarkAsRead={onMarkAsRead}
-                onClearAll={onClearAll}
-              />
+    <nav className="student-navbar">
+      <div className="nav-brand">
+        <Link to="/studentsDashboard">SCAD Internship Portal</Link>
+      </div>
+
+      <div className="nav-actions">
+        <div className="notifications-wrapper">
+          <button
+            className="notifications-button"
+            onClick={() => setShowNotifications(!showNotifications)}
+          >
+            <span className="notification-icon">🔔</span>
+            {unreadCount > 0 && (
+              <span className="notification-badge">{unreadCount}</span>
+            )}
+          </button>
+
+          {showNotifications && (
+            <div className="notifications-dropdown">
+              <div className="notifications-header">
+                <h3>Notifications</h3>
+                {notifications?.length > 0 && (
+                  <button
+                    className="clear-all-button"
+                    onClick={() => {
+                      onClearAll?.();
+                      setShowNotifications(false);
+                    }}
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
+
+              <div className="notifications-list">
+                {!notifications?.length ? (
+                  <p className="no-notifications">No notifications</p>
+                ) : (
+                  notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`notification-item ${
+                        !notification.read ? "unread" : ""
+                      }`}
+                      onClick={() => {
+                        onMarkAsRead?.(notification.id);
+                        setShowNotifications(false);
+                      }}
+                    >
+                      <p>{notification.message}</p>
+                      <span className="notification-date">
+                        {new Date(notification.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           )}
         </div>
-      </nav>
-    </div>
+
+        <div className="user-menu">
+          <Link to="/StudentProfile" className="profile-link">
+            <span className="user-name">{currUser?.firstName || "User"}</span>
+            <span className="user-avatar">👤</span>
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
 }
 
