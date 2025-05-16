@@ -47,6 +47,7 @@ function StudentWorkshops() {
     const saved = localStorage.getItem("workshopNotifications");
     return saved ? JSON.parse(saved) : {};
   });
+  const [showRegistrationDetails, setShowRegistrationDetails] = useState({});
 
   useEffect(() => {
     console.log('Loading saved data...');
@@ -403,6 +404,13 @@ function StudentWorkshops() {
     </div>
   );
 
+  const toggleRegistrationDetails = (workshopId) => {
+    setShowRegistrationDetails(prev => ({
+      ...prev,
+      [workshopId]: !prev[workshopId]
+    }));
+  };
+
   const renderRegistrationForm = (workshopId) => {
     const registrationInfo = registrationData[workshopId];
     const notification = notifications[workshopId];
@@ -410,18 +418,26 @@ function StudentWorkshops() {
     if (isRegistered(workshopId) && registrationInfo) {
       return (
         <div className="registration-info">
-          <h4>Registration Details</h4>
-          <p><strong>Name:</strong> {registrationInfo.name}</p>
-          <p><strong>Email:</strong> {registrationInfo.email}</p>
-          {registrationInfo.studentId && <p><strong>Student ID:</strong> {registrationInfo.studentId}</p>}
-          <p><strong>Registered on:</strong> {new Date(registrationInfo.date).toLocaleDateString()}</p>
-          {notification && (
-            <p className="notification-status">
-              <strong>Reminder:</strong> You will be notified one day before the workshop
-            </p>
-          )}
-          <div className="registration-status">
-            <p className="registered-badge">✓ Registered</p>
+          <div className="registration-header" onClick={() => toggleRegistrationDetails(workshopId)}>
+            <div className="registration-status">
+              <p className="registered-badge">✓ Registered</p>
+            </div>
+            <button className={`toggle-details-btn ${showRegistrationDetails[workshopId] ? 'open' : ''}`}>
+              {showRegistrationDetails[workshopId] ? '▼' : '▶'}
+            </button>
+          </div>
+          
+          <div className={`registration-details ${showRegistrationDetails[workshopId] ? 'show' : ''}`}>
+            <h4>Registration Details</h4>
+            <p><strong>Name:</strong> {registrationInfo.name}</p>
+            <p><strong>Email:</strong> {registrationInfo.email}</p>
+            {registrationInfo.studentId && <p><strong>Student ID:</strong> {registrationInfo.studentId}</p>}
+            <p><strong>Registered on:</strong> {new Date(registrationInfo.date).toLocaleDateString()}</p>
+            {notification && (
+              <p className="notification-status">
+                <strong>Reminder:</strong> You will be notified one day before the workshop
+              </p>
+            )}
           </div>
         </div>
       );
