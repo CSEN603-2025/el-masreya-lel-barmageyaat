@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "./ViewInternshipItem.css";
 
-function ViewInternshipItem({ studentUsers, setStudentUsers }) {
+function ViewInternshipItem({ studentUsers, setStudentUsers, companyUsers }) {
   const { type, studentId, internshipId, companyUsername } = useParams();
   const navigate = useNavigate();
   const [statusMessage, setStatusMessage] = useState("");
   const [adminComment, setAdminComment] = useState("");
   const [showCommentField, setShowCommentField] = useState(false);
+  const [showInternshipDetails, setShowInternshipDetails] = useState(false);
 
   const student = studentUsers.find(
     (s) => s.studentId === parseInt(studentId, 10)
   );
+
+  // Find company details for the internship
+  const company = companyUsers ? companyUsers.find(c => c.username === companyUsername) : null;
 
   if (!student) {
     return (
@@ -88,6 +92,9 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
       </div>
     );
   }
+
+  // Find the actual internship details from the company
+  const internshipDetails = company?.internships?.find(i => i.id === internship.internshipId);
 
   // Function to update report status
   const updateReportStatus = (status) => {
@@ -254,6 +261,151 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
     return "pending";
   };
 
+  // Format date function
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Render internship details section
+  const renderInternshipDetails = () => {
+    return (
+      <div className="internship-details-section">
+        <h3 onClick={() => setShowInternshipDetails(!showInternshipDetails)} className="collapsible-header">
+          <span>Internship Details</span>
+          <span className="toggle-icon">{showInternshipDetails ? '−' : '+'}</span>
+        </h3>
+        
+        {showInternshipDetails && (
+          <div className="internship-details-content">
+            <div className="details-grid">
+              <div className="detail-group">
+                <h4>Company Information</h4>
+                <div className="detail-item">
+                  <span className="detail-label">Company Name:</span>
+                  <span className="detail-value">{company?.name || companyUsername}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Industry:</span>
+                  <span className="detail-value">{company?.industry || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Location:</span>
+                  <span className="detail-value">{company?.location || 'Not specified'}</span>
+                </div>
+              </div>
+              
+              <div className="detail-group">
+                <h4>Position Details</h4>
+                <div className="detail-item">
+                  <span className="detail-label">Title:</span>
+                  <span className="detail-value">{internshipDetails?.title || internship.internshipTitle || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Department:</span>
+                  <span className="detail-value">{internshipDetails?.department || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Duration:</span>
+                  <span className="detail-value">{internshipDetails?.duration || internship.duration || 'Not specified'}</span>
+                </div>
+                {internshipDetails?.stipend && (
+                  <div className="detail-item">
+                    <span className="detail-label">Stipend:</span>
+                    <span className="detail-value">{internshipDetails.stipend}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="detail-group full-width">
+              <h4>Timeline</h4>
+              <div className="timeline-grid">
+                <div className="detail-item">
+                  <span className="detail-label">Applied On:</span>
+                  <span className="detail-value">{formatDate(internship.appliedAt)}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Start Date:</span>
+                  <span className="detail-value">{formatDate(internship.startDate)}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">End Date:</span>
+                  <span className="detail-value">{formatDate(internship.endDate)}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Status:</span>
+                  <span className={`detail-value status-value ${internship.internshipStatus?.toLowerCase() || 'pending'}`}>
+                    {internship.internshipStatus || 'Pending'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            {internshipDetails?.requirements && (
+              <div className="detail-group full-width">
+                <h4>Requirements</h4>
+                <div className="detail-text">{internshipDetails.requirements}</div>
+              </div>
+            )}
+            
+            {internshipDetails?.description && (
+              <div className="detail-group full-width">
+                <h4>Description</h4>
+                <div className="detail-text">{internshipDetails.description}</div>
+              </div>
+            )}
+            
+            <div className="detail-group full-width">
+              <h4>Student Information</h4>
+              <div className="details-grid">
+                <div className="detail-item">
+                  <span className="detail-label">Student ID:</span>
+                  <span className="detail-value">{student.studentId}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Full Name:</span>
+                  <span className="detail-value">{student.firstName} {student.lastName}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Major:</span>
+                  <span className="detail-value">{student.major || 'Undeclared'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Semester:</span>
+                  <span className="detail-value">{student.semester || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Email:</span>
+                  <span className="detail-value">{student.email || 'Not provided'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Expected Graduation:</span>
+                  <span className="detail-value">{student.graduationYear || 'Not specified'}</span>
+                </div>
+              </div>
+            </div>
+            
+            {student.skills && student.skills.length > 0 && (
+              <div className="detail-group full-width">
+                <h4>Student Skills</h4>
+                <div className="skills-list">
+                  {student.skills.map((skill, index) => (
+                    <span key={index} className="skill-badge">{skill}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   if (type === "report") {
     const report = internship.report;
     if (!report) {
@@ -318,7 +470,7 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
         <main className="dashboard-main">
           <div className="item-container report">
             <div className="item-header">
-              <h1>📄 Internship Report</h1>
+        <h1>📄 Internship Report</h1>
               <div className="student-info">
                 <p>
                   <strong>Student:</strong> {student.firstName}{" "}
@@ -340,6 +492,8 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
                 </div>
               </div>
             </div>
+
+            {renderInternshipDetails()}
 
             <div className="report-content">
               {report.introduction && (
@@ -367,6 +521,38 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
                 <div className="report-section">
                   <h2>Report Content</h2>
                   <div className="report-text">{report.content}</div>
+                </div>
+              )}
+              
+              {report.learningOutcomes && (
+                <div className="report-section">
+                  <h2>Learning Outcomes</h2>
+                  <div className="report-text">{report.learningOutcomes}</div>
+                </div>
+              )}
+              
+              {report.challenges && (
+                <div className="report-section">
+                  <h2>Challenges Faced</h2>
+                  <div className="report-text">{report.challenges}</div>
+                </div>
+              )}
+              
+              {report.achievements && (
+                <div className="report-section">
+                  <h2>Key Achievements</h2>
+                  <div className="report-text">{report.achievements}</div>
+                </div>
+              )}
+              
+              {report.relevantCourses && report.relevantCourses.length > 0 && (
+                <div className="report-section">
+                  <h2>Relevant Courses</h2>
+                  <ul className="courses-list">
+                    {report.relevantCourses.map((course, index) => (
+                      <li key={index}>{course}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
@@ -486,7 +672,7 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
                 Dashboard
               </button>
             </div>
-          </div>
+        </div>
         </main>
       </div>
     );
@@ -615,6 +801,8 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
               </div>
             </div>
 
+            {renderInternshipDetails()}
+
             <div className="review-content">
               <div className="review-section">
                 <h2>Internship Experience</h2>
@@ -636,6 +824,7 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
                         </span>
                       ))}
                     </div>
+
                   </div>
                 </div>
               )}
@@ -664,6 +853,13 @@ function ViewInternshipItem({ studentUsers, setStudentUsers }) {
                       <li key={index}>{course}</li>
                     ))}
                   </ul>
+          </div>
+        )}
+
+              {review.feedback && (
+                <div className="review-section">
+                  <h2>Supervisor Feedback</h2>
+                  <div className="review-text">{review.feedback}</div>
                 </div>
               )}
             </div>
