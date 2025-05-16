@@ -319,9 +319,76 @@
   transform: translateY(-3px);
 }
 
+.advanced-filters {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  margin-bottom: 30px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #475569;
+  min-width: 70px;
+}
+
+.report-major {
+  color: #475569;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.report-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 90px;
+}
+
+.status-badge.pending {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.status-badge.accepted {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.status-badge.rejected {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.status-badge.flagged {
+  background-color: #fff7ed;
+  color: #ea580c;
+}
+
 @media (max-width: 1200px) {
   .reports-header, .report-item {
-    grid-template-columns: 2fr 1.5fr 2fr 1fr 1.5fr;
+    grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 2fr;
   }
   
   .header-actions, .report-actions {
@@ -342,22 +409,31 @@
 }
 
 @media (max-width: 992px) {
-  .reports-controls {
+  .reports-controls, .advanced-filters {
     flex-direction: column;
-    align-items: stretch;
+    gap: 15px;
   }
   
-  .search-filter {
-    flex-direction: column;
+  .search-filter, .filter-group {
+    width: 100%;
   }
   
   .reports-header, .report-item {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1fr;
   }
   
-  .header-internship, .report-internship,
-  .header-date, .report-date,
-  .header-documents, .report-documents {
+  .header-actions, .report-actions {
+    grid-column: 1 / -1;
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-header, .report-item {
+    grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  }
+  
+  .header-major, .report-major {
     display: none;
   }
 }
@@ -368,19 +444,53 @@
   }
   
   .report-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
     gap: 8px;
-    padding: 16px;
+    position: relative;
+    padding-left: 15px;
   }
   
-  .report-company {
+  .report-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #3b82f6;
+    border-radius: 4px;
+  }
+  
+  .report-company, .report-internship, .report-major, .report-status {
+    color: #64748b;
     font-size: 0.9rem;
   }
   
-  .report-documents {
-    display: flex;
-    margin-top: 10px;
+  .report-student {
+    font-size: 1.1rem;
+  }
+  
+  .report-company::before {
+    content: 'Company: ';
+    font-weight: 600;
+  }
+  
+  .report-internship::before {
+    content: 'Position: ';
+    font-weight: 600;
+  }
+  
+  .report-major::before {
+    content: 'Major: ';
+    font-weight: 600;
+  }
+  
+  .report-status {
+    margin-top: 8px;
+    justify-content: flex-start;
+  }
+  
+  .report-actions {
+    margin-top: 15px;
   }
 } 
