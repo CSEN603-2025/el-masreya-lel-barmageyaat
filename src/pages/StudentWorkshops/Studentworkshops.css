@@ -420,3 +420,58 @@
     color: #4f46e5;
     font-size: 0.9rem;
 }
+
+.download-certificate-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.download-certificate-btn:hover {
+  background-color: #219653;
+}
+
+.download-certificate-btn:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.certificate-message {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-top: 10px;
+  position: relative;
+  height: 20px;
+}
+
+.progress-fill {
+  background-color: #3498db;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.progress-bar span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 12px;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
