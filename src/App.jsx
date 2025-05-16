@@ -35,8 +35,11 @@ import ScadViewOfStudentProfile from "./pages/ScadViewOfStudentProfile/ScadViewO
 import ViewInternshipItem from "./pages/ViewInternshipItem/ViewInternshipItem";
 import InternshipCycleSettings from "./pages/InternshipCycleSettings/InternshipCycleSettings";
 import { checkUpcomingCycles } from "./utils/notificationService";
+import ScadSubmittedReports from "./pages/ScadSubmittedReports/ScadSubmittedReports";
 import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
 import Workshops from "./pages/Workshops/Workshops";
+import ScadCompanyEvaluations from "./pages/ScadCompanyEvaluations/ScadCompanyEvaluations";
+import StudentPastInternships from "./pages/StudentPastInternships/StudentPastInternships";
 
 function App() {
   // this stores the current user logged in
@@ -438,6 +441,25 @@ function App() {
             }
           />
           <Route
+
+            path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
+            element={
+              <ViewInternshipItem
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+              />
+            }
+          />
+          <Route
+            path="/scad-submitted-reports"
+            element={
+              <ScadSubmittedReports
+                studentUsers={studentUsers}
+                companyUsers={companyUsers}
+              />
+            }
+          />
+          <Route
             path="/InternshipCycleSettings"
             element={
               <InternshipCycleSettings
@@ -456,11 +478,19 @@ function App() {
             element={
               <Workshops
                 companyUsers={companyUsers}
-                setCompanyUsers={setCompanyUsers}
+                setCompanyUsers={setCompanyUsers} /> }/>
+
+          <Route
+            path="/scad/company-evaluations"
+            element={
+              <ScadCompanyEvaluations
+                companyUsers={companyUsers}
+                studentUsers={studentUsers}
               />
             }
           />
           <Route
+
             path="/ActiveInterns"
             element={<ActiveInterns companyUsers={companyUsers} />}
           />
@@ -472,6 +502,17 @@ function App() {
             path="/InternEvaluation"
             element={<InternEvaluation companyUsers={companyUsers} />}
           />
+            path="/student-past-internships"
+            element={
+              <StudentPastInternships
+                studentUsers={studentUsers}
+                setStudentUsers={setStudentUsers}
+                currUser={currUser}
+              />
+            }
+          />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
+                                   
         </Routes>
       </Router>
     </div>

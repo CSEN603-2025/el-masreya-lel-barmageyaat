@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './StudentNotifications.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./StudentNotifications.css";
 
-function StudentNotifications({ notifications = [], onMarkAsRead, onClearAll }) {
+function StudentNotifications({
+  notifications = [],
+  onMarkAsRead,
+  onClearAll,
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   // Count unread notifications
-  const unreadCount = notifications ? notifications.filter(notification => !notification.read).length : 0;
-  
+  const unreadCount = notifications
+    ? notifications.filter((notification) => !notification.read).length
+    : 0;
+
   // Sort notifications by date (newest first)
-  const sortedNotifications = notifications 
+  const sortedNotifications = notifications
     ? [...notifications].sort((a, b) => new Date(b.date) - new Date(a.date))
     : [];
-  
+
   return (
     <div className="student-notifications">
-      <button 
-        className={`notification-toggle ${unreadCount > 0 ? 'has-unread' : ''} ${!notifications || notifications.length === 0 ? 'empty' : ''}`}
+      <button
+        className={`notification-toggle ${
+          unreadCount > 0 ? "has-unread" : ""
+        } ${!notifications || notifications.length === 0 ? "empty" : ""}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Notifications"
       >
@@ -25,21 +33,18 @@ function StudentNotifications({ notifications = [], onMarkAsRead, onClearAll }) 
           <span className="notification-count">{unreadCount}</span>
         )}
       </button>
-      
+
       {isOpen && (
         <div className="notifications-dropdown">
           <div className="notifications-header">
             <h3>Notifications</h3>
             {notifications && notifications.length > 0 && (
-              <button 
-                className="clear-all-btn"
-                onClick={onClearAll}
-              >
+              <button className="clear-all-btn" onClick={onClearAll}>
                 Clear All
               </button>
             )}
           </div>
-          
+
           {!notifications || notifications.length === 0 ? (
             <div className="empty-notifications">
               <p>No new notifications</p>
@@ -47,27 +52,43 @@ function StudentNotifications({ notifications = [], onMarkAsRead, onClearAll }) 
           ) : (
             <div className="notifications-list">
               {sortedNotifications.map((notification) => (
-                <div 
-                  key={notification.id} 
-                  className={`notification-item ${notification.read ? 'read' : 'unread'} ${notification.category || ''}`}
+                <div
+                  key={notification.id}
+                  className={`notification-item ${
+                    notification.read ? "read" : "unread"
+                  } ${notification.category || ""}`}
                 >
                   <div className="notification-content">
-                    <p className="notification-message">{notification.message}</p>
-                    <p className="notification-date">{new Date(notification.date).toLocaleDateString()}</p>
+                    <p className="notification-message">
+                      {notification.message}
+                    </p>
+                    <p className="notification-date">
+                      {new Date(notification.date).toLocaleDateString()}
+                    </p>
                   </div>
-                  
-                  {notification.category === 'internship_cycle' && (
-                    <Link 
-                      to="/studentsDashboard" 
+
+                  {notification.category === "internship_cycle" && (
+                    <Link
+                      to="/studentsDashboard"
                       className="view-details-btn"
                       onClick={() => onMarkAsRead(notification.id)}
                     >
                       View Internships
                     </Link>
                   )}
-                  
+
+                  {notification.category === "report_status" && (
+                    <Link
+                      to={`/StudentReportSubmission/${notification.studentId}/${notification.internshipId}/${notification.companyUsername}`}
+                      className="view-details-btn"
+                      onClick={() => onMarkAsRead(notification.id)}
+                    >
+                      View Report
+                    </Link>
+                  )}
+
                   {!notification.read && (
-                    <button 
+                    <button
                       className="mark-read-btn"
                       onClick={() => onMarkAsRead(notification.id)}
                     >
@@ -84,4 +105,4 @@ function StudentNotifications({ notifications = [], onMarkAsRead, onClearAll }) 
   );
 }
 
-export default StudentNotifications; 
+export default StudentNotifications;

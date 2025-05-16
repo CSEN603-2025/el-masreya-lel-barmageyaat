@@ -1,18 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./CompanyRequestList.css";
 
-export default function CompanyRequestList({ requests }) {
+function CompanyRequestList({ requests, onAccept, onReject }) {
   return (
-    <Link
-      to={`/ViewCompanyRequestDetails/${requests.companyName}`}
-      className="request-row"
-    >
+    <div className="request-card">
       <div className="company-name">{requests.companyName}</div>
-      <div className="industry">{requests.industry}</div>
-      <div className={`status ${requests.status.toLowerCase()}`}>
-        {requests.status}
+      <div className="company-info">
+        <div><strong>Industry:</strong> {requests.industry}</div>
+        <div><strong>Location:</strong> {requests.location}</div>
+        <div><strong>Email:</strong> {requests.email}</div>
+        <div><strong>Phone:</strong> {requests.phone}</div>
+        {requests.website && <div><strong>Website:</strong> {requests.website}</div>}
       </div>
-    </Link>
+      <div className="request-actions">
+        <button className="accept-button" onClick={onAccept}>
+          Accept
+        </button>
+        <button className="reject-button" onClick={onReject}>
+          Reject
+        </button>
+      </div>
+    </div>
   );
 }
+
+export default CompanyRequestList;
