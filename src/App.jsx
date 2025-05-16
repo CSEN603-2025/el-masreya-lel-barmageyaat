@@ -265,7 +265,12 @@ function App() {
           />
           <Route
             path="/internshipDetails/:id/:companyName"
-            element={<InternshipDetails companyUsers={companyUsers} />}
+            element={
+              <InternshipDetails
+                companyUsers={companyUsers}
+                currUser={currUser}
+              />
+            }
           />
 
           <Route

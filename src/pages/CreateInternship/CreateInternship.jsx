@@ -21,7 +21,6 @@ const CreateInternship = () => {
     salary: "",
     skills: [],
     description: "",
-    companyId: JSON.parse(localStorage.getItem("currentUser"))?.id,
   });
   const [newSkill, setNewSkill] = useState("");
   const [success, setSuccess] = useState(false);
@@ -54,25 +53,58 @@ const CreateInternship = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create new internship post
+    // Get current user from localStorage
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    // Create new internship with all required fields
     const newInternship = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString(),
+      internshipID: Date.now(),
+      title: formData.title,
+      companyName: currentUser.name,
+      companyUsername: currentUser.username,
+      duration: formData.duration,
+      paid: formData.isPaid,
+      salary: formData.isPaid ? formData.salary : null,
+      skills: formData.skills,
+      description: formData.description,
       status: "active",
       applications: [],
+      createdAt: new Date().toISOString(),
+      startDate: new Date().toISOString(),
+      endDate: null,
+      location: currentUser.location || "Not specified",
+      industry: currentUser.industry || "Not specified",
     };
 
-    // Get existing internships from localStorage
-    const existingInternships = JSON.parse(
-      localStorage.getItem("internships") || "[]"
+    // Get existing company users from localStorage
+    const companyUsers = JSON.parse(
+      localStorage.getItem("companyUsers") || "[]"
     );
 
-    // Add new internship
-    const updatedInternships = [...existingInternships, newInternship];
+    // Find and update the current company's internships array
+    const updatedCompanyUsers = companyUsers.map((company) => {
+      if (company.username === currentUser.username) {
+        // Initialize internships array if it doesn't exist
+        if (!company.internships) {
+          company.internships = [];
+        }
+        return {
+          ...company,
+          internships: [...company.internships, newInternship],
+        };
+      }
+      return company;
+    });
 
-    // Save to localStorage
-    localStorage.setItem("internships", JSON.stringify(updatedInternships));
+    // Save updated company users back to localStorage
+    localStorage.setItem("companyUsers", JSON.stringify(updatedCompanyUsers));
+
+    // Update current user's internships
+    const updatedCurrentUser = {
+      ...currentUser,
+      internships: [...(currentUser.internships || []), newInternship],
+    };
+    localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
 
     // Show success message
     setSuccess(true);
