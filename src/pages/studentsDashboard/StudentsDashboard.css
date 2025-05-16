@@ -202,6 +202,54 @@
 .internship-card-link {
   text-decoration: none; /* Remove default link underline */
 }
+.extra-actions {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.extra-action-card {
+  flex: 1 1 48%;
+  max-width: 500px;
+  min-width: 320px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  text-decoration: none;
+  color: var(--text-primary);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.extra-action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.extra-action-card i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.extra-action-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+}
+
+.extra-action-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
 
 .internship-card {
   display: flex;
