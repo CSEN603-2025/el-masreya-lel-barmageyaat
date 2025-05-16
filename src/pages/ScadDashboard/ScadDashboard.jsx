@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ScadDashboard.css";
 
 function ScadDashboard() {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard-container">
       <aside className="sidebar">
@@ -24,27 +26,27 @@ function ScadDashboard() {
           <p>© 2023 SCAD Office</p>
         </div>
       </aside>
-      
+
       <main className="dashboard-main">
         <div className="dashboard-header">
           <h1>SCAD Dashboard</h1>
           <div className="dashboard-actions">
             <div className="date-display">
-              {new Date().toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+              {new Date().toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
               })}
             </div>
           </div>
         </div>
-        
+
         <div className="dashboard-sections">
           <div className="section-header">
             <h2>Quick Actions</h2>
           </div>
-          
+
           <div className="dashboard-cards">
             <div className="dashboard-card">
               <div className="card-icon student-icon">👨‍🎓</div>
@@ -54,7 +56,7 @@ function ScadDashboard() {
                 View Students
               </Link>
             </div>
-            
+
             <div className="dashboard-card">
               <div className="card-icon company-icon">🏢</div>
               <h2>Company Requests</h2>
@@ -63,32 +65,55 @@ function ScadDashboard() {
                 View Requests
               </Link>
             </div>
-            
+
             <div className="dashboard-card">
               <div className="card-icon cycle-icon">🔄</div>
               <h2>Internship Cycle Management</h2>
-              <p>Set the start and end dates for the current internship cycle and manage past cycles.</p>
+              <p>
+                Set the start and end dates for the current internship cycle and
+                manage past cycles.
+              </p>
               <Link to="/InternshipCycleSettings" className="card-button">
                 Manage Cycles
               </Link>
             </div>
-            
+
             <div className="dashboard-card">
               <div className="card-icon reports-icon">📊</div>
               <h2>Generate Reports</h2>
-              <p>Create detailed reports about students, companies, and internship progress.</p>
+              <p>
+                Create detailed reports about students, companies, and
+                internship progress.
+              </p>
               <Link to="/scad-reports" className="card-button">
                 Generate Reports
               </Link>
             </div>
-            
+
             <div className="dashboard-card">
               <div className="card-icon view-icon">📋</div>
               <h2>View Submitted Reports</h2>
-              <p>Access and review all reports and evaluations submitted by students.</p>
+              <p>
+                Access and review all reports and evaluations submitted by
+                students.
+              </p>
               <Link to="/scad-submitted-reports" className="card-button">
                 View Submissions
               </Link>
+            </div>
+
+            <div className="dashboard-card">
+              <h3>Company Evaluations</h3>
+              <p>
+                View and manage evaluations submitted by companies for their
+                interns
+              </p>
+              <button
+                className="dashboard-button"
+                onClick={() => navigate("/scad/company-evaluations")}
+              >
+                View Company Evaluations
+              </button>
             </div>
           </div>
         </div>

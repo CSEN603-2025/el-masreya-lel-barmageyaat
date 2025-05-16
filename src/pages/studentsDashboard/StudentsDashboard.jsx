@@ -7,7 +7,13 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 
 import "./StudentsDashboard.css";
 
-function StudentsDashboard({ companyUsers, currUser, studentUsers, markNotificationAsRead, clearAllNotifications }) {
+function StudentsDashboard({
+  companyUsers,
+  currUser,
+  studentUsers,
+  markNotificationAsRead,
+  clearAllNotifications,
+}) {
   const allInternships = useMemo(() => {
     if (!companyUsers) return [];
     return companyUsers.flatMap((company) =>
@@ -19,11 +25,13 @@ function StudentsDashboard({ companyUsers, currUser, studentUsers, markNotificat
   }, [companyUsers]);
 
   const [filteredInternships, setFilteredInternships] = useState([]);
-  
+
   // Get student notifications if user is logged in
   const studentNotifications = useMemo(() => {
     if (!currUser || !studentUsers) return [];
-    const student = studentUsers.find(s => s.studentId === currUser.studentId);
+    const student = studentUsers.find(
+      (s) => s.studentId === currUser.studentId
+    );
     return student?.notifications || [];
   }, [currUser, studentUsers]);
 
@@ -47,61 +55,75 @@ function StudentsDashboard({ companyUsers, currUser, studentUsers, markNotificat
 
   return (
     <div className="students-dashboard">
-      <StudentsNavBar 
+      <StudentsNavBar
         currUser={currUser}
         notifications={studentNotifications}
         onMarkAsRead={markNotificationAsRead}
         onClearAll={clearAllNotifications}
       />
-      <h1>Students Dashboard</h1>
 
-      <div className="dashboard-actions">
-        <Link to="/studentProfile" className="action-button view-profile">
-          View/Edit Profile
-        </Link>
-        <Link to="/studentProfile" className="action-button view-majors">
-          View Majors & Semesters
-        </Link>
-        <Link to="/SuggestedCompanies" className="action-button view-suggested">
-          Suggested Companies
-        </Link>
-      </div>
+      <main className="dashboard-main">
+        <div className="dashboard-header">
+          <h1>Welcome, {currUser.firstName}!</h1>
+        </div>
 
-      <div className="filter-container">
-        <h2>Filter Internships</h2>
-        <InternshipFilter
-          internships={allInternships}
-          onFilterChange={handleFilterChange}
-        />
-      </div>
+        <div className="quick-actions">
+          <Link
+            to={`/StudentInternships/${currUser.studentId}`}
+            className="quick-action-card"
+          >
+            <i className="action-icon">💼</i>
+            <h3>Current Internships</h3>
+            <p>View and manage your active internships</p>
+          </Link>
 
-      <div className="internship-list">
-        {filteredInternships.length > 0 ? (
-          filteredInternships.map((internship) => (
-            <InternshipList
-              internship={internship}
-              key={internship.id || internship.companyName + internship.title}
+          <Link to="/student-past-internships" className="quick-action-card">
+            <i className="action-icon">📚</i>
+            <h3>Past Internships</h3>
+            <p>View your completed internships and evaluations</p>
+          </Link>
+
+          <Link to="/ViewCompanyPostings" className="quick-action-card">
+            <i className="action-icon">🔍</i>
+            <h3>Find Internships</h3>
+            <p>Browse and apply for new opportunities</p>
+          </Link>
+
+          <Link to="/StudentsViewApplications" className="quick-action-card">
+            <i className="action-icon">📝</i>
+            <h3>My Applications</h3>
+            <p>Track your internship applications</p>
+          </Link>
+        </div>
+
+        <div className="dashboard-section">
+          <div className="section-header">
+            <h2>Available Internships</h2>
+            <InternshipFilter
+              internships={allInternships}
+              onFilterChange={handleFilterChange}
             />
-          ))
-        ) : (
-          <div className="no-results">
-            <h3>No internships found</h3>
-            <p>Try adjusting your filters or search terms</p>
           </div>
-        )}
-      </div>
 
-      <div className="navigation-links">
-        <Link to="/" className="nav-link">
-          Home
-        </Link>
-        <Link to="/studentProfile" className="nav-link">
-          Student Profile
-        </Link>
-        <Link to="/SuggestedCompanies" className="nav-link suggested-link">
-          View Suggested Companies
-        </Link>
-      </div>
+          <div className="internship-list">
+            {filteredInternships.length > 0 ? (
+              filteredInternships.map((internship) => (
+                <InternshipList
+                  internship={internship}
+                  key={
+                    internship.id || internship.companyName + internship.title
+                  }
+                />
+              ))
+            ) : (
+              <div className="no-results">
+                <h3>No internships found</h3>
+                <p>Try adjusting your filters or search terms</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
