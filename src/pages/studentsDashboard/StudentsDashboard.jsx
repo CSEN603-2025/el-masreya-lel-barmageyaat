@@ -95,6 +95,19 @@ function StudentsDashboard({
             <p>Track your internship applications</p>
           </Link>
         </div>
+        <div className="extra-actions">
+          <Link to="/Assessments" className="extra-action-card">
+            <i className="action-icon">📝</i>
+            <h3>Assessments</h3>
+            <p>Take and review your assessments</p>
+          </Link>
+
+          <Link to="/StudentWorkshops" className="extra-action-card">
+            <i className="action-icon">🎓</i>
+            <h3>Workshops</h3>
+            <p>Explore workshops tailored for you</p>
+          </Link>
+        </div>
 
         <div className="dashboard-section">
           <div className="section-header">
