@@ -1,9 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaBuilding,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaFileAlt,
+  FaEnvelope,
+  FaIndustry,
+  FaUsers,
+  FaTimes,
+} from "react-icons/fa";
 import "./ScadDashboard.css";
 
-function ScadDashboard() {
+function ScadDashboard({ companyUsers, setCompanyUsers }) {
   const navigate = useNavigate();
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleApprove = (companyId) => {
+    setCompanyUsers(
+      companyUsers.map((company) =>
+        company.id === companyId ? { ...company, status: "approved" } : company
+      )
+    );
+    setShowModal(false);
+  };
+
+  const handleReject = (companyId) => {
+    setCompanyUsers(
+      companyUsers.map((company) =>
+        company.id === companyId ? { ...company, status: "rejected" } : company
+      )
+    );
+    setShowModal(false);
+  };
+
+  const viewCompanyDetails = (company) => {
+    setSelectedCompany(company);
+    setShowModal(true);
+  };
 
   return (
     <div className="dashboard-container">
@@ -117,7 +153,144 @@ function ScadDashboard() {
             </div>
           </div>
         </div>
+
+        <div className="companies-section">
+          <h2>Company Registrations</h2>
+          <div className="companies-list">
+            {companyUsers.map((company) => (
+              <motion.div
+                key={company.id}
+                className="company-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="company-logo">
+                  {company.logo ? (
+                    <img src={company.logo} alt={company.companyName} />
+                  ) : (
+                    <FaBuilding />
+                  )}
+                </div>
+                <div className="company-info">
+                  <h3>{company.companyName}</h3>
+                  <p className="company-industry">{company.industry}</p>
+                  <p className="company-size">{company.companySize}</p>
+                  <p className="company-email">{company.email}</p>
+                  <span className={`status-badge ${company.status}`}>
+                    {company.status}
+                  </span>
+                </div>
+                <button
+                  className="view-details-btn"
+                  onClick={() => viewCompanyDetails(company)}
+                >
+                  View Details
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </main>
+
+      <AnimatePresence>
+        {showModal && selectedCompany && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="close-modal"
+                onClick={() => setShowModal(false)}
+              >
+                <FaTimes />
+              </button>
+
+              <div className="modal-header">
+                <div className="company-logo">
+                  {selectedCompany.logo ? (
+                    <img
+                      src={selectedCompany.logo}
+                      alt={selectedCompany.companyName}
+                    />
+                  ) : (
+                    <FaBuilding />
+                  )}
+                </div>
+                <h2>{selectedCompany.companyName}</h2>
+                <span className={`status-badge ${selectedCompany.status}`}>
+                  {selectedCompany.status}
+                </span>
+              </div>
+
+              <div className="modal-body">
+                <div className="info-section">
+                  <div className="info-item">
+                    <FaIndustry />
+                    <div>
+                      <label>Industry</label>
+                      <p>{selectedCompany.industry}</p>
+                    </div>
+                  </div>
+                  <div className="info-item">
+                    <FaUsers />
+                    <div>
+                      <label>Company Size</label>
+                      <p>{selectedCompany.companySize}</p>
+                    </div>
+                  </div>
+                  <div className="info-item">
+                    <FaEnvelope />
+                    <div>
+                      <label>Email</label>
+                      <p>{selectedCompany.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="documents-section">
+                  <h3>Verification Documents</h3>
+                  <div className="documents-list">
+                    {selectedCompany.documents.map((doc, index) => (
+                      <div key={index} className="document-item">
+                        <FaFileAlt />
+                        <span>{doc.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {selectedCompany.status === "pending" && (
+                <div className="modal-actions">
+                  <button
+                    className="approve-btn"
+                    onClick={() => handleApprove(selectedCompany.id)}
+                  >
+                    <FaCheckCircle /> Approve
+                  </button>
+                  <button
+                    className="reject-btn"
+                    onClick={() => handleReject(selectedCompany.id)}
+                  >
+                    <FaTimesCircle /> Reject
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

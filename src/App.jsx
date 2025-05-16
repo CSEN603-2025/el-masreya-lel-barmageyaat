@@ -441,7 +441,6 @@ function App() {
             }
           />
           <Route
-
             path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
             element={
               <ViewInternshipItem
@@ -478,7 +477,10 @@ function App() {
             element={
               <Workshops
                 companyUsers={companyUsers}
-                setCompanyUsers={setCompanyUsers} /> }/>
+                setCompanyUsers={setCompanyUsers}
+              />
+            }
+          />
 
           <Route
             path="/scad/company-evaluations"
@@ -490,7 +492,6 @@ function App() {
             }
           />
           <Route
-
             path="/ActiveInterns"
             element={<ActiveInterns companyUsers={companyUsers} />}
           />
@@ -502,6 +503,7 @@ function App() {
             path="/InternEvaluation"
             element={<InternEvaluation companyUsers={companyUsers} />}
           />
+          <Route
             path="/student-past-internships"
             element={
               <StudentPastInternships
@@ -512,7 +514,6 @@ function App() {
             }
           />
           <Route path="*" element={<h1>404 Not Found</h1>} />
-                                   
         </Routes>
       </Router>
     </div>
