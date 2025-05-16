@@ -475,3 +475,125 @@
   font-size: 12px;
   text-shadow: 0 0 2px rgba(0,0,0,0.5);
 }
+/* ...[existing styles remain unchanged above this point]... */
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .student-workshops-container {
+        padding: 15px;
+    }
+
+    .student-workshop-card {
+        padding: 20px;
+    }
+
+    .student-workshops-container h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .student-workshop-list {
+        grid-template-columns: 1fr;
+    }
+
+    .student-workshops-container h1 {
+        font-size: 1.7rem;
+    }
+
+    .notes-buttons,
+    .feedback-buttons {
+        flex-direction: column;
+    }
+
+    .btn,
+    .student-video-btn,
+    .take-notes-btn,
+    .give-feedback-btn,
+    .save-note-btn,
+    .cancel-note-btn,
+    .submit-feedback-btn,
+    .cancel-feedback-btn,
+    .download-certificate-btn {
+        width: 100%;
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+
+    .star {
+        font-size: 20px;
+    }
+
+    .student-card-image {
+        height: 160px;
+    }
+
+    .student-speakers-list,
+    .student-agenda-list {
+        padding: 12px;
+    }
+
+    .notes-textarea,
+    .feedback-textarea {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .student-workshops-container {
+        padding: 10px;
+    }
+
+    .student-workshop-card {
+        padding: 15px;
+    }
+
+    .student-workshops-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .student-workshop-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .student-card-image {
+        height: 140px;
+    }
+
+    .student-speakers-list,
+    .student-agenda-list {
+        padding: 10px;
+    }
+
+    .notes-textarea,
+    .feedback-textarea {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    .btn,
+    .student-video-btn,
+    .take-notes-btn,
+    .give-feedback-btn,
+    .save-note-btn,
+    .cancel-note-btn,
+    .submit-feedback-btn,
+    .cancel-feedback-btn,
+    .download-certificate-btn {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+
+    .star {
+        font-size: 18px;
+    }
+
+    .saved-notes p,
+    .saved-feedback-text {
+        font-size: 0.85rem;
+    }
+
+    .rating-value {
+        font-size: 0.8rem;
+    }
+}
