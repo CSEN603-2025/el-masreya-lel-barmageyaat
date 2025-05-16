@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import YouTube from "react-youtube";
 import "./StudentWorkshops.css";
 
@@ -26,8 +26,25 @@ function StudentWorkshops() {
     return saved ? JSON.parse(saved) : {};
   });
   const [videoProgress, setVideoProgress] = useState({});
+  const [registeredWorkshops, setRegisteredWorkshops] = useState(() => {
+    const saved = localStorage.getItem("registeredWorkshops");
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [registrationForm, setRegistrationForm] = useState({
+    name: "",
+    email: "",
+    studentId: ""
+  });
 
   const workshops = JSON.parse(localStorage.getItem("workshops")) || [];
+
+  useEffect(() => {
+    // Load registration data from localStorage
+    const savedRegistrations = localStorage.getItem("registeredWorkshops");
+    if (savedRegistrations) {
+      setRegisteredWorkshops(JSON.parse(savedRegistrations));
+    }
+  }, []);
 
   const toggleVideo = (index) => {
     setShowVideoIndex(showVideoIndex === index ? null : index);
@@ -41,6 +58,7 @@ function StudentWorkshops() {
   };
 
   const startTakingNotes = (workshopId) => {
+    if (!isRegistered(workshopId)) return;
     setActiveWorkshop(workshopId);
     setCurrentNote(notes[workshopId] || "");
   };
@@ -61,6 +79,7 @@ function StudentWorkshops() {
   };
 
   const startRating = (workshopId) => {
+    if (!isRegistered(workshopId)) return;
     setActiveFeedbackForm(workshopId);
     setCurrentRating(ratings[workshopId] || 0);
     setCurrentFeedback(feedbacks[workshopId] || "");
@@ -105,9 +124,42 @@ function StudentWorkshops() {
     }));
   };
 
+  const handleRegistrationChange = (e) => {
+    const { name, value } = e.target;
+    setRegistrationForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const registerForWorkshop = (workshopId) => {
+    if (!registrationForm.name || !registrationForm.email) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    const updatedRegistrations = [...registeredWorkshops, workshopId];
+    setRegisteredWorkshops(updatedRegistrations);
+    localStorage.setItem("registeredWorkshops", JSON.stringify(updatedRegistrations));
+    
+    // Save student info for certificate
+    localStorage.setItem("userName", registrationForm.name);
+    
+    alert(`Successfully registered for the workshop!`);
+  };
+
+  const isRegistered = (workshopId) => {
+    return registeredWorkshops.includes(workshopId);
+  };
+
   const generateCertificate = (workshop) => {
+    if (!isRegistered(workshop.id)) {
+      alert("You need to register for this workshop first");
+      return;
+    }
+
     const certificateWindow = window.open("", "_blank");
-    const userName = localStorage.getItem("userName") || "wello";
+    const userName = localStorage.getItem("userName") || registrationForm.name || "Participant";
     const currentDate = new Date().toLocaleDateString();
 
     certificateWindow.document.write(`
@@ -179,6 +231,47 @@ function StudentWorkshops() {
     </div>
   );
 
+  const renderRegistrationForm = (workshopId) => (
+    <div className="registration-form">
+      <h4>Register for this Workshop</h4>
+      <div className="form-group">
+        <label>Full Name*</label>
+        <input
+          type="text"
+          name="name"
+          value={registrationForm.name}
+          onChange={handleRegistrationChange}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>Email*</label>
+        <input
+          type="email"
+          name="email"
+          value={registrationForm.email}
+          onChange={handleRegistrationChange}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>Student ID</label>
+        <input
+          type="text"
+          name="studentId"
+          value={registrationForm.studentId}
+          onChange={handleRegistrationChange}
+        />
+      </div>
+      <button 
+        onClick={() => registerForWorkshop(workshopId)}
+        className="btn register-btn"
+      >
+        Register Now
+      </button>
+    </div>
+  );
+
   return (
     <div className="student-workshops-container">
       <h1>Available Workshops</h1>
@@ -216,130 +309,140 @@ function StudentWorkshops() {
                 </div>
               )}
 
-              {w.videoUrl && (
-                <div className="student-video-container">
-                  <button onClick={() => toggleVideo(index)} className="student-video-btn">
-                    {showVideoIndex === index ? "Hide Video" : "Show Workshop Video"}
-                  </button>
-                  {showVideoIndex === index && (
-                    <>
-                      <div className="student-video-embed">
-                        {w.videoUrl.includes("youtube") || w.videoUrl.includes("youtu.be") ? (
-                          <YouTube
-                            videoId={getYouTubeId(w.videoUrl)}
-                            onEnd={() => markVideoAsWatched(w.id)}
-                            opts={{
-                              width: "100%",
-                              height: "390",
-                              playerVars: {
-                                autoplay: 0,
-                              },
-                            }}
-                          />
-                        ) : (
-                          <video
-                            controls
-                            onEnded={() => markVideoAsWatched(w.id)}
-                            onTimeUpdate={(e) => {
-                              const duration = e.target.duration;
-                              const currentTime = e.target.currentTime;
-                              const progress = (currentTime / duration) * 100;
-                              handleVideoProgress(w.id, progress);
-                            }}
-                          >
-                            <source src={w.videoUrl} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
-                        )}
-                      </div>
-                      {watchedVideos[w.id] ? (
-                        <button onClick={() => generateCertificate(w)} className="btn download-certificate-btn">
-                          Download Certificate
-                        </button>
-                      ) : (
-                        <div className="certificate-message">
-                          <p>Finish watching the video to unlock certificate</p>
-                          {videoProgress[w.id] && (
-                            <div className="progress-bar">
-                              <div className="progress-fill" style={{ width: `${videoProgress[w.id]}%` }}></div>
-                              <span>{Math.round(videoProgress[w.id])}% watched</span>
+              {!isRegistered(w.id) ? (
+                renderRegistrationForm(w.id)
+              ) : (
+                <>
+                  <div className="registration-status">
+                    <p className="registered-badge">✓ Registered</p>
+                  </div>
+
+                  {w.videoUrl && (
+                    <div className="student-video-container">
+                      <button onClick={() => toggleVideo(index)} className="student-video-btn">
+                        {showVideoIndex === index ? "Hide Video" : "Show Workshop Video"}
+                      </button>
+                      {showVideoIndex === index && (
+                        <>
+                          <div className="student-video-embed">
+                            {w.videoUrl.includes("youtube") || w.videoUrl.includes("youtu.be") ? (
+                              <YouTube
+                                videoId={getYouTubeId(w.videoUrl)}
+                                onEnd={() => markVideoAsWatched(w.id)}
+                                opts={{
+                                  width: "100%",
+                                  height: "390",
+                                  playerVars: {
+                                    autoplay: 0,
+                                  },
+                                }}
+                              />
+                            ) : (
+                              <video
+                                controls
+                                onEnded={() => markVideoAsWatched(w.id)}
+                                onTimeUpdate={(e) => {
+                                  const duration = e.target.duration;
+                                  const currentTime = e.target.currentTime;
+                                  const progress = (currentTime / duration) * 100;
+                                  handleVideoProgress(w.id, progress);
+                                }}
+                              >
+                                <source src={w.videoUrl} type="video/mp4" />
+                                Your browser does not support the video tag.
+                              </video>
+                            )}
+                          </div>
+                          {watchedVideos[w.id] ? (
+                            <button onClick={() => generateCertificate(w)} className="btn download-certificate-btn">
+                              Download Certificate
+                            </button>
+                          ) : (
+                            <div className="certificate-message">
+                              <p>Finish watching the video to unlock certificate</p>
+                              {videoProgress[w.id] && (
+                                <div className="progress-bar">
+                                  <div className="progress-fill" style={{ width: `${videoProgress[w.id]}%` }}></div>
+                                  <span>{Math.round(videoProgress[w.id])}% watched</span>
+                                </div>
+                              )}
                             </div>
                           )}
-                        </div>
+                        </>
                       )}
-                    </>
+                    </div>
                   )}
-                </div>
-              )}
 
-              <div className="student-notes-section">
-                {activeWorkshop === w.id ? (
-                  <div className="notes-editor">
-                    <textarea
-                      value={currentNote}
-                      onChange={(e) => setCurrentNote(e.target.value)}
-                      placeholder="Take your notes here..."
-                      className="notes-textarea"
-                    />
-                    <div className="notes-buttons">
-                      <button onClick={() => saveNote(w.id)} className="btn save-note-btn">Save Notes</button>
-                      <button onClick={cancelNote} className="btn cancel-note-btn">Cancel</button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="notes-viewer">
-                    {notes[w.id] && (
-                      <div className="saved-notes">
-                        <h4>Your Notes</h4>
-                        <p>{notes[w.id]}</p>
-                      </div>
-                    )}
-                    <button onClick={() => startTakingNotes(w.id)} className="btn take-notes-btn">
-                      {notes[w.id] ? "Edit Notes" : "Take Notes"}
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="student-feedback-section">
-                {activeFeedbackForm === w.id ? (
-                  <div className="feedback-form">
-                    <h4>Rate this workshop</h4>
-                    {renderStars(currentRating)}
-                    <textarea
-                      value={currentFeedback}
-                      onChange={(e) => setCurrentFeedback(e.target.value)}
-                      placeholder="Share your feedback about this workshop..."
-                      className="feedback-textarea"
-                    />
-                    <div className="feedback-buttons">
-                      <button onClick={() => submitRating(w.id)} className="btn submit-feedback-btn">Submit Feedback</button>
-                      <button onClick={cancelRating} className="btn cancel-feedback-btn">Cancel</button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="feedback-viewer">
-                    {ratings[w.id] && (
-                      <div className="saved-feedback">
-                        <h4>Your Rating</h4>
-                        <div className="display-rating">
-                          {renderStars(ratings[w.id])}
-                          <span className="rating-value">({ratings[w.id]}/5)</span>
+                  <div className="student-notes-section">
+                    {activeWorkshop === w.id ? (
+                      <div className="notes-editor">
+                        <textarea
+                          value={currentNote}
+                          onChange={(e) => setCurrentNote(e.target.value)}
+                          placeholder="Take your notes here..."
+                          className="notes-textarea"
+                        />
+                        <div className="notes-buttons">
+                          <button onClick={() => saveNote(w.id)} className="btn save-note-btn">Save Notes</button>
+                          <button onClick={cancelNote} className="btn cancel-note-btn">Cancel</button>
                         </div>
-                        {feedbacks[w.id] && (
-                          <>
-                            <h4>Your Feedback</h4>
-                            <p className="saved-feedback-text">{feedbacks[w.id]}</p>
-                          </>
+                      </div>
+                    ) : (
+                      <div className="notes-viewer">
+                        {notes[w.id] && (
+                          <div className="saved-notes">
+                            <h4>Your Notes</h4>
+                            <p>{notes[w.id]}</p>
+                          </div>
                         )}
+                        <button onClick={() => startTakingNotes(w.id)} className="btn take-notes-btn">
+                          {notes[w.id] ? "Edit Notes" : "Take Notes"}
+                        </button>
                       </div>
                     )}
-                    <button onClick={() => startRating(w.id)} className="btn give-feedback-btn">
-                      {ratings[w.id] ? "Update Feedback" : "Rate Workshop"}
-                    </button>
                   </div>
-                )}
-              </div>
+
+                  <div className="student-feedback-section">
+                    {activeFeedbackForm === w.id ? (
+                      <div className="feedback-form">
+                        <h4>Rate this workshop</h4>
+                        {renderStars(currentRating)}
+                        <textarea
+                          value={currentFeedback}
+                          onChange={(e) => setCurrentFeedback(e.target.value)}
+                          placeholder="Share your feedback about this workshop..."
+                          className="feedback-textarea"
+                        />
+                        <div className="feedback-buttons">
+                          <button onClick={() => submitRating(w.id)} className="btn submit-feedback-btn">Submit Feedback</button>
+                          <button onClick={cancelRating} className="btn cancel-feedback-btn">Cancel</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="feedback-viewer">
+                        {ratings[w.id] && (
+                          <div className="saved-feedback">
+                            <h4>Your Rating</h4>
+                            <div className="display-rating">
+                              {renderStars(ratings[w.id])}
+                              <span className="rating-value">({ratings[w.id]}/5)</span>
+                            </div>
+                            {feedbacks[w.id] && (
+                              <>
+                                <h4>Your Feedback</h4>
+                                <p className="saved-feedback-text">{feedbacks[w.id]}</p>
+                              </>
+                            )}
+                          </div>
+                        )}
+                        <button onClick={() => startRating(w.id)} className="btn give-feedback-btn">
+                          {ratings[w.id] ? "Update Feedback" : "Rate Workshop"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           ))
         ) : (
