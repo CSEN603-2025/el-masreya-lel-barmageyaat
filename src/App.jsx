@@ -41,6 +41,7 @@ import Workshops from "./pages/Workshops/Workshops";
 import ScadCompanyEvaluations from "./pages/ScadCompanyEvaluations/ScadCompanyEvaluations";
 import StudentPastInternships from "./pages/StudentPastInternships/StudentPastInternships";
 import CreateInternship from "./pages/CreateInternship/CreateInternship";
+import AppointmentScheduler from './components/AppointmentScheduler'
 
 function App() {
   // this stores the current user logged in
@@ -203,7 +204,7 @@ function App() {
   }, [currUser, companyRequests]);
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       <NotificationList
         notifications={notifications}
         onDismiss={dismissNotification}

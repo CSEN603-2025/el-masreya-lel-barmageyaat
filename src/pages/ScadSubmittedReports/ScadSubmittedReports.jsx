@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./ScadSubmittedReports.css";
+import AppointmentScheduler from '../../components/AppointmentScheduler';
 
 const ScadSubmittedReports = ({ studentUsers, companyUsers }) => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const ScadSubmittedReports = ({ studentUsers, companyUsers }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
+  const [selectedReport, setSelectedReport] = useState(null);
 
   // Extract all unique majors from students
   const availableMajors = useMemo(() => {
@@ -406,6 +408,38 @@ const ScadSubmittedReports = ({ studentUsers, companyUsers }) => {
           </div>
         </div>
       </main>
+
+      {selectedReport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Report Details</h2>
+              <button
+                onClick={() => setSelectedReport(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                Close
+              </button>
+            </div>
+            
+            {/* Report content */}
+            <div className="mb-6">
+              <h3 className="font-semibold mb-2">Report Content:</h3>
+              <p className="whitespace-pre-wrap">{selectedReport.content}</p>
+            </div>
+
+            {/* Appointment Scheduler */}
+            <div className="mt-6">
+              <AppointmentScheduler 
+                context="report_review"
+                studentId={selectedReport.studentId}
+                reportId={selectedReport.id}
+                studentName={studentUsers.find(s => s.studentId === selectedReport.studentId)?.name || 'Unknown Student'}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
