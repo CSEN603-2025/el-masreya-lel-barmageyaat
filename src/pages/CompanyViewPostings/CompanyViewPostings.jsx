@@ -140,7 +140,7 @@ function CompanyViewPostings({
 
       <div className="dashboard-actions">
         <Link
-          to="/createInternship"
+          to="/create-internship"
           className="action-button create-internship"
         >
           Create New Internship
@@ -235,7 +235,7 @@ function CompanyViewPostings({
         ) : (
           <div className="no-internships">
             <p>You haven't posted any internships yet.</p>
-            <Link to="/createInternship" className="create-first-internship">
+            <Link to="/create-internship" className="create-first-internship">
               Create Your First Internship
             </Link>
           </div>

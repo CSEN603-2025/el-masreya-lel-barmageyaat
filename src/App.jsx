@@ -40,6 +40,7 @@ import StudentWorkshops from "./pages/StudentWorkshops/StudentWorkshops";
 import Workshops from "./pages/Workshops/Workshops";
 import ScadCompanyEvaluations from "./pages/ScadCompanyEvaluations/ScadCompanyEvaluations";
 import StudentPastInternships from "./pages/StudentPastInternships/StudentPastInternships";
+import CreateInternship from "./pages/CreateInternship/CreateInternship";
 
 function App() {
   // this stores the current user logged in
@@ -360,6 +361,7 @@ function App() {
               />
             }
           />
+          <Route path="/create-internship" element={<CreateInternship />} />
           <Route
             path="/ViewCompanyPostings"
             element={<ViewCompanyPostings companyUsers={companyUsers} />}
