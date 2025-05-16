@@ -43,6 +43,10 @@ function StudentWorkshops() {
     email: "",
     studentId: ""
   });
+  const [notifications, setNotifications] = useState(() => {
+    const saved = localStorage.getItem("workshopNotifications");
+    return saved ? JSON.parse(saved) : {};
+  });
 
   useEffect(() => {
     console.log('Loading saved data...');
@@ -90,6 +94,13 @@ function StudentWorkshops() {
         console.error("Error parsing workshopRegistrationData:", error);
         setRegistrationData({});
       }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Request notification permission when component mounts
+    if ("Notification" in window) {
+      Notification.requestPermission();
     }
   }, []);
 
@@ -227,6 +238,30 @@ function StudentWorkshops() {
       localStorage.setItem("workshopRegistrationData", JSON.stringify(updatedRegistrationData));
       localStorage.setItem("userName", currentRegistration.name);
       
+      // Set up notification for the workshop
+      const workshop = workshops.find(w => w.id === workshopId);
+      if (workshop && workshop.startDate) {
+        const startDate = new Date(workshop.startDate);
+        const notificationDate = new Date(startDate);
+        notificationDate.setDate(startDate.getDate() - 1); // Notify 1 day before
+
+        const updatedNotifications = {
+          ...notifications,
+          [workshopId]: {
+            workshopName: workshop.name,
+            startDate: workshop.startDate,
+            notificationDate: notificationDate.toISOString(),
+            notified: false
+          }
+        };
+
+        setNotifications(updatedNotifications);
+        localStorage.setItem("workshopNotifications", JSON.stringify(updatedNotifications));
+
+        // Schedule notification
+        scheduleNotification(workshopId, workshop.name, notificationDate);
+      }
+      
       console.log('Successfully saved registration data to localStorage');
       alert("Successfully registered for the workshop!");
     } catch (error) {
@@ -234,6 +269,44 @@ function StudentWorkshops() {
       alert("There was an error saving your registration. Please try again.");
     }
   };
+
+  const scheduleNotification = (workshopId, workshopName, notificationDate) => {
+    const now = new Date();
+    const timeUntilNotification = notificationDate.getTime() - now.getTime();
+
+    if (timeUntilNotification > 0) {
+      setTimeout(() => {
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification("Workshop Reminder", {
+            body: `Your workshop "${workshopName}" starts tomorrow!`,
+            icon: "/path-to-your-icon.png" // Add your notification icon
+          });
+
+          // Mark as notified
+          const updatedNotifications = {
+            ...notifications,
+            [workshopId]: {
+              ...notifications[workshopId],
+              notified: true
+            }
+          };
+          setNotifications(updatedNotifications);
+          localStorage.setItem("workshopNotifications", JSON.stringify(updatedNotifications));
+        }
+      }, timeUntilNotification);
+    }
+  };
+
+  // Add notification check on component mount
+  useEffect(() => {
+    // Check for upcoming workshops and schedule notifications
+    Object.entries(notifications).forEach(([workshopId, notification]) => {
+      if (!notification.notified) {
+        const notificationDate = new Date(notification.notificationDate);
+        scheduleNotification(workshopId, notification.workshopName, notificationDate);
+      }
+    });
+  }, []);
 
   const isRegistered = (workshopId) => {
     if (!workshopId) {
@@ -332,6 +405,7 @@ function StudentWorkshops() {
 
   const renderRegistrationForm = (workshopId) => {
     const registrationInfo = registrationData[workshopId];
+    const notification = notifications[workshopId];
     
     if (isRegistered(workshopId) && registrationInfo) {
       return (
@@ -341,6 +415,11 @@ function StudentWorkshops() {
           <p><strong>Email:</strong> {registrationInfo.email}</p>
           {registrationInfo.studentId && <p><strong>Student ID:</strong> {registrationInfo.studentId}</p>}
           <p><strong>Registered on:</strong> {new Date(registrationInfo.date).toLocaleDateString()}</p>
+          {notification && (
+            <p className="notification-status">
+              <strong>Reminder:</strong> You will be notified one day before the workshop
+            </p>
+          )}
           <div className="registration-status">
             <p className="registered-badge">✓ Registered</p>
           </div>
