@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/homepage/HomePage";
 import StudentsDashboard from "./pages/studentsDashboard/StudentsDashboard";
-import LoginPage from "./pages/LoginPage/LoginPage";
 import StudentProfile from "./pages/StudentProfile/StudentProfile";
 import { useEffect, useState } from "react";
 import CompanyRegister from "./pages/CompanyRegister/CompanyRegister";
@@ -75,17 +74,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route
-            path="/login"
-            element={
-              <LoginPage
-                setCurrUser={setCurrUser}
-                studentUser={studentUsers}
-                scadUser={scadUsers}
-                companyUser={companyUsers}
-              />
-            }
-          />
+  
           <Route
             path="/CompanyRegister"
             element={<CompanyRegister setCompanyUsers={setCompanyUsers} />}
