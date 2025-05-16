@@ -430,7 +430,11 @@ function App() {
           />
           <Route
             path="/scad/viewInternshipItem/:type/:studentId/:internshipId/:companyUsername"
-            element={<ViewInternshipItem studentUsers={studentUsers} setStudentUsers={setStudentUsers} />}
+            element={<ViewInternshipItem 
+              studentUsers={studentUsers} 
+              setStudentUsers={setStudentUsers} 
+              companyUsers={companyUsers}
+            />}
           />
           <Route
             path="/scad-submitted-reports"
