@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,12 +11,16 @@ import {
   FaUsers,
   FaTimes,
 } from "react-icons/fa";
+import VideoCall from '../../components/VideoCall/VideoCall';
 import "./ScadDashboard.css";
 
 function ScadDashboard({ companyUsers, setCompanyUsers }) {
   const navigate = useNavigate();
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [appointments, setAppointments] = useState([]);
+  const [activeCall, setActiveCall] = useState(null);
+  const [showUpcoming, setShowUpcoming] = useState(true);
 
   const handleApprove = (companyId) => {
     setCompanyUsers(
@@ -39,6 +43,32 @@ function ScadDashboard({ companyUsers, setCompanyUsers }) {
   const viewCompanyDetails = (company) => {
     setSelectedCompany(company);
     setShowModal(true);
+  };
+
+  // Load appointments from localStorage
+  useEffect(() => {
+    const savedAppointments = localStorage.getItem('appointments');
+    if (savedAppointments) {
+      const allAppointments = JSON.parse(savedAppointments);
+      // Filter for approved appointments only
+      const relevantAppointments = allAppointments.filter(app => 
+        app.scadApproval === 'approved' && app.studentApproval === 'approved'
+      );
+      setAppointments(relevantAppointments);
+    }
+  }, []);
+
+  // Filter appointments for today and upcoming
+  const today = new Date().toISOString().split('T')[0];
+  const todayAppointments = appointments.filter(app => app.date === today);
+  const upcomingAppointments = appointments.filter(app => app.date > today);
+
+  const handleStartCall = (appointment) => {
+    setActiveCall(appointment);
+  };
+
+  const handleEndCall = () => {
+    setActiveCall(null);
   };
 
   return (
@@ -161,6 +191,75 @@ function ScadDashboard({ companyUsers, setCompanyUsers }) {
             </div>
           </div>
         </div>
+
+        {/* Appointments Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Video Call Appointments</h2>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setShowUpcoming(false)}
+                    className={`px-4 py-2 rounded ${!showUpcoming ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  >
+                    Today's Calls
+                  </button>
+                  <button
+                    onClick={() => setShowUpcoming(true)}
+                    className={`px-4 py-2 rounded ${showUpcoming ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  >
+                    Upcoming Calls
+                  </button>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2">Time</th>
+                      <th className="px-4 py-2">Student</th>
+                      <th className="px-4 py-2">Purpose</th>
+                      <th className="px-4 py-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(showUpcoming ? upcomingAppointments : todayAppointments).map((appointment) => (
+                      <tr key={appointment.id} className="border-t">
+                        <td className="px-4 py-2">{appointment.date}</td>
+                        <td className="px-4 py-2">{appointment.time}</td>
+                        <td className="px-4 py-2">{appointment.studentName}</td>
+                        <td className="px-4 py-2">
+                          {appointment.context === 'report_review' 
+                            ? 'Report Review'
+                            : appointment.purpose}
+                        </td>
+                        <td className="px-4 py-2">
+                          {appointment.date === today && (
+                            <button
+                              onClick={() => handleStartCall(appointment)}
+                              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                              Start Call
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                {(showUpcoming ? upcomingAppointments : todayAppointments).length === 0 && (
+                  <div className="text-center py-8 text-gray-500">
+                    No {showUpcoming ? 'upcoming' : 'today\'s'} appointments found.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
 
       <AnimatePresence>
@@ -261,6 +360,14 @@ function ScadDashboard({ companyUsers, setCompanyUsers }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Video Call Modal */}
+      {activeCall && (
+        <VideoCall
+          onEndCall={handleEndCall}
+          studentName={activeCall.studentName}
+        />
+      )}
     </div>
   );
 }

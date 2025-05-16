@@ -4,6 +4,7 @@ import StudentsNavBar from "../../components/studentsNavBar/StudentsNavBar";
 import InternshipList from "../../components/InternshipList/InternshipList";
 import InternshipFilter from "../../components/InternshipFilter/InternshipFilter";
 import { useEffect, useMemo, useState, useCallback } from "react";
+import AppointmentScheduler from '../../components/AppointmentScheduler';
 
 import "./StudentsDashboard.css";
 
@@ -54,7 +55,7 @@ function StudentsDashboard({
   }, []);
 
   return (
-    <div className="students-dashboard">
+    <div className="min-h-screen bg-gray-100">
       <StudentsNavBar
         currUser={currUser}
         notifications={studentNotifications}
@@ -134,6 +135,20 @@ function StudentsDashboard({
                 <p>Try adjusting your filters or search terms</p>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Career Guidance Appointments Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-lg shadow">
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Career Guidance</h2>
+              <AppointmentScheduler 
+                context="career_guidance"
+                studentId={currUser?.studentId}
+                studentName={currUser?.name}
+              />
+            </div>
           </div>
         </div>
       </main>
